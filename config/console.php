@@ -1,16 +1,24 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
+use yii\helpers\ArrayHelper;
+
+$params = ArrayHelper::merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
+$local = require(__DIR__ . '/console-local.php');
 
 $config = [
-    'id' => 'basic-console',
+    'id' => 'sf-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
         ],
         'log' => [
             'targets' => [
@@ -20,7 +28,6 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
     ],
     'params' => $params,
     /*
@@ -39,5 +46,7 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
     ];
 }
+
+$config = ArrayHelper::merge($local, $config);
 
 return $config;
