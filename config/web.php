@@ -1,34 +1,18 @@
 <?php
-use yii\helpers\ArrayHelper;
-
-$params = ArrayHelper::merge(
-    require(__DIR__ . '/params.php'),
-    require(__DIR__ . '/params-local.php')
-);
 
 $config = [
     'id' => 'Sportforecast',
     'name' => 'Sportforecast',
     'language'=>'ru-RU',
-    'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
-        'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'ejT0L_r8NNT4elx4qIEr4LJWBWG0GCWx',
-        ],
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
+
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
         ],
 
         'log' => [
@@ -40,18 +24,6 @@ $config = [
                 ],
             ],
         ],
-        'db' => [
-            'class' => 'yii\db\Connection',
-            'charset' => 'utf8',
-        ],
-
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-
     ],
     'params' => $params,
 ];
