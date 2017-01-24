@@ -5,6 +5,11 @@ $config = [
     'name' => 'Sportforecast',
     'language'=>'ru-RU',
     'bootstrap' => ['log'],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ]
+    ],
     'components' => [
 
         'user' => [
