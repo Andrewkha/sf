@@ -2,12 +2,13 @@
 
 $config = [
     'id' => 'Sportforecast',
-    'name' => 'Sportforecast',
+    'name' => 'Сайт спортивных прогнозов',
     'language'=>'ru-RU',
     'bootstrap' => ['log'],
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
+            'layout' => '@app/modules/admin/views/layouts/admin',
         ]
     ],
     'components' => [
