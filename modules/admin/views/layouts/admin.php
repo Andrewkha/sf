@@ -64,12 +64,12 @@ NavBar::end();
 ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
-        ]) ?>
+            <?= Breadcrumbs::widget([
+                'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
+            ]) ?>
         <?= AlertBlock::widget([
             'useSessionFlash' => true,
-            'type' => AlertBlock::TYPE_GROWL
+            'type' => AlertBlock::TYPE_ALERT,
         ]) ?>
         <?= $content ?>
     </div>
