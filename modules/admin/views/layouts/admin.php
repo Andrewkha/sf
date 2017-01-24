@@ -5,7 +5,7 @@
  * Date: 1/24/2017
  * Time: 4:56 PM
  */
-use app\widgets\Alert;
+use kartik\alert\AlertBlock;
 use app\modules\admin\resources\MenuItems;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Nav;
@@ -67,7 +67,10 @@ NavBar::end();
         <?= Breadcrumbs::widget([
             'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
         ]) ?>
-        <?= Alert::widget() ?>
+        <?= AlertBlock::widget([
+            'useSessionFlash' => true,
+            'type' => AlertBlock::TYPE_GROWL
+        ]) ?>
         <?= $content ?>
     </div>
 
