@@ -8,7 +8,6 @@
 
 namespace app\modules\admin\resources;
 
-
 class AdminMenuItems
 {
     const MENU_ITEMS = [
@@ -27,9 +26,8 @@ class AdminMenuItems
 
         foreach (self::MENU_ITEMS as $k => $item)
         {
-            $adminMenu[] = ['label' => $item, 'url' => ['/#']];
-            if ($k != $count - 1)
-                $adminMenu[] = '<li class="divider"></li>';
+            $adminMenu[] = ['label' => $item, 'url' => ['/admin/'.$k]];
+            $adminMenu[] = '<li class="divider"></li>';
         }
 
         array_pop($adminMenu);

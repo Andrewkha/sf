@@ -5,7 +5,7 @@
 /* @var $message string */
 /* @var $exception Exception */
 
-use yii\helpers\Html;
+use kartik\helpers\Html;
 
 $this->title = $name;
 ?>

@@ -6,6 +6,7 @@
  * Time: 4:56 PM
  */
 use kartik\alert\AlertBlock;
+use kartik\growl\Growl;
 use app\modules\admin\resources\AdminMenuItems;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Nav;
@@ -42,9 +43,9 @@ echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'activateParents' => true,
     'items' => array_filter([
-        ['label' => 'Новости', 'url' => ['#']],
-        ['label' => 'О сайте', 'url' => ['#']],
-        ['label' => 'Контакты', 'url' => ['#']],
+        ['label' => 'Новости', 'url' => ['/#']],
+        ['label' => 'О сайте', 'url' => ['/#']],
+        ['label' => 'Контакты', 'url' => ['/#']],
         [
             'label' => 'Администрирование',
             'items' => AdminMenuItems::dropDownMenuItems(),
@@ -76,7 +77,22 @@ NavBar::end();
             <div class = "col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10">
                 <?= AlertBlock::widget([
                     'useSessionFlash' => true,
-                    'type' => AlertBlock::TYPE_ALERT,
+                    'type' => AlertBlock::TYPE_GROWL,
+                    'alertSettings' => [
+                        'error' => [
+                            'pluginOptions' => ['placement' => ['align' => 'left']],
+                            'type' => Growl::TYPE_DANGER,
+                            'icon' => 'glyphicon glyphicon-ok-sign',
+                        ],
+                        'success' => [
+                            'pluginOptions' => ['placement' => ['align' => 'left']],
+                            'type' => Growl::TYPE_SUCCESS,
+                            'icon' => 'glyphicon glyphicon-flag',
+                        ],
+                        'info' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_INFO],
+                        'warning' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_WARNING],
+                        'growl' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_GROWL],
+                    ]
                 ]) ?>
             </div>
         </div>

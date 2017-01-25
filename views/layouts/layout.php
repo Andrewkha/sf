@@ -6,7 +6,7 @@
  * Time: 4:55 PM
  */
 
-use yii\helpers\Html;
+use kartik\helpers\Html;
 use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
