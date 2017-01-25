@@ -9,7 +9,7 @@
 namespace app\modules\admin\resources;
 
 
-class MenuItems
+class AdminMenuItems
 {
     const MENU_ITEMS = [
         'country' => 'Страны',
@@ -20,7 +20,7 @@ class MenuItems
         'user' => 'Пользователи',
     ];
 
-    public static function createArray()
+    public static function dropDownMenuItems()
     {
         $count = count(self::MENU_ITEMS);
         $adminMenu = [];
@@ -32,7 +32,7 @@ class MenuItems
                 $adminMenu[] = '<li class="divider"></li>';
         }
 
-        $lastElement = array_pop($adminMenu);
+        array_pop($adminMenu);
 
         return $adminMenu;
     }

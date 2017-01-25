@@ -6,7 +6,7 @@
  * Time: 4:56 PM
  */
 use kartik\alert\AlertBlock;
-use app\modules\admin\resources\MenuItems;
+use app\modules\admin\resources\AdminMenuItems;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -47,7 +47,7 @@ echo Nav::widget([
         ['label' => 'Контакты', 'url' => ['#']],
         [
             'label' => 'Администрирование',
-            'items' => MenuItems::createArray(),
+            'items' => AdminMenuItems::dropDownMenuItems(),
         ],
         [
             'label' => '<заглушка> Текущий юзер',
@@ -63,15 +63,28 @@ echo Nav::widget([
 NavBar::end();
 ?>
 
-    <div class="container">
+    <div class="container-fluid">
+        <div class = "row">
             <?= Breadcrumbs::widget([
-                'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
-            ]) ?>
-        <?= AlertBlock::widget([
-            'useSessionFlash' => true,
-            'type' => AlertBlock::TYPE_ALERT,
-        ]) ?>
-        <?= $content ?>
+                    'options' => [
+                        'class' => 'col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10 breadcrumb',
+                    ],
+                    'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
+                ]) ?>
+        </div>
+        <div class = "row">
+            <div class = "col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10">
+                <?= AlertBlock::widget([
+                    'useSessionFlash' => true,
+                    'type' => AlertBlock::TYPE_ALERT,
+                ]) ?>
+            </div>
+        </div>
+        <div class = "row">
+            <div class = "col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10">
+                <?= $content ?>
+            </div>
+        </div>
     </div>
 
 <?php $this->endContent(); ?>

@@ -24,7 +24,7 @@ AppAsset::register($this);
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body>
+    <body style ="padding-top: 80px;">
 
     <?php $this->beginBody() ?>
     <div class="wrap">
@@ -32,9 +32,12 @@ AppAsset::register($this);
     </div>
 
     <footer class="footer">
-        <div class="container">
-            <p class="pull-left">&copy; <?= Yii::$app->name ?></p>
-            <p class="pull-right"><?= date('Y') ?></p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                    <p class="pull-left">&copy; <?= Html::encode(Yii::$app->params['webStudioName']) . ' :) ' . date('Y') ?></p>
+                </div>
+            </div>
         </div>
     </footer>
 
