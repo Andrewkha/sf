@@ -30,6 +30,7 @@ class Country extends \yii\db\ActiveRecord
     {
         return [
             [['country'], 'required'],
+            ['country', 'unique', 'message' => 'Такая страна уже есть'],
             [['country'], 'string', 'max' => 50],
         ];
     }
@@ -41,7 +42,7 @@ class Country extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'country' => 'Country',
+            'country' => 'Страна',
         ];
     }
 
