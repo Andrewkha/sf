@@ -15,24 +15,22 @@ use Yii;
  */
 class Country extends \yii\db\ActiveRecord
 {
+    /*
+     * @param string $name
+     * @returns Country
+     */
+    public static function create($name)
+    {
+        $country = new self();
+        $country->country = $name;
+        return $country;
+    }
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%country}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['country'], 'required'],
-            ['country', 'unique', 'message' => 'Такая страна уже есть'],
-            [['country'], 'string', 'max' => 50],
-        ];
     }
 
     /**

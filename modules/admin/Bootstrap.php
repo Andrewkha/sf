@@ -6,7 +6,7 @@
  * Time: 2:45 PM
  */
 
-namespace app\modules\admin\bootstrap;
+namespace app\modules\admin;
 
 use yii\base\BootstrapInterface;
 use Yii;

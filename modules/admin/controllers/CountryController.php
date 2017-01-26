@@ -2,9 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\services\AdminService;
 use Yii;
 use app\modules\admin\models\Country;
 use app\modules\admin\models\search\CountrySearch;
+use app\modules\admin\forms\CountryCreateEditForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,6 +16,14 @@ use yii\filters\VerbFilter;
  */
 class CountryController extends Controller
 {
+    private $adminService;
+
+    public function __construct($id, $module, AdminService $adminService, array $config = [])
+    {
+        $this->adminService = $adminService;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * @inheritdoc
      */
@@ -63,15 +73,21 @@ class CountryController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Country();
+        $model = new CountryCreateEditForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            try {
+                $this->adminService->addCountry($model->country);
+                Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
+                return $this->redirect(['index']);
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
+
+        return $this->render('create',[
+            'model' => $model,
+        ]);
     }
 
     /**
