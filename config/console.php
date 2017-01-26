@@ -2,7 +2,6 @@
 
 $config = [
     'id' => 'sf-console',
-    'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'components' => [
         'log' => [

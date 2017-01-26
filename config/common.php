@@ -13,6 +13,11 @@ $params = ArrayHelper::merge(
 );
 
 return [
+    'name' => 'Сайт спортивных прогнозов',
+    'bootstrap' => [
+        'log',
+        'app\modules\admin\Bootstrap',
+    ],
     'basePath' => dirname(__DIR__),
     'components' => [
 
