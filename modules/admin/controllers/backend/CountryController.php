@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\services\AdminService;
 use Yii;
@@ -55,29 +55,17 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a single Country model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Country model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new CountryCreateEditForm();
+        $form = new CountryCreateEditForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->adminService->addCountry($model->country);
+                $this->adminService->addCountry($form->country);
                 Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
                 return $this->redirect(['index']);
             } catch (\Exception $e) {
@@ -86,27 +74,37 @@ class CountryController extends Controller
         }
 
         return $this->render('create',[
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
     /**
      * Updates an existing Country model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $country = $this->findModel($id);
+        $form = new CountryCreateEditForm($country);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->adminService->editCountry(
+                    $country->id,
+                    $form->country
+                );
+                Yii::$app->session->setFlash('success', 'Запись успешно изменена');
+                return $this->redirect(['index']);
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
+
+        return $this->render('update', [
+            'model' => $form,
+        ]);
     }
 
     /**

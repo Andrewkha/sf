@@ -4,12 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Country */
+/* @var $model app\modules\admin\forms\CountryCreateEditForm */
 
-$this->title = 'Update Country: ' . $model->id;
+$this->title = 'Update Country: ' . $model->country;
 $this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => $model->country, 'url' => ['view', 'id' => $model->country]];
 ?>
 <div class="country-update">
 
@@ -22,7 +21,7 @@ $this->params['breadcrumbs'][] = 'Update';
         <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Create', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

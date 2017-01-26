@@ -30,4 +30,14 @@ class AdminService
         $country = Country::create($name);
         $this->countryRepository->save($country);
     }
+    /*
+     * @param $id
+     * @param string $name
+     */
+    public function editCountry($id, $name)
+    {
+        $country = $this->countryRepository->find($id);
+        $country->editData($name);
+        $this->countryRepository->save($country);
+    }
 }

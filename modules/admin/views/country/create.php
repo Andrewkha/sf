@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Country */
+/* @var $model app\modules\admin\forms\CountryCreateEditForm */
 
 $this->title = 'Create Country';
 $this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];

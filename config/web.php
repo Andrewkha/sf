@@ -7,6 +7,7 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'layout' => '@app/modules/admin/views/layouts/admin',
+            'controllerNamespace' => 'app\modules\admin\controllers\backend'
         ]
     ],
     'components' => [

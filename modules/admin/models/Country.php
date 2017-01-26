@@ -25,6 +25,11 @@ class Country extends \yii\db\ActiveRecord
         $country->country = $name;
         return $country;
     }
+
+    public function editData($name)
+    {
+        $this->country = $name;
+    }
     /**
      * @inheritdoc
      */
