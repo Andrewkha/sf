@@ -25,7 +25,8 @@
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-widget-datetimepicker": "*",
         "kartik-v/yii2-widget-fileinput": "@dev",
-        "kartik-v/yii2-icons": "@dev"
+        "kartik-v/yii2-icons": "@dev",
+        "kartik-v/yii2-editable": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

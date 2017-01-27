@@ -41,7 +41,7 @@ class CountrySearch extends Country
      */
     public function search($params)
     {
-        $query = Country::find();
+        $query = Country::find()->indexBy('id');
 
         // add conditions that should always apply here
 
