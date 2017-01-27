@@ -10,8 +10,6 @@ use kartik\icons\Icon;
 
 $this->title = 'Страны';
 $this->params['breadcrumbs'][] = $this->title;
-
-Icon::map($this, Icon::FA);
 ?>
 <div class="country-index">
 
@@ -69,12 +67,15 @@ Icon::map($this, Icon::FA);
                 'editableOptions' => function($model, $key, $index) {
                     return [
                         //'asPopover' => false,
+                        'formOptions' => [
+                            'action' => ['country/update'],
+                        ],
                         'preHeader' => '',
                         'submitButton' => [
-                            'icon' => Icon::show('download',[], Icon::FA)
+                            'icon' => Icon::show('download',['class' => 'text-primary'], Icon::FA)
                         ],
                         'resetButton' => [
-                            'icon' => Icon::show('ban',[], Icon::FA)
+                            'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
                         ],
                     ];
                 }
@@ -91,4 +92,5 @@ Icon::map($this, Icon::FA);
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+</div>

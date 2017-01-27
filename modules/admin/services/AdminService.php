@@ -36,9 +36,15 @@ class AdminService
      */
     public function editCountry($id, $name)
     {
-        $country = $this->countryRepository->find($id);
+        $country = $this->findCountry($id);
         $country->editData($name);
         $this->countryRepository->save($country);
+    }
+
+    public function deleteCountry($id)
+    {
+        $country = $this->findCountry($id);
+        $this->countryRepository->delete($country);
     }
 
     /*
@@ -48,5 +54,10 @@ class AdminService
     public function findCountry($id)
     {
         return $this->countryRepository->find($id);
+    }
+
+    public function getARClassCountry()
+    {
+        return $this->countryRepository->getCountryClass();
     }
 }

@@ -3,12 +3,12 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\services\AdminService;
+use kartik\grid\EditableColumnAction;
 use Yii;
-use app\modules\admin\models\Country;
 use app\modules\admin\models\search\CountrySearch;
 use app\modules\admin\forms\CountryCreateEditForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -37,6 +37,16 @@ class CountryController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'update' => [                                       // identifier for your editable action
+                'class' => EditableColumnAction::className(),     // action class name
+                'modelClass' => $this->adminService->getARClassCountry(),                // the update model class
+            ]
+        ]);
     }
 
     /**
@@ -115,24 +125,16 @@ class CountryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $country = $this->adminService->findCountry($id);
+
+        try {
+            $this->adminService->deleteCountry($id);
+            Yii::$app->session->setFlash('success', "Страна $country->country успешно удалена");
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
 
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Country model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Country the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Country::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }

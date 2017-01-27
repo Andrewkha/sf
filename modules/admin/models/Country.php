@@ -64,4 +64,13 @@ class Country extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tournament::className(), ['country_id' => 'id']);
     }
+
+    public function rules()
+    {
+        return [
+            [['country'], 'required'],
+            ['country', 'unique', 'message' => 'Такая страна уже есть'],
+            [['country'], 'string', 'max' => 50],
+        ];
+    }
 }

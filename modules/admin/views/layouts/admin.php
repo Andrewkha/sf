@@ -12,11 +12,14 @@ use yii\helpers\ArrayHelper;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use kartik\icons\Icon;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 /** @var \yii\web\Controller $context */
+
+Icon::map($this, Icon::FA);
 $context = $this->context;
 
 if (isset($this->params['breadcrumbs'])) {
@@ -82,12 +85,12 @@ NavBar::end();
                         'error' => [
                             'pluginOptions' => ['placement' => ['align' => 'left']],
                             'type' => Growl::TYPE_DANGER,
-                            'icon' => 'glyphicon glyphicon-ok-sign',
+                            'icon' => Icon::show('check-circle', ['class' => 'text-success'], Icon::FA),
                         ],
                         'success' => [
                             'pluginOptions' => ['placement' => ['align' => 'left']],
                             'type' => Growl::TYPE_SUCCESS,
-                            'icon' => 'glyphicon glyphicon-flag',
+                            'icon' => Icon::show('exclamation-triangle', ['class' => 'text-danger'], Icon::FA),
                         ],
                         'info' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_INFO],
                         'warning' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_WARNING],

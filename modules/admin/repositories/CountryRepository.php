@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
 
 class CountryRepository implements RepositoryInterface
 {
+
     /**
      * @param $id
      * @return Country
@@ -54,8 +55,12 @@ class CountryRepository implements RepositoryInterface
         if(!($country instanceOf Country))
             throw new TypeMismatchException();
 
-        if($country->delete === false)
+        if($country->delete() === false)
             throw new \RuntimeException('Ошибка удаления записи');
     }
 
+    public function getCountryClass()
+    {
+        return Country::className();
+    }
 }
