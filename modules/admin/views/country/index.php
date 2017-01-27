@@ -68,7 +68,8 @@ Icon::map($this, Icon::FA);
                 ],
                 'editableOptions' => function($model, $key, $index) {
                     return [
-                        'asPopover' => false,
+                        //'asPopover' => false,
+                        'preHeader' => '',
                         'submitButton' => [
                             'icon' => Icon::show('download',[], Icon::FA)
                         ],
