@@ -40,4 +40,13 @@ class AdminService
         $country->editData($name);
         $this->countryRepository->save($country);
     }
+
+    /*
+    * @param string $id
+    * @return Country
+    */
+    public function findCountry($id)
+    {
+        return $this->countryRepository->find($id);
+    }
 }

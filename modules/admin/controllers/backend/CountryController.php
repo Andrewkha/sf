@@ -86,7 +86,7 @@ class CountryController extends Controller
      */
     public function actionUpdate($id)
     {
-        $country = $this->findModel($id);
+        $country = $this->adminService->findCountry($id);
         $form = new CountryCreateEditForm($country);
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
