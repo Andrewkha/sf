@@ -38,4 +38,12 @@ class CountryCreateEditForm extends Model
             [['country'], 'string', 'max' => 50],
         ];
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'country' => 'Страна',
+        ];
+    }
 }

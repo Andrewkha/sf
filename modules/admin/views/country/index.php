@@ -46,8 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'id',
                 'filter' => false,
+                'mergeHeader' => true,
                 'headerOptions' => [
-                    'class' => 'kv-align-center',
+                    'class' => 'kv-align-center kv-align-middle kv-merged-header',
                 ],
                 'options' => [
                     'class' => 'col-xs-2',

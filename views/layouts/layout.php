@@ -8,6 +8,7 @@
 
 use kartik\helpers\Html;
 use app\assets\AppAsset;
+use kartik\icons\Icon;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -24,10 +25,11 @@ AppAsset::register($this);
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body style ="padding-top: 80px;">
+    <body>
 
     <?php $this->beginBody() ?>
     <div class="wrap">
+        <?php Icon::map($this, Icon::FA);?>
         <?= $content ?>
     </div>
 
