@@ -12,9 +12,13 @@ use yii\web\AssetBundle;
 
 class CountryFormShowAsset extends AssetBundle
 {
-    public $sourcePath = '@admin/js';
+    public $sourcePath = '@admin/scripts';
 
     public $js = [
-        'CountryFormShow.js'
+        'js/CountryFormShow.js'
+    ];
+
+    public $css = [
+        'css/CountryFormShow.css'
     ];
 }

@@ -4,10 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
+use kartik\form\ActiveForm;
 use app\modules\admin\assets\CountryFormShowAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\CountrySearch */
+/* @var $model app\modules\admin\forms\CountryCreateEditForm*/
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 CountryFormShowAsset::register($this);
@@ -17,7 +19,39 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="country-index">
 
+    <div class="country-create closed" id = 'add-form'>
+        <div class="country-create-edit-form">
+            <?php $form = ActiveForm::begin([
+                'type' => ActiveForm::TYPE_VERTICAL,
+                'action' => ['country/create'],
+            ]); ?>
+
+            <div class = 'form-group'>
+                <div class = 'col-xs-2'>
+                    <?= $form->field($model, 'country', [
+                        'showLabels' => false,
+                    ])->textInput(['maxlength' => true, 'placeholder' => 'Новая запись']) ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class= "col-xs-12">
+                    <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Отмена', ['country/'], ['type' => 'button', 'class' => 'btn btn-default']) ?>
+                </div>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+            <div class="row">
+                <div class = "col-xs-12 col-sm-10 col-md-8 col-lg-4">
+                    <hr>
+                </div>
+            </div>
+
+        </div>
+    </div>
 <?php Pjax::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -33,7 +67,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'toolbar' => [
             [
-                'content' => Html::a(Icon::show('plus-square', [], Icon::FA), ['create'], ['type' => 'button', 'class' => 'btn btn-success']),
+                'content' => Html::a(Icon::show('plus-square', [], Icon::FA), ['#'], [
+                    'type' => 'button',
+                    'class' => 'btn btn-success',
+                    'onclick' => "toggle(this, 'add-form')"
+                ]),
                 'options' => [
                     'class' => 'btn-group-sm'
                 ]
@@ -71,7 +109,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'editableOptions' => function($model, $key, $index) {
                     return [
-                        //'asPopover' => false,
                         'formOptions' => [
                             'action' => ['country/update'],
                         ],

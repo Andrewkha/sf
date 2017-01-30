@@ -21,7 +21,7 @@ use yii\widgets\Breadcrumbs;
 $context = $this->context;
 
 if (isset($this->params['breadcrumbs'])) {
-    $panelBreadcrumbs = [['label' => 'Панель администратора', 'url' => ['/admin/default/index']]];
+    $panelBreadcrumbs = [['label' => 'Панель администратора', 'url' => ['/admin/default/']]];
     $breadcrumbs = $this->params['breadcrumbs'];
 } else {
     $panelBreadcrumbs = ['Панель администратора'];
@@ -74,33 +74,31 @@ NavBar::end();
                     'links' => ArrayHelper::merge($panelBreadcrumbs, $breadcrumbs),
                 ]) ?>
         </div>
-        <div class = "row">
-            <div class = "col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10">
-                <?= AlertBlock::widget([
-                    'useSessionFlash' => true,
-                    'type' => AlertBlock::TYPE_GROWL,
-                    'alertSettings' => [
-                        'error' => [
-                            'pluginOptions' => [
-                                'placement' => ['align' => 'left'],
-                            ],
-                            'type' => Growl::TYPE_DANGER,
-                            'icon' => 'glyphicon glyphicon-flag',
-                        ],
-                        'success' => [
-                            'pluginOptions' => [
-                                'placement' => ['align' => 'left'],
-                            ],
-                            'type' => Growl::TYPE_SUCCESS,
-                            'icon' => 'glyphicon glyphicon-ok-sign',
-                        ],
-                        'info' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_INFO],
-                        'warning' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_WARNING],
-                        'growl' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_GROWL],
-                    ]
-                ]) ?>
-            </div>
-        </div>
+
+        <?= AlertBlock::widget([
+            'useSessionFlash' => true,
+            'type' => AlertBlock::TYPE_GROWL,
+            'alertSettings' => [
+                'error' => [
+                    'pluginOptions' => [
+                        'placement' => ['align' => 'left'],
+                    ],
+                    'type' => Growl::TYPE_DANGER,
+                    'icon' => 'glyphicon glyphicon-flag',
+                ],
+                'success' => [
+                    'pluginOptions' => [
+                        'placement' => ['align' => 'left'],
+                    ],
+                    'type' => Growl::TYPE_SUCCESS,
+                    'icon' => 'glyphicon glyphicon-ok-sign',
+                ],
+                'info' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_INFO],
+                'warning' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_WARNING],
+                'growl' => ['pluginOptions' => ['placement' => ['align' => 'left']], 'type' => Growl::TYPE_GROWL],
+            ]
+        ]) ?>
+
         <div class = "row">
             <div class = "col-xs-12 col-xs-offset-0 col-sm-offset-1 col-sm-10">
                 <?= $content ?>
