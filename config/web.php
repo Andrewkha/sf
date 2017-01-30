@@ -13,6 +13,9 @@ $config = [
             'controllerNamespace' => 'app\modules\admin\controllers\backend'
         ]
     ],
+    'aliases' => [
+        '@admin' => '@app/modules/admin/'
+    ],
     'components' => [
 
         'user' => [

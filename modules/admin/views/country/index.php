@@ -4,9 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
+use app\modules\admin\assets\CountryFormShowAsset;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\CountrySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
+CountryFormShowAsset::register($this);
 
 $this->title = 'Страны';
 $this->params['breadcrumbs'][] = $this->title;
