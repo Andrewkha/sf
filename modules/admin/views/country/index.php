@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="form-group">
                 <div class= "col-xs-12">
                     <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
-                    <?= Html::a('Отмена', ['country/'], ['type' => 'button', 'class' => 'btn btn-default']) ?>
+                    <?= Html::resetButton('Отмена', ['type' => 'button', 'class' => 'btn btn-default', 'onclick' => "toggle(this, 'add-form')"]) ?>
                 </div>
             </div>
 
