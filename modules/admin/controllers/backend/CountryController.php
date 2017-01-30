@@ -84,7 +84,7 @@ class CountryController extends Controller
             }
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(['country/']);
     }
 
     /**
@@ -104,7 +104,7 @@ class CountryController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(['country/']);
     }
 
 }
