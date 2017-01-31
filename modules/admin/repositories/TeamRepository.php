@@ -2,68 +2,68 @@
 /**
  * Created by PhpStorm.
  * User: achernys
- * Date: 1/26/2017
- * Time: 9:53 AM
+ * Date: 1/31/2017
+ * Time: 1:11 PM
  */
 
 namespace app\modules\admin\repositories;
 
-use app\modules\admin\models\Country;
+use app\modules\admin\models\Team;
 use app\modules\admin\repositories\exceptions\NotFoundException;
 use app\modules\admin\repositories\exceptions\TypeMismatchException;
 use yii\db\ActiveRecord;
 
-class CountryRepository implements RepositoryInterface
+class TeamRepository implements RepositoryInterface
 {
     /**
      * @param $id
-     * @return Country
+     * @return Team
      * @throws NotFoundException
      */
-    public function find($id) : Country
+    public function find($id) : Team
     {
-        if (!$country = Country::findOne($id)) {
+        if (!$team = Team::findOne($id)) {
             throw new NotFoundException();
         }
-        return $country;
+        return $team;
     }
 
     /**
-     * @param ActiveRecord $country
+     * @param ActiveRecord $team
      * @param $validate boolean - whether to validate the model before save, false default
      * @throws \RuntimeException
      * @throws TypeMismatchException
      */
-    public function save(ActiveRecord $country, $validate = false)
+    public function save(ActiveRecord $team, $validate = false)
     {
-        if(!($country instanceOf Country))
+        if(!($team instanceOf Team))
             throw new TypeMismatchException();
 
-        if($country->save($validate) === false)
+        if($team->save($validate) === false)
             throw new \RuntimeException('Ошибка сохранения записи');
     }
 
     /**
-     * @param $country ActiveRecord
+     * @param $team ActiveRecord
      * @throws \RuntimeException
      * @throws TypeMismatchException
      */
-    public function delete(ActiveRecord $country)
+    public function delete(ActiveRecord $team)
     {
-        if(!($country instanceOf Country))
+        if(!($team instanceOf Team))
             throw new TypeMismatchException();
 
-        if($country->delete() === false)
+        if($team->delete() === false)
             throw new \RuntimeException('Ошибка удаления записи');
     }
 
     public function all()
     {
-        return Country::find()->all();
+        return Team::find()->all();
     }
 
     public function getClass()
     {
-        return Country::className();
+        return Team::className();
     }
 }

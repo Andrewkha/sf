@@ -9,18 +9,27 @@
 namespace app\modules\admin\services;
 
 use app\modules\admin\models\Country;
+use app\modules\admin\models\Team;
 use app\modules\admin\repositories\CountryRepository;
+use app\modules\admin\repositories\TeamRepository;
 
 class AdminService
 {
     private $countryRepository;
+    private $teamRepository;
 
     public function __construct(
-        CountryRepository $countryRepository
+        CountryRepository $countryRepository,
+        TeamRepository $teamRepository
     )
     {
         $this->countryRepository = $countryRepository;
+        $this->teamRepository = $teamRepository;
     }
+
+    /*
+     * Country manipulation
+     */
 
     /*
      * @param string $name
@@ -58,6 +67,54 @@ class AdminService
 
     public function getARClassCountry()
     {
-        return $this->countryRepository->getCountryClass();
+        return $this->countryRepository->getClass();
+    }
+
+    /*
+     * Team manipulation
+     */
+
+    /*
+    * @param string $name
+    * @param $country
+    * @param $logo
+    */
+
+    public function addTeam($name, $country, $logo)
+    {
+        $team = Team::create($name, $country, $logo);
+        $this->teamRepository->save($team);
+    }
+    /*
+     * @param $id
+     * @param string $name
+     * @param $country
+     * @param string $logo
+     */
+    public function editTeam($id, $name, $country, $logo)
+    {
+        $team = $this->findTeam($id);
+        $team->editData($name, $country, $logo);
+        $this->teamRepository->save($team);
+    }
+
+    public function deleteTeam($id)
+    {
+        $team = $this->findTeam($id);
+        $this->teamRepository->delete($team);
+    }
+
+    /*
+    * @param string $id
+    * @return Team
+    */
+    public function findTeam($id)
+    {
+        return $this->teamRepository->find($id);
+    }
+
+    public function getARClassTeam()
+    {
+        return $this->teamRepository->getClass();
     }
 }

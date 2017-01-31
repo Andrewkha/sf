@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use kartik\form\ActiveForm;
@@ -50,12 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
     </div>
-<?php Pjax::begin(); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'resizableColumns' => false,
+        'pjax' => 'true',
         'options' => [
             'class' => 'col-xs-12 col-sm-10 col-md-8 col-lg-4'
         ],
@@ -89,9 +88,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id',
                 'filter' => false,
                 'mergeHeader' => true,
-                'headerOptions' => [
-                    'class' => 'kv-align-center kv-align-middle kv-merged-header',
-                ],
                 'options' => [
                     'class' => 'col-xs-2',
                 ],
@@ -134,5 +130,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\modules\admin\controllers\backend;
 
 use Yii;
 use app\modules\admin\models\Team;
@@ -8,12 +8,22 @@ use app\modules\admin\models\search\TeamSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\admin\services\AdminService;
 
 /**
  * TeamController implements the CRUD actions for Team model.
  */
 class TeamController extends Controller
 {
+
+    private $adminService;
+
+    public function __construct($id, $module, AdminService $adminService, array $config = [])
+    {
+        $this->adminService = $adminService;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * @inheritdoc
      */

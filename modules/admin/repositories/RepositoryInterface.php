@@ -9,7 +9,6 @@
 namespace app\modules\admin\repositories;
 
 use yii\db\ActiveRecord;
-use app\modules\admin\repositories\exceptions\NotFoundException;
 
 interface RepositoryInterface
 {
@@ -19,4 +18,6 @@ interface RepositoryInterface
     public function save(ActiveRecord $model, $validate);
 
     public function delete(ActiveRecord $model);
+
+    public function getClass();
 }

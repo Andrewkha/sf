@@ -31,4 +31,9 @@ class TeamQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function whereCountry($country)
+    {
+        return $this->andWhere(['country_id' => $country]);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace app\modules\admin\models;
 
-use Yii;
+use app\modules\admin\resources\behaviors\fileUploadBehavior;
 
 /**
  * This is the model class for table "{{%team}}".
@@ -21,6 +21,22 @@ use Yii;
  */
 class Team extends \yii\db\ActiveRecord
 {
+    const TEAMS_LOGO_UPLOAD_PATH = 'images/logos';
+
+    public function behaviors() {
+
+        return [
+            'fileUpload' =>
+                [
+                    'class' => fileUploadBehavior::className(),
+                    'toAttribute' => 'logo',
+                    'imagePath' => self::TEAMS_LOGO_UPLOAD_PATH,
+                    'default' => 'nologo.jpeg',
+                    'prefix' => 'time',
+                ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -43,6 +59,23 @@ class Team extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function create($name, $country, $logo)
+    {
+        $team = new self();
+        $team->team = $name;
+        $team->country_id = $country;
+        $team->logo = $logo;
+
+        return $team;
+    }
+
+    public function editData($name, $country, $logo)
+    {
+        $this->team = $name;
+        $this->country_id = $country;
+        $this->logo = $logo;
+    }
+
     /**
      * @inheritdoc
      */
@@ -50,9 +83,9 @@ class Team extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'team' => 'Team',
-            'country_id' => 'Country ID',
-            'logo' => 'Logo',
+            'team' => 'Название',
+            'country_id' => 'Страна',
+            'logo' => 'Логотип',
         ];
     }
 
