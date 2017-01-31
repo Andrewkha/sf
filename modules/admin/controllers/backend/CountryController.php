@@ -42,9 +42,9 @@ class CountryController extends Controller
     public function actions()
     {
         return ArrayHelper::merge(parent::actions(), [
-            'update' => [                                       // identifier for your editable action
-                'class' => EditableColumnAction::className(),     // action class name
-                'modelClass' => $this->adminService->getARClassCountry(),                // the update model class
+            'update' => [                                                       // identifier for your editable action
+                'class' => EditableColumnAction::className(),                   // action class name
+                'modelClass' => $this->adminService->getARClassCountry(),       // the update model class
             ]
         ]);
     }
