@@ -4,6 +4,7 @@ use kartik\helpers\Html;
 use yii\helpers\ArrayHelper;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
+use kartik\editable\Editable;
 use app\modules\admin\models\Country;
 
 /* @var $this yii\web\View */
@@ -72,6 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             [
+                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'team',
                 'options' => [
                     'class' => 'col-xs-4',
@@ -79,10 +81,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => [
                     'class' => 'kv-align-center',
                 ],
-                'vAlign' => 'middle'
+                'vAlign' => 'middle',
+                'editableOptions' => function($model, $key, $index) {
+                    return [
+                        'formOptions' => [
+                            'action' => ['team/update'],
+                        ],
+                         'preHeader' => '',
+                        'submitButton' => [
+                            'icon' => Icon::show('download',['class' => 'text-primary'], Icon::FA)
+                        ],
+                        'resetButton' => [
+                            'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
+                        ],
+                    ];
+                }
             ],
 
             [
+                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'country_id',
                 'format' => 'raw',
                 'options' => [
@@ -91,18 +108,35 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => [
                     'class' => 'kv-align-center',
                 ],
-                'value'=>function ($model, $key, $index, $widget) {
-                    return $model->country->country;
-                },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => ArrayHelper::map(Country::find()->orderBy(['country' => SORT_ASC])->asArray()->all(), 'id', 'country'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
                 'filterInputOptions' => ['placeholder' => 'Все страны'],
+                'value'=>function ($model, $key, $index, $widget) {
+                    return $model->country->country;
+                },
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'formOptions' => [
+                            'action' => ['team/update'],
+                        ],
+                        'preHeader' => '',
+                        'submitButton' => [
+                            'icon' => Icon::show('download',['class' => 'text-primary'], Icon::FA)
+                        ],
+                        'resetButton' => [
+                            'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
+                        ],
+                        'inputType' => Editable::INPUT_DROPDOWN_LIST,
+                        'data' => ArrayHelper::map(Country::find()->orderBy(['country' => SORT_ASC])->asArray()->all(), 'id', 'country'),
+                    ];
+                },
                 'vAlign' => 'middle'
             ],
             [
+                'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'logo',
                 'label' => 'Логотип',
                 'filter' => false,
@@ -119,7 +153,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kv-align-center',
                 ],
                 'vAlign' => 'middle',
-                'hAlign' => 'center'
+                'hAlign' => 'center',
+                'editableOptions' => function ($model, $key, $index) {
+                    return [
+                        'formOptions' => [
+                            'action' => ['team/update'],
+                        ],
+                        'preHeader' => '',
+                        'submitButton' => [
+                            'icon' => Icon::show('download',['class' => 'text-primary'], Icon::FA)
+                        ],
+                        'resetButton' => [
+                            'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
+                        ],
+                        'inputType' => Editable::INPUT_FILEINPUT,
+                        'options' => [
+                            'options' => ['accept' => 'image/*'],
+                        ],
+                    ];
+    },
             ],
 
             [

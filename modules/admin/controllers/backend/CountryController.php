@@ -76,7 +76,7 @@ class CountryController extends Controller
         if($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $this->adminCRUDService->addCountry($form->country);
-                Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
+                Yii::$app->session->setFlash('success', "Страна $form->country успешно добавлена");
             } catch (\Exception $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
