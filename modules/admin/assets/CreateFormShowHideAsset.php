@@ -10,15 +10,15 @@ namespace app\modules\admin\assets;
 
 use yii\web\AssetBundle;
 
-class CountryFormShowAsset extends AssetBundle
+class CreateFormShowHideAsset extends AssetBundle
 {
     public $sourcePath = '@admin/scripts';
 
     public $js = [
-        'js/CountryFormShow.js'
+        'js/CreateFormShowHide.js'
     ];
 
     public $css = [
-        'css/CountryFormShow.css'
+        'css/CreateFormShowHide.css'
     ];
 }

@@ -7,7 +7,6 @@ use kartik\grid\EditableColumnAction;
 use Yii;
 use app\modules\admin\models\search\CountrySearch;
 use app\modules\admin\forms\CountryCreateEditForm;
-use app\modules\admin\models\Country;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -19,9 +18,9 @@ class CountryController extends Controller
 {
     private $adminCRUDService;
 
-    public function __construct($id, $module, AdminCRUDService $adminCRUDService, array $config = [])
+    public function __construct($id, $module, AdminCRUDService $adminCRUDCRUDService, array $config = [])
     {
-        $this->adminCRUDService = $adminCRUDService;
+        $this->adminCRUDService = $adminCRUDCRUDService;
         parent::__construct($id, $module, $config);
     }
 
@@ -56,28 +55,36 @@ class CountryController extends Controller
      */
     public function actionIndex()
     {
-        $model = new CountryCreateEditForm();
-        $model->load(Yii::$app->request->post());
-        $model->validate();
-        print_r($model);
+        $form = new CountryCreateEditForm();
+        $searchModel = new CountrySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $form = $this->save($form);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $form,
+        ]);
     }
 
-    /**
-     * Creates a new Country model.
-     * If creation is successful, the browser will be redirected to the 'index' page.
-     * @return mixed
+    /*
+     * @param CountryCreateEditForm $form
      */
-    public function actionCreate()
-    {
-        $model = new CountryCreateEditForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('index', [
-                'model' => $model,
-            ]);
+    private function save(CountryCreateEditForm $form)
+    {
+        if($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->adminCRUDService->addCountry($form->country);
+                Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        } elseif($form->load(Yii::$app->request->post()) && !$form->validate()) {
+            $form->setFormState(CountryCreateEditForm::FORM_STATE_OPEN);
         }
+
+        return $form;
     }
 
     /**

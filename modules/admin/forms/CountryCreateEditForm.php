@@ -14,27 +14,22 @@ use app\modules\admin\models\Country;
 class CountryCreateEditForm extends Model
 {
     public $country;
+    private $formState;
 
-    private $countryObj = NULL;
+    const FORM_STATE_OPEN = 'opened';
+    const FORM_STATE_CLOSED = 'closed';
 
-    public function __construct(Country $country = NULL, $config = [])
+    public function __construct(array $config = [])
     {
-        if($country !== NULL)
-            $this->countryObj = $country;
-        parent::__construct();
-    }
-
-    public function init()
-    {
-        if(isset($this->countryObj))
-            $this->country = $this->countryObj->country;
+        parent::__construct($config);
+        $this->formState = self::FORM_STATE_CLOSED;
     }
 
     public function rules()
     {
         return [
             [['country'], 'required'],
-            ['country', 'unique', 'targetClass' => 'app\modules\admin\models\Country', 'targetAttribute' => 'country', 'message' => 'Такая страна уже есть'],
+            ['country', 'unique', 'targetClass' => Country::className(), 'targetAttribute' => 'country', 'message' => 'Такая страна уже есть'],
             [['country'], 'string', 'max' => 50],
         ];
     }
@@ -45,5 +40,15 @@ class CountryCreateEditForm extends Model
             'id' => 'ID',
             'country' => 'Страна',
         ];
+    }
+
+    public function setFormState($state)
+    {
+        $this->formState = $state;
+    }
+
+    public function getFormState()
+    {
+        return $this->formState;
     }
 }

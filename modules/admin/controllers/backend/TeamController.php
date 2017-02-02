@@ -8,7 +8,7 @@ use app\modules\admin\models\search\TeamSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\modules\admin\services\AdminService;
+use app\modules\admin\services\AdminCRUDService;
 
 /**
  * TeamController implements the CRUD actions for Team model.
@@ -16,11 +16,11 @@ use app\modules\admin\services\AdminService;
 class TeamController extends Controller
 {
 
-    private $adminService;
+    private $adminCRUDService;
 
-    public function __construct($id, $module, AdminService $adminService, array $config = [])
+    public function __construct($id, $module, AdminCRUDService $adminCRUDService, array $config = [])
     {
-        $this->adminService = $adminService;
+        $this->adminCRUDService = $adminCRUDService;
         parent::__construct($id, $module, $config);
     }
 
