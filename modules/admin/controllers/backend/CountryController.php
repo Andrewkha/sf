@@ -2,11 +2,12 @@
 
 namespace app\modules\admin\controllers\backend;
 
-use app\modules\admin\services\AdminService;
+use app\modules\admin\services\AdminCRUDService;
 use kartik\grid\EditableColumnAction;
 use Yii;
 use app\modules\admin\models\search\CountrySearch;
 use app\modules\admin\forms\CountryCreateEditForm;
+use app\modules\admin\models\Country;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -16,11 +17,11 @@ use yii\filters\VerbFilter;
  */
 class CountryController extends Controller
 {
-    private $adminService;
+    private $adminCRUDService;
 
-    public function __construct($id, $module, AdminService $adminService, array $config = [])
+    public function __construct($id, $module, AdminCRUDService $adminCRUDService, array $config = [])
     {
-        $this->adminService = $adminService;
+        $this->adminCRUDService = $adminCRUDService;
         parent::__construct($id, $module, $config);
     }
 
@@ -44,7 +45,7 @@ class CountryController extends Controller
         return ArrayHelper::merge(parent::actions(), [
             'update' => [                                                       // identifier for your editable action
                 'class' => EditableColumnAction::className(),                   // action class name
-                'modelClass' => $this->adminService->getARClassCountry(),       // the update model class
+                'modelClass' => $this->adminCRUDService->getARClassCountry(),       // the update model class
             ]
         ]);
     }
@@ -55,15 +56,10 @@ class CountryController extends Controller
      */
     public function actionIndex()
     {
-        $form = new CountryCreateEditForm();
-        $searchModel = new CountrySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'model' => $form,
-        ]);
+        $model = new CountryCreateEditForm();
+        $model->load(Yii::$app->request->post());
+        $model->validate();
+        print_r($model);
     }
 
     /**
@@ -73,18 +69,15 @@ class CountryController extends Controller
      */
     public function actionCreate()
     {
-        $form = new CountryCreateEditForm();
+        $model = new CountryCreateEditForm();
 
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->adminService->addCountry($form->country);
-                Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
-            } catch (\Exception $e) {
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('index', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->redirect(['country/']);
     }
 
     /**
@@ -95,11 +88,12 @@ class CountryController extends Controller
      */
     public function actionDelete($id)
     {
-        $country = $this->adminService->findCountry($id);
+        $country = $this->adminCRUDService->findCountry($id);
 
         try {
-            $this->adminService->deleteCountry($id);
+            $this->adminCRUDService->deleteCountry($id);
             Yii::$app->session->setFlash('success', "Страна $country->country успешно удалена");
+;
         } catch (\Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }

@@ -13,7 +13,7 @@ use app\modules\admin\models\Team;
 use app\modules\admin\repositories\CountryRepository;
 use app\modules\admin\repositories\TeamRepository;
 
-class AdminService
+class AdminCRUDService
 {
     private $countryRepository;
     private $teamRepository;
@@ -34,20 +34,20 @@ class AdminService
     /*
      * @param string $name
      */
-    public function addCountry($name)
+    public function addCountry($name, $validate = false)
     {
         $country = Country::create($name);
-        $this->countryRepository->save($country);
+        $this->countryRepository->save($country, $validate);
     }
     /*
      * @param $id
      * @param string $name
      */
-    public function editCountry($id, $name)
+    public function editCountry($id, $name, $validate = false)
     {
         $country = $this->findCountry($id);
         $country->editData($name);
-        $this->countryRepository->save($country);
+        $this->countryRepository->save($country, $validate);
     }
 
     public function deleteCountry($id)
@@ -80,10 +80,10 @@ class AdminService
     * @param $logo
     */
 
-    public function addTeam($name, $country, $logo)
+    public function addTeam($name, $country, $logo, $validate = false)
     {
         $team = Team::create($name, $country, $logo);
-        $this->teamRepository->save($team);
+        $this->teamRepository->save($team, $validate);
     }
     /*
      * @param $id
@@ -91,11 +91,11 @@ class AdminService
      * @param $country
      * @param string $logo
      */
-    public function editTeam($id, $name, $country, $logo)
+    public function editTeam($id, $name, $country, $logo, $validate = false)
     {
         $team = $this->findTeam($id);
         $team->editData($name, $country, $logo);
-        $this->teamRepository->save($team);
+        $this->teamRepository->save($team, $validate);
     }
 
     public function deleteTeam($id)

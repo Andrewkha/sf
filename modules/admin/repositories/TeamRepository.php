@@ -30,11 +30,11 @@ class TeamRepository implements RepositoryInterface
 
     /**
      * @param ActiveRecord $team
-     * @param $validate boolean - whether to validate the model before save, false default
+     * @param $validate boolean - whether to validate the model before save
      * @throws \RuntimeException
      * @throws TypeMismatchException
      */
-    public function save(ActiveRecord $team, $validate = false)
+    public function save(ActiveRecord $team, $validate)
     {
         if(!($team instanceOf Team))
             throw new TypeMismatchException();

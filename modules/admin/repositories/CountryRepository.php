@@ -34,7 +34,7 @@ class CountryRepository implements RepositoryInterface
      * @throws \RuntimeException
      * @throws TypeMismatchException
      */
-    public function save(ActiveRecord $country, $validate = false)
+    public function save(ActiveRecord $country, $validate)
     {
         if(!($country instanceOf Country))
             throw new TypeMismatchException();
