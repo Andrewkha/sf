@@ -54,7 +54,7 @@ class Team extends \yii\db\ActiveRecord
             [['team', 'country_id'], 'required'],
             [['country_id'], 'integer'],
             [['team'], 'string', 'max' => 50],
-            [['logo'], 'string', 'max' => 255],
+            [['logo'], 'image', 'maxSize' => 1024*1024, 'tooBig' => 'Максимальный размер файла 1Мб',],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }

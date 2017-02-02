@@ -3,6 +3,8 @@
 namespace app\modules\admin\controllers\backend;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use kartik\grid\EditableColumnAction;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\search\TeamSearch;
 use yii\web\Controller;
@@ -37,6 +39,16 @@ class TeamController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'update' => [                                                       // identifier for your editable action
+                'class' => EditableColumnAction::className(),                   // action class name
+                'modelClass' => $this->adminCRUDService->getARClassTeam(),       // the update model class
+            ]
+        ]);
     }
 
     /**

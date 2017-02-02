@@ -169,6 +169,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'inputType' => Editable::INPUT_FILEINPUT,
                         'options' => [
                             'options' => ['accept' => 'image/*'],
+                            'pluginOptions' => [
+                                'showRemove' => false,
+                                'showUpload' => false
+                            ]
                         ],
                     ];
     },
