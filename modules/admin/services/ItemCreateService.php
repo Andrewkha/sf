@@ -9,18 +9,21 @@
 namespace app\modules\admin\services;
 
 use app\modules\admin\contracts\ServiceInterface;
-use app\modules\admin\events\CountryEvent;
-use app\modules\admin\models\Country;
+use app\modules\admin\events\ItemEvent;
+use app\modules\admin\traits\ContainerAwareTrait;
+use yii\db\ActiveRecord;
 use yii\base\Exception;
 use yii\log\Logger;
 use Yii;
 
-class CountryCreateService implements ServiceInterface
+class ItemCreateService implements ServiceInterface
 {
+    use ContainerAwareTrait;
+
     protected $model;
     protected $logger;
 
-    public function __construct(Country $model, Logger $logger)
+    public function __construct(ActiveRecord $model, Logger $logger)
     {
         $this->model = $model;
         $this->logger = $logger;
@@ -39,14 +42,13 @@ class CountryCreateService implements ServiceInterface
                 return false;
             }
 
-            $model->trigger(CountryEvent::EVENT_AFTER_CREATE);
+            $model->trigger(ItemEvent::EVENT_AFTER_CREATE, $this->make(ItemEvent::class, [$model]));
             $transaction->commit();
 
             return true;
         } catch (Exception $e) {
             $transaction->rollBack();
             $this->logger->log($e->getMessage(), Logger::LEVEL_ERROR);
-            Yii::$app->session->setFlash('error', $e->getMessage());
 
             return false;
         }

@@ -2,8 +2,9 @@
 
 namespace app\modules\admin\controllers\backend;
 
+use app\modules\admin\events\ItemEvent;
 use app\modules\admin\models\Country;
-use app\modules\admin\services\CountryCreateService;
+use app\modules\admin\services\ItemCreateService;
 use app\modules\admin\traits\ContainerAwareTrait;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use kartik\grid\EditableColumnAction;
@@ -15,6 +16,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\base\Module;
 use app\modules\admin\models\query\CountryQuery;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -83,10 +85,12 @@ class CountryController extends Controller
         if($form->load(Yii::$app->request->post()) && $form->validate()) {
             $country = $this->make(Country::class, [], $form->attributes);
 
-            if ($this->make(CountryCreateService::class, [$country])->run()) {
+            if ($this->make(ItemCreateService::class, [$country])->run()) {
                 Yii::$app->session->setFlash('success', "Страна успешно создана");
 
                 return $this->redirect(['country/']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Невозможно удалить страну. См лог файл для деталей');
             }
         }
         
@@ -108,12 +112,17 @@ class CountryController extends Controller
      */
     public function actionDelete($id)
     {
-        $country = $this->adminCRUDService->findCountry($id);
+        /** @var Country $country */
+        $country = $this->countryQuery->where(['id' => $id])->one();
+
+        /** @var ItemEvent $event */
+        $event = $this->make(ItemEvent::class, [$country]);
 
         try {
-            $this->adminCRUDService->deleteCountry($id);
+            $country->delete();
             Yii::$app->session->setFlash('success', "Страна $country->country успешно удалена");
-;
+            $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
+
         } catch (\Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }

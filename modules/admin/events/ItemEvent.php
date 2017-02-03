@@ -8,24 +8,23 @@
 
 namespace app\modules\admin\events;
 
-use app\modules\admin\models\Country;
+use yii\db\ActiveRecord;
 use yii\base\Event;
 
-class CountryEvent extends Event
+class ItemEvent extends Event
 {
-
     const EVENT_AFTER_CREATE ='afterCreate';
 
-    protected $country;
+    protected $model;
 
-    public function __construct(Country $country, $config = [])
+    public function __construct(ActiveRecord $model, $config = [])
     {
-        $this->country = $country;
+        $this->model = $model;
         parent::__construct($config);
     }
 
-    public function getCountry()
+    public function getModel()
     {
-        return $this->country;
+        return $this->model;
     }
 }

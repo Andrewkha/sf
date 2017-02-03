@@ -32,11 +32,14 @@ class Bootstrap implements BootstrapInterface
         $di = Yii::$container;
 
         try {
+            //events
+            $di->set(events\ItemEvent::class);
+
             //forms
             $di->set(forms\CountryCreateEditForm::class);
 
             //services
-            $di->set(services\CountryCreateService::class);
+            $di->set(services\ItemCreateService::class);
 
             // validators
             $di->set(validator\AjaxRequestModelValidator::class);
