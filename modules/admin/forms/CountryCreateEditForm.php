@@ -14,16 +14,6 @@ use app\modules\admin\models\Country;
 class CountryCreateEditForm extends Model
 {
     public $country;
-    private $formState;
-
-    const FORM_STATE_OPEN = 'opened';
-    const FORM_STATE_CLOSED = 'closed';
-
-    public function __construct(array $config = [])
-    {
-        parent::__construct($config);
-        $this->formState = self::FORM_STATE_CLOSED;
-    }
 
     public function rules()
     {
@@ -40,15 +30,5 @@ class CountryCreateEditForm extends Model
             'id' => 'ID',
             'country' => 'Страна',
         ];
-    }
-
-    public function setFormState($state)
-    {
-        $this->formState = $state;
-    }
-
-    public function getFormState()
-    {
-        return $this->formState;
     }
 }

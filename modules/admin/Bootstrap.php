@@ -37,6 +37,7 @@ class Bootstrap implements BootstrapInterface
 
             //forms
             $di->set(forms\CountryCreateEditForm::class);
+            $di->set(forms\TeamCreateEditForm::class);
 
             //services
             $di->set(services\ItemCreateService::class);

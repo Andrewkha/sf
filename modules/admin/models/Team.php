@@ -59,23 +59,6 @@ class Team extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function create($name, $country, $logo)
-    {
-        $team = new self();
-        $team->team = $name;
-        $team->country_id = $country;
-        $team->logo = $logo;
-
-        return $team;
-    }
-
-    public function editData($name, $country, $logo)
-    {
-        $this->team = $name;
-        $this->country_id = $country;
-        $this->logo = $logo;
-    }
-
     /**
      * @inheritdoc
      */

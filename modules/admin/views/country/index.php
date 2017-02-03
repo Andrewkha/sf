@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="country-index">
 
-    <div class = "create <?= $model->getFormState() ?>" id = 'add-form'>
+    <div class = "create closed" id = 'add-form'>
         <div class = "row country-create-edit-form">
             <?php $form = ActiveForm::begin([
                 'type' => ActiveForm::TYPE_VERTICAL,
@@ -48,8 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <?php ActiveForm::end(); ?>
-
-
         </div>
     </div>
 

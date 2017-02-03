@@ -3,7 +3,6 @@
 namespace app\modules\admin\models;
 
 use app\modules\admin\models\query\CountryQuery;
-use Yii;
 
 /**
  * This is the model class for table "{{%country}}".
@@ -16,21 +15,7 @@ use Yii;
  */
 class Country extends \yii\db\ActiveRecord
 {
-    /*
-     * @param string $name
-     * @returns Country
-     */
-    public static function create($name)
-    {
-        $country = new self();
-        $country->country = $name;
-        return $country;
-    }
 
-    public function editData($name)
-    {
-        $this->country = $name;
-    }
     /**
      * @inheritdoc
      */

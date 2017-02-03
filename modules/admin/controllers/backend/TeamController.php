@@ -2,27 +2,37 @@
 
 namespace app\modules\admin\controllers\backend;
 
+use app\modules\admin\models\query\TeamQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
 use kartik\grid\EditableColumnAction;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\search\TeamSearch;
+use app\modules\admin\services\ItemCreateService;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use app\modules\admin\events\ItemEvent;
+use yii\db\ActiveRecord;
 use yii\filters\VerbFilter;
-use app\modules\admin\services\AdminCRUDService;
+use yii\base\Module;
+use app\modules\admin\traits\ContainerAwareTrait;
+use app\modules\admin\forms\TeamCreateEditForm;
+use app\modules\admin\validator\AjaxRequestModelValidator;
 
 /**
  * TeamController implements the CRUD actions for Team model.
  */
 class TeamController extends Controller
 {
+    use ContainerAwareTrait;
 
-    private $adminCRUDService;
+    /**
+     * @var TeamQuery
+     */
+    protected $teamQuery;
 
-    public function __construct($id, $module, AdminCRUDService $adminCRUDService, array $config = [])
+    public function __construct($id, Module $module, TeamQuery $teamQuery, array $config = [])
     {
-        $this->adminCRUDService = $adminCRUDService;
+        $this->teamQuery = $teamQuery;
         parent::__construct($id, $module, $config);
     }
 
@@ -46,7 +56,7 @@ class TeamController extends Controller
         return ArrayHelper::merge(parent::actions(), [
             'update' => [                                                       // identifier for your editable action
                 'class' => EditableColumnAction::className(),                   // action class name
-                'modelClass' => $this->adminCRUDService->getARClassTeam(),       // the update model class
+                'modelClass' => Team::class,       // the update model class
             ]
         ]);
     }
@@ -57,50 +67,31 @@ class TeamController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new TeamSearch();
+        /** @var TeamCreateEditForm $form*/
+        $form = $this->make(TeamCreateEditForm::class);
+
+        $this->make(AjaxRequestModelValidator::class, [$form])->validate();
+
+        if($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $country = $this->make(Team::class, [], $form->attributes);
+
+            if ($this->make(ItemCreateService::class, [$country])->run()) {
+                Yii::$app->session->setFlash('success', "Страна успешно создана");
+
+                return $this->redirect(['team/']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Невозможно создать команду. См лог файл для деталей');
+            }
+        }
+
+        $searchModel = $this->make(TeamSearch::class);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $form,
         ]);
-    }
-
-    /**
-     * Creates a new Team model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Team();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Team model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -111,24 +102,21 @@ class TeamController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        /** @var Team $team */
+        $team = $this->teamQuery->where(['id' => $id])->one();
 
-        return $this->redirect(['index']);
-    }
+        /** @var ItemEvent $event */
+        $event = $this->make(ItemEvent::class, [$team]);
 
-    /**
-     * Finds the Team model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Team the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Team::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        try {
+            $team->delete();
+            Yii::$app->session->setFlash('success', "Команда $team->team успешно удалена");
+            $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
+
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
         }
+
+        return $this->redirect(['team/']);
     }
 }

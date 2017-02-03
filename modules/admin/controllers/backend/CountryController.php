@@ -90,7 +90,7 @@ class CountryController extends Controller
 
                 return $this->redirect(['country/']);
             } else {
-                Yii::$app->session->setFlash('error', 'Невозможно удалить страну. См лог файл для деталей');
+                Yii::$app->session->setFlash('error', 'Невозможно создать страну. См лог файл для деталей');
             }
         }
         
