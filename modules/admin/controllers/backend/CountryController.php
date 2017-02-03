@@ -84,8 +84,9 @@ class CountryController extends Controller
             $country = $this->make(Country::class, [], $form->attributes);
 
             if ($this->make(CountryCreateService::class, [$country])->run()) {
-                Yii::$app->session->setFlash('success', "Страна $country->country успешно создана");
-                $this->redirect(['country/']);
+                Yii::$app->session->setFlash('success', "Страна успешно создана");
+
+                return $this->redirect(['country/']);
             }
         }
         
