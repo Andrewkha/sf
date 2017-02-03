@@ -214,6 +214,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         return [
                             'formOptions' => [
                                 'action' => ['team/update'],
+                                'options' => [
+                                    'enctype' => 'multipart/form-data'
+                                ],
                             ],
                             'preHeader' => '',
                             'submitButton' => [

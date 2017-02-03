@@ -57,9 +57,20 @@ class TeamController extends Controller
             'update' => [                                                       // identifier for your editable action
                 'class' => EditableColumnAction::className(),                   // action class name
                 'modelClass' => Team::class,       // the update model class
+                'outputValue' => function ($model, $attribute, $key, $index) {
+                    if ($attribute == 'country_id') {
+                        return $model->country->country;
+                    }
+                },
+                'outputMessage' => function($model, $attribute, $key, $index) {
+                    //print_r($model);                              // any custom error to return after model save
+                },
+                'showModelErrors' => true
             ]
         ]);
     }
+
+
 
     /**
      * Lists all Team models.
@@ -73,10 +84,10 @@ class TeamController extends Controller
         $this->make(AjaxRequestModelValidator::class, [$form])->validate();
 
         if($form->load(Yii::$app->request->post()) && $form->validate()) {
-            $country = $this->make(Team::class, [], $form->attributes);
+            $team = $this->make(Team::class, [], $form->attributes);
 
-            if ($this->make(ItemCreateService::class, [$country])->run()) {
-                Yii::$app->session->setFlash('success', "Страна успешно создана");
+            if ($this->make(ItemCreateService::class, [$team])->run()) {
+                Yii::$app->session->setFlash('success', "Команда успешно создана");
 
                 return $this->redirect(['team/']);
             } else {

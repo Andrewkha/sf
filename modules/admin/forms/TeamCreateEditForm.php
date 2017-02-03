@@ -11,12 +11,29 @@ namespace app\modules\admin\forms;
 use yii\base\Model;
 use app\modules\admin\models\Country;
 use yii\helpers\ArrayHelper;
+use app\modules\admin\resources\behaviors\fileUploadBehavior;
 
 class TeamCreateEditForm extends Model
 {
     public $team;
     public $country_id;
     public $logo;
+
+    const TEAMS_LOGO_UPLOAD_PATH = 'images/logos';
+
+    public function behaviors() {
+
+        return [
+            'fileUpload' =>
+                [
+                    'class' => fileUploadBehavior::className(),
+                    'toAttribute' => 'logo',
+                    'imagePath' => self::TEAMS_LOGO_UPLOAD_PATH,
+                    'default' => 'nologo.jpeg',
+                    'prefix' => 'time',
+                ],
+        ];
+    }
 
     public function rules()
     {
