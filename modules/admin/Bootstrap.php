@@ -22,7 +22,7 @@ class Bootstrap implements BootstrapInterface
     public function bootstrap($app)
     {
         if($app->hasModule('admin') && $app->getModule('admin') instanceof Module) {
-            $map = $this->buildClassMap($app->getModule('user')->classMap);
+            $map = $this->buildClassMap($app->getModule('admin')->classMap);
             $this->initContainer($app, $map);
         }
     }
@@ -37,6 +37,9 @@ class Bootstrap implements BootstrapInterface
 
             //services
             $di->set(services\CountryCreateService::class);
+
+            // validators
+            $di->set(validator\AjaxRequestModelValidator::class);
 
             // class map models + query classes
             $modelClassMap = [];

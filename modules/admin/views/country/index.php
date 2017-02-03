@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class = "row country-create-edit-form">
             <?php $form = ActiveForm::begin([
                 'type' => ActiveForm::TYPE_VERTICAL,
+                'enableAjaxValidation' => true,
+                'enableClientValidation' => false,
             ]); ?>
 
             <div class = 'form-group'>

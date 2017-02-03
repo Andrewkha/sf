@@ -28,8 +28,8 @@ class CountryCreateEditForm extends Model
     public function rules()
     {
         return [
-            [['country'], 'required'],
-            ['country', 'unique', 'targetClass' => Country::className(), 'targetAttribute' => 'country', 'message' => 'Такая страна уже есть'],
+            [['country'], 'required', 'message' => 'Не может быть пустым'],
+            [['country'], 'unique', 'targetClass' => Country::className(), 'targetAttribute' => 'country', 'message' => 'Такая страна уже есть'],
             [['country'], 'string', 'max' => 50],
         ];
     }
