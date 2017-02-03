@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\models;
 
+use app\modules\admin\models\query\CountryQuery;
 use Yii;
 
 /**
@@ -72,5 +73,13 @@ class Country extends \yii\db\ActiveRecord
             ['country', 'unique', 'message' => 'Такая страна уже есть'],
             [['country'], 'string', 'max' => 50],
         ];
+    }
+
+    /**
+     * @return CountryQuery
+     */
+    public static function find()
+    {
+        return new CountryQuery(static::class);
     }
 }

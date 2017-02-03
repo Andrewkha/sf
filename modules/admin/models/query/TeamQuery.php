@@ -9,11 +9,6 @@ namespace app\modules\admin\models\query;
  */
 class TeamQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
     /**
      * @inheritdoc
      * @return \app\modules\admin\models\Team[]|array
