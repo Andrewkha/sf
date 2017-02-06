@@ -1,6 +1,7 @@
 <?php
 
 use kartik\helpers\Html;
+use yii\helpers\Url;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use kartik\editable\Editable;
@@ -230,7 +231,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'options' => ['accept' => 'image/*'],
                                 'pluginOptions' => [
                                     'showRemove' => false,
-                                    'showUpload' => false
+                                    'showUpload' => false,
                                 ]
                             ],
                         ];

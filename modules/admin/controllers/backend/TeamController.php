@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers\backend;
 use app\modules\admin\models\query\TeamQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use kartik\grid\EditableColumnAction;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\search\TeamSearch;
@@ -57,20 +58,18 @@ class TeamController extends Controller
             'update' => [                                                       // identifier for your editable action
                 'class' => EditableColumnAction::className(),                   // action class name
                 'modelClass' => Team::class,       // the update model class
-                'outputValue' => function ($model, $attribute, $key, $index) {
-                    if ($attribute == 'country_id') {
+                'outputValue' => function (Team $model, $attribute, $key, $index) {
+                    if ($attribute === 'country_id') {
                         return $model->country->country;
                     }
+                    if ($attribute === 'logo') {
+                        return Html::img($model->fileUrl, ['height' => '50', 'width' => '50']);
+                    }
+                    return $model->$attribute;
                 },
-                'outputMessage' => function($model, $attribute, $key, $index) {
-                    //print_r($model);                              // any custom error to return after model save
-                },
-                'showModelErrors' => true
             ]
         ]);
     }
-
-
 
     /**
      * Lists all Team models.

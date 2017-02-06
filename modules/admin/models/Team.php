@@ -23,6 +23,7 @@ class Team extends \yii\db\ActiveRecord
 {
     const TEAMS_LOGO_UPLOAD_PATH = 'images/logos';
 
+
     public function behaviors() {
 
         return [
@@ -36,6 +37,7 @@ class Team extends \yii\db\ActiveRecord
                 ],
         ];
     }
+
 
     /**
      * @inheritdoc
