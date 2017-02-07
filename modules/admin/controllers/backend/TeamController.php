@@ -49,6 +49,8 @@ class TeamController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'update' => ['POST'],
+                    'logo-update' => ['POST'],
                 ],
             ],
         ];
