@@ -92,10 +92,12 @@ class Bootstrap implements BootstrapInterface
             // --- models
             'Country' => 'app\modules\admin\models\Country',
             'Team' => 'app\modules\admin\models\Team',
+            'Tournament' => 'app\modules\admin\models\Tournament',
 
             // --- search
             'CountrySearch' => 'app\modules\admin\models\search\CountrySearch',
             'TeamSearch' => 'app\modules\admin\models\search\TeamSearch',
+            'TournamentSearch' => 'app\modules\admin\models\search\TournamentSearch',
 
             // --- forms
             'CountryCreateEditForm' => 'app\modules\admin\forms\CountryCreateEditForm',
@@ -107,12 +109,12 @@ class Bootstrap implements BootstrapInterface
             'app\modules\admin\models' => [
                 'Country',
                 'Team',
-//                'Tournament',
+                'Tournament',
             ],
             'app\modules\admin\models\search' => [
                 'TeamSearch',
                 'CountrySearch',
-//                'TournamentSearch',
+                'TournamentSearch',
             ],
             'app\modules\admin' => [
                 'CountryCreateEditForm',

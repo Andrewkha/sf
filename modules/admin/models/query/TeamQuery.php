@@ -9,24 +9,6 @@ namespace app\modules\admin\models\query;
  */
 class TeamQuery extends \yii\db\ActiveQuery
 {
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Team[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Team|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
-
     public function whereCountry($country)
     {
         return $this->andWhere(['country_id' => $country]);

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Team */
+/* @var $model app\modules\admin\models\Tournament */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Teams', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Tournaments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="team-view">
+<div class="tournament-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,9 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'team',
+            'tournament',
             'country_id',
             'logo',
+            'type',
+            'tours',
+            'status',
+            'starts',
+            'autoprocess',
+            'autoprocessURL:url',
+            'winnersForecastDue',
         ],
     ]) ?>
 
