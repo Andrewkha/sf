@@ -1,7 +1,6 @@
 <?php
 
 use kartik\helpers\Html;
-use yii\helpers\Url;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use kartik\editable\Editable;
@@ -214,7 +213,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'editableOptions' => function ($model, $key, $index) {
                         return [
                             'formOptions' => [
-                                'action' => ['team/update'],
+                                'action' => ['team/logo-update'],
                                 'options' => [
                                     'enctype' => 'multipart/form-data'
                                 ],
@@ -228,7 +227,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'inputType' => Editable::INPUT_FILEINPUT,
                             'options' => [
-                                'options' => ['accept' => 'image/*'],
+                                'options' => ['accept' => 'image/*', 'name' => "Team[logo][$index]", 'id' => "team-logo-$index"],
                                 'pluginOptions' => [
                                     'showRemove' => false,
                                     'showUpload' => false,

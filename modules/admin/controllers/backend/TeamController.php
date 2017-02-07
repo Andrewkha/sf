@@ -6,6 +6,8 @@ use app\modules\admin\models\query\TeamQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\web\UploadedFile;
 use kartik\grid\EditableColumnAction;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\search\TeamSearch;
@@ -62,9 +64,7 @@ class TeamController extends Controller
                     if ($attribute === 'country_id') {
                         return $model->country->country;
                     }
-                    if ($attribute === 'logo') {
-                        return Html::img($model->fileUrl, ['height' => '50', 'width' => '50']);
-                    }
+
                     return $model->$attribute;
                 },
             ]
@@ -102,6 +102,31 @@ class TeamController extends Controller
             'dataProvider' => $dataProvider,
             'model' => $form,
         ]);
+    }
+
+    public function actionLogoUpdate()
+    {
+        $post = Yii::$app->request->post();
+
+        if (array_key_exists('editableKey', $post)){
+            $teamId = $post['editableKey'];
+
+            /** @var Team $model */
+            $model = Team::findOne($teamId);
+
+            $out = Json::encode(['output' => '', 'message' => '']);
+
+            $model->load($post);
+            $model->logo = UploadedFile::getInstances($model, 'logo')[0];
+
+            if ($model->validate()){
+                $model->save();
+                $out = Json::encode(['output' => Html::img($model->fileUrl, ['height' => '50', 'width' => '50']), 'message' => '']);
+            }
+
+            echo $out;
+            return;
+        }
     }
 
     /**
