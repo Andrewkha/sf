@@ -60,16 +60,16 @@ class Tournament extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'tournament' => 'Tournament',
-            'country_id' => 'Country ID',
-            'logo' => 'Logo',
-            'type' => 'Type',
-            'tours' => 'Tours',
-            'status' => 'Status',
-            'starts' => 'Starts',
-            'autoprocess' => 'Autoprocess',
-            'autoprocessURL' => 'Autoprocess Url',
-            'winnersForecastDue' => 'Winners Forecast Due',
+            'tournament' => 'Турнир',
+            'country_id' => 'Страна',
+            'logo' => 'Логотип турнира',
+            'type' => 'Тип',
+            'tours' => 'Количество туров',
+            'status' => 'Статус',
+            'starts' => 'Начало',
+            'autoprocess' => 'Автопроцессинг',
+            'autoprocessURL' => 'Страница автопроцессинга',
+            'winnersForecastDue' => 'Окончание приема прогноза на победителей',
         ];
     }
 

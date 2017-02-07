@@ -41,12 +41,28 @@ class TournamentSearch extends Tournament
      */
     public function search($params)
     {
-        $query = Tournament::find();
+        $query = Tournament::find()
+            ->joinWith('country')
+            ->indexBy('id');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'starts' => SORT_DESC,
+                ],
+                'attributes' => [
+                    'id',
+                    'country_id' => [
+                        'asc' => ['{{%country}}.country' => SORT_ASC],
+                        'desc' => ['{{%country}}.country' => SORT_DESC]
+                    ],
+                    'tournament',
+                    'starts'
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -54,6 +70,7 @@ class TournamentSearch extends Tournament
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+            $query->joinWith(['country']);
             return $dataProvider;
         }
 

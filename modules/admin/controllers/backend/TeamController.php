@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers\backend;
 use app\modules\admin\models\query\TeamQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use kartik\helpers\Html;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
 use kartik\grid\EditableColumnAction;

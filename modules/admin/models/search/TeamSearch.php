@@ -41,12 +41,26 @@ class TeamSearch extends Team
     public function search($params)
     {
         $query = Team::find()
-            ->with('country');
+            ->joinWith('country')
+            ->indexBy('id');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_ASC,
+                ],
+                'attributes' => [
+                    'id',
+                    'team',
+                    'country_id' => [
+                        'asc' => ['{{%country}}.country' => SORT_ASC],
+                        'desc' => ['{{%country}}.country' => SORT_DESC]
+                    ],
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -54,6 +68,7 @@ class TeamSearch extends Team
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+            $query->joinWith('country');
             return $dataProvider;
         }
 
