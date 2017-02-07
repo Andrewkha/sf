@@ -10,7 +10,7 @@ namespace app\modules\admin;
 
 use yii\base\BootstrapInterface;
 use Yii;
-use Yii\base\Exception;
+use yii\base\Exception;
 use app\modules\admin\helpers\ClassMapHelper;
 
 class Bootstrap implements BootstrapInterface
@@ -38,6 +38,9 @@ class Bootstrap implements BootstrapInterface
             //forms
             $di->set(forms\CountryCreateEditForm::class);
             $di->set(forms\TeamCreateEditForm::class);
+
+            // helpers
+            $di->set(helpers\TournamentHelper::class);
 
             //services
             $di->set(services\ItemCreateService::class);
@@ -70,6 +73,9 @@ class Bootstrap implements BootstrapInterface
             }
             if (!$di->has(models\search\TeamSearch::class)) {
                 $di->set(models\search\TeamSearch::class);
+            }
+            if (!$di->has(models\search\TournamentSearch::class)) {
+                $di->set(models\search\TournamentSearch::class);
             }
 
         } catch (Exception $e) {

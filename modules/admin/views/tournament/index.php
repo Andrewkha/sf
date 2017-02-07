@@ -13,6 +13,7 @@ use kartik\editable\Editable;
 
 $this->title = 'Турниры';
 $this->params['breadcrumbs'][] = $this->title;
+$countries = TeamCreateEditForm::getCountriesArray();
 ?>
 <div class="tournament-index">
 
@@ -92,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kv-align-center',
                 ],
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => TeamCreateEditForm::getCountriesArray(),
+                'filter' => $countries,
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
@@ -100,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function ($model, $key, $index, $widget) {
                     return $model->country->country;
                 },
-                'editableOptions' => function ($model, $key, $index) {
+                'editableOptions' => function ($model, $key, $index) use ($countries) {
                     return [
                         'formOptions' => [
                             'action' => ['tournament/update'],
@@ -113,12 +114,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
                         ],
                         'inputType' => Editable::INPUT_DROPDOWN_LIST,
-                        'data' => TeamCreateEditForm::getCountriesArray(),
+                        'data' => $countries,
                     ];
                 },
                 'vAlign' => 'middle'
             ],
-            'logo',
+
             'type',
             // 'tours',
             // 'status',

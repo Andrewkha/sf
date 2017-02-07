@@ -17,6 +17,7 @@ use app\modules\admin\assets\CreateFormShowHideAsset;
 CreateFormShowHideAsset::register($this);
 $this->title = 'Команды';
 $this->params['breadcrumbs'][] = $this->title;
+$countries = TeamCreateEditForm::getCountriesArray();
 ?>
 <div class="team-index">
     <div class = "create closed" id = 'add-form'>
@@ -41,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class = 'form-group'>
                 <div class = "col-xs-10 col-sm-8 col-md-6 col-lg-2">
                     <?= $form->field($model, 'country_id', ['showLabels' => false,])->widget(Select2::class, [
-                        'data' => TeamCreateEditForm::getCountriesArray(),
+                        'data' => $countries,
                         'pluginOptions' => ['allowClear' => true],
                         'options' => ['placeholder' => 'Выберите страну'],
                     ]); ?>
@@ -165,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'kv-align-center',
                     ],
                     'filterType' => GridView::FILTER_SELECT2,
-                    'filter' => TeamCreateEditForm::getCountriesArray(),
+                    'filter' => $countries,
                     'filterWidgetOptions' => [
                         'pluginOptions' => ['allowClear' => true],
                     ],
@@ -173,7 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value'=>function ($model, $key, $index, $widget) {
                         return $model->country->country;
                     },
-                    'editableOptions' => function ($model, $key, $index) {
+                    'editableOptions' => function ($model, $key, $index) use ($countries) {
                         return [
                             'formOptions' => [
                                 'action' => ['team/update'],
@@ -186,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
                             ],
                             'inputType' => Editable::INPUT_DROPDOWN_LIST,
-                            'data' => TeamCreateEditForm::getCountriesArray(),
+                            'data' => $countries,
                         ];
                     },
                     'vAlign' => 'middle'

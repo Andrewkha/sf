@@ -31,6 +31,12 @@ use Yii;
  */
 class Tournament extends \yii\db\ActiveRecord
 {
+    const TYPE_REGULAR = 1;
+    const TYPE_PLAYOFF = 0;
+
+    const STATUS_NOT_STARTED = 0;
+    const STATUS_IN_PROGRESS = 1;
+    const STATUS_FINISHED = 2;
     /**
      * @inheritdoc
      */
