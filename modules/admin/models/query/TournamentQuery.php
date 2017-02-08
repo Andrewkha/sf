@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\admin\models\query;
+use app\modules\admin\models\Tournament;
 
 /**
  * This is the ActiveQuery class for [[\app\modules\admin\models\Tournament]].
@@ -9,26 +10,9 @@ namespace app\modules\admin\models\query;
  */
 class TournamentQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function notFinished()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Tournament[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
+        return $this->andWhere(['or', ['status' => Tournament::STATUS_NOT_STARTED], ['status' => Tournament::STATUS_IN_PROGRESS]]);
     }
 
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Tournament|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

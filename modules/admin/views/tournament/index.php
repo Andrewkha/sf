@@ -3,9 +3,10 @@
 use kartik\helpers\Html;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
-use kartik\select2\Select2;
 use app\modules\admin\forms\TeamCreateEditForm;
 use kartik\editable\Editable;
+use app\modules\admin\helpers\TournamentHelper;
+use app\modules\admin\models\Tournament;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */
@@ -16,19 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
 $countries = TeamCreateEditForm::getCountriesArray();
 ?>
 <div class="tournament-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Tournament', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class = "row">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'resizableColumns' => false,
         'pjax' => true,
         'options' => [
-
+            'class' => 'col-xs-12 col-md-10 col-lg-8'
         ],
         'pager' => [
             'firstPageLabel' => Icon::show('fast-backward', [], Icon::FA),
@@ -75,19 +71,36 @@ $countries = TeamCreateEditForm::getCountriesArray();
             [
                 'attribute' => 'tournament',
                 'options' => [
-                    'class' => 'col-xs-4',
+                    'class' => 'col-xs-3',
                 ],
                 'headerOptions' => [
                     'class' => 'kv-align-center',
                 ],
+                'format' => 'raw',
+                'value' => function (Tournament $model) {
+                    return Html::a($model->tournament, ['tournament/edit', 'id' => $model->id]);
+                }
             ],
 
             [
-                'class' => 'kartik\grid\EditableColumn',
+                'header' => 'Игры',
+                'filter' => false,
+                'mergeHeader' => true,
+                'options' => [
+                    'class' => 'col-xs-1',
+                ],
+                'hAlign' => 'center',
+                'format' => 'raw',
+                'value' => function(Tournament $model) {
+                    return Html::a(Icon::show('calendar', [], Icon::FA), ['tournament/schedule', 'id' => $model->id]);
+                }
+            ],
+
+            [
                 'attribute' => 'country_id',
                 'format' => 'raw',
                 'options' => [
-                    'class' => 'col-xs-3'
+                    'class' => 'col-xs-2'
                 ],
                 'headerOptions' => [
                     'class' => 'kv-align-center',
@@ -101,34 +114,48 @@ $countries = TeamCreateEditForm::getCountriesArray();
                 'value'=>function ($model, $key, $index, $widget) {
                     return $model->country->country;
                 },
-                'editableOptions' => function ($model, $key, $index) use ($countries) {
-                    return [
-                        'formOptions' => [
-                            'action' => ['tournament/update'],
-                        ],
-                        'preHeader' => '',
-                        'submitButton' => [
-                            'icon' => Icon::show('download',['class' => 'text-primary'], Icon::FA)
-                        ],
-                        'resetButton' => [
-                            'icon' => Icon::show('ban',['class' => 'text-danger'], Icon::FA)
-                        ],
-                        'inputType' => Editable::INPUT_DROPDOWN_LIST,
-                        'data' => $countries,
-                    ];
-                },
                 'vAlign' => 'middle'
             ],
 
-            'type',
-            // 'tours',
-            // 'status',
-            // 'starts',
-            // 'autoprocess',
-            // 'autoprocessURL:url',
-            // 'winnersForecastDue',
+            [
+                'class' => 'app\modules\admin\widgets\grid\TournamentStatusColumn',
+                'attribute' => 'status',
+                'options' => [
+                    'class' => 'col-xs-2',
+                ],
+                'hAlign' => 'center',
+                'vAlign' => 'middle',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => TournamentHelper::getStatusList(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Все'],
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'tours',
+                'filter' => false,
+                'mergeHeader' => true,
+                'options' => [
+                    'class' => 'col-xs-1',
+                ],
+                'headerOptions' => [
+                    'class' => 'kv-align-center',
+                ],
+                'hAlign' => 'center'
+            ],
+
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'options' => [
+                    'class' => 'col-xs-1',
+                ],
+                'template' => '{delete}',
+                'deleteOptions' => ['label' => Icon::show('trash', ['class' => 'fa-lg'], Icon::FA)],
+                'header' => false,
+            ],
         ],
     ]); ?>
+    </div>
 </div>

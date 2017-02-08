@@ -37,6 +37,24 @@ class Tournament extends \yii\db\ActiveRecord
     const STATUS_NOT_STARTED = 0;
     const STATUS_IN_PROGRESS = 1;
     const STATUS_FINISHED = 2;
+
+    /** @return  bool*/
+
+    public function isFinished()
+    {
+        return $this->status === self::STATUS_FINISHED;
+    }
+
+    public function isRegular()
+    {
+        return $this->type === self::TYPE_REGULAR;
+    }
+
+    public function isPlayoff()
+    {
+        return $this->type === self::TYPE_PLAYOFF;
+    }
+
     /**
      * @inheritdoc
      */
