@@ -3,8 +3,7 @@
 use kartik\helpers\Html;
 use kartik\grid\GridView;
 use kartik\icons\Icon;
-use app\modules\admin\forms\TeamCreateEditForm;
-use kartik\editable\Editable;
+use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
 
@@ -14,7 +13,7 @@ use app\modules\admin\models\Tournament;
 
 $this->title = 'Турниры';
 $this->params['breadcrumbs'][] = $this->title;
-$countries = TeamCreateEditForm::getCountriesArray();
+$countries = TournamentCreateEditForm::getCountriesArray();
 ?>
 <div class="tournament-index">
     <div class = "row">

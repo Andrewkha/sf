@@ -2,18 +2,39 @@
 
 namespace app\modules\admin\controllers\backend;
 
+use app\modules\admin\forms\TournamentCreateEditForm;
+use app\modules\admin\validator\AjaxRequestModelValidator;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use app\modules\admin\traits\ContainerAwareTrait;
+use yii\base\Module;
+use app\modules\admin\models\query\TournamentQuery;
 use yii\filters\VerbFilter;
+use app\modules\admin\events\ItemEvent;
+use yii\db\ActiveRecord;
+use app\modules\admin\events\TournamentEvent;
 
 /**
  * TournamentController implements the CRUD actions for Tournament model.
  */
 class TournamentController extends Controller
 {
+
+    use ContainerAwareTrait;
+
+    /**
+     * @var TournamentQuery
+     */
+    protected $tournamentQuery;
+
+    public function __construct($id, Module $module, TournamentQuery $tournamentQuery, array $config = [])
+    {
+        $this->tournamentQuery = $tournamentQuery;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * @inheritdoc
      */
@@ -45,15 +66,18 @@ class TournamentController extends Controller
     }
 
     /**
-     * Displays a single Tournament model.
+     * Edit the tournament details
      * @param integer $id
-     * @return mixed
      */
-    public function actionView($id)
+    public function actionEdit($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $tournament = $this->tournamentQuery->where(['id' => $id])->one();
+
+        $form = $this->make(TournamentCreateEditForm::class);
+        /** @var TournamentEvent $event */
+        $event = $this->make(TournamentEvent::class, [$tournament]);
+
+        $this->make(AjaxRequestModelValidator::class, [$tournament])->validate();
     }
 
     /**
@@ -75,31 +99,29 @@ class TournamentController extends Controller
     }
 
     /**
-     * Deletes an existing Tournament model.
+     * Deletes an existing Team model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        /** @var Tournament $tournament */
+        $tournament = $this->tournamentQuery->where(['id' => $id])->one();
 
-        return $this->redirect(['index']);
-    }
+        /** @var ItemEvent $event */
+        $event = $this->make(ItemEvent::class, [$tournament]);
 
-    /**
-     * Finds the Tournament model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Tournament the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Tournament::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        try {
+            $tournament->delete();
+            Yii::$app->session->setFlash('success', "Турнир $tournament->tournament успешно удален");
+            $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
+
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
         }
+
+        return $this->redirect(['tournament/']);
     }
+
 }

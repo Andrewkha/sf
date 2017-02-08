@@ -34,10 +34,12 @@ class Bootstrap implements BootstrapInterface
         try {
             //events
             $di->set(events\ItemEvent::class);
+            $di->set(events\TournamentEvent::class);
 
             //forms
             $di->set(forms\CountryCreateEditForm::class);
             $di->set(forms\TeamCreateEditForm::class);
+            $di->set(forms\TournamentCreateEditForm::class);
 
             // helpers
             $di->set(helpers\TournamentHelper::class);
@@ -108,6 +110,7 @@ class Bootstrap implements BootstrapInterface
             // --- forms
             'CountryCreateEditForm' => 'app\modules\admin\forms\CountryCreateEditForm',
             'TeamCreateEditForm' => 'app\modules\admin\forms\TeamCreateEditForm',
+            'TournamentCreateEditForm' => 'app\modules\admin\forms\TournamentCreateEditForm',
 
         ];
 
@@ -122,9 +125,10 @@ class Bootstrap implements BootstrapInterface
                 'CountrySearch',
                 'TournamentSearch',
             ],
-            'app\modules\admin' => [
+            'app\modules\admin\forms' => [
                 'CountryCreateEditForm',
                 'TeamCreateEditForm',
+                'TournamentCreateEditForm',
             ],
         ];
 
