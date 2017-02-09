@@ -3,6 +3,7 @@
 namespace app\modules\admin\models;
 
 use Yii;
+use app\modules\admin\resources\behaviors\fileUploadBehavior;
 
 /**
  * This is the model class for table "{{%tournament}}".
@@ -38,11 +39,21 @@ class Tournament extends \yii\db\ActiveRecord
     const STATUS_IN_PROGRESS = 1;
     const STATUS_FINISHED = 2;
 
+    const AUTOPROCESS_ENABLED = 1;
+    const AUTOPROCESS_DISABLED = 0;
+
+    const TRN_LOGO_UPLOAD_PATH = 'images/trn_logos';
+
     /** @return  bool*/
 
     public function isFinished()
     {
         return $this->status === self::STATUS_FINISHED;
+    }
+
+    public function isNotStarted()
+    {
+        return $this->status === self::STATUS_NOT_STARTED;
     }
 
     public function isRegular()
@@ -55,6 +66,16 @@ class Tournament extends \yii\db\ActiveRecord
         return $this->type === self::TYPE_PLAYOFF;
     }
 
+    public function isAutoProcess()
+    {
+        return $this->autoprocess === self::AUTOPROCESS_ENABLED ? true : false;
+    }
+
+    public function isWinnersForecastOpen()
+    {
+        return (time() < $this->winnersForecastDue);
+    }
+
     /**
      * @inheritdoc
      */
@@ -63,16 +84,33 @@ class Tournament extends \yii\db\ActiveRecord
         return '{{%tournament}}';
     }
 
+    public function behaviors() {
+
+        return [
+            'fileUpload' =>
+                [
+                    'class' => fileUploadBehavior::className(),
+                    'toAttribute' => 'logo',
+                    'imagePath' => self::TRN_LOGO_UPLOAD_PATH,
+                    'default' => 'nologo.jpeg',
+                    'prefix' => 'time',
+                ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['tournament', 'country_id'], 'required'],
-            [['country_id', 'type', 'tours', 'status', 'starts', 'autoprocess', 'winnersForecastDue'], 'integer'],
+            [['tournament', 'country_id', 'status'], 'required'],
+            [['country_id', 'type', 'tours', 'status', 'autoprocess'], 'integer'],
+            ['starts', 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'starts'],
+            ['winnersForecastDue', 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'winnersForecastDue'],
             [['tournament'], 'string', 'max' => 150],
-            [['logo', 'autoprocessURL'], 'string', 'max' => 255],
+            [['autoprocessURL'], 'string', 'max' => 255],
+            [['logo'], 'image', 'maxSize' => 1024*1024, 'tooBig' => 'Максимальный размер файла 1Мб',],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
@@ -90,9 +128,9 @@ class Tournament extends \yii\db\ActiveRecord
             'type' => 'Тип',
             'tours' => 'Количество туров',
             'status' => 'Статус',
-            'starts' => 'Начало',
+            'starts' => 'Начало турнира',
             'autoprocess' => 'Автопроцессинг',
-            'autoprocessURL' => 'Страница автопроцессинга',
+            'autoprocessURL' => 'Источник данных',
             'winnersForecastDue' => 'Окончание приема прогноза на победителей',
         ];
     }

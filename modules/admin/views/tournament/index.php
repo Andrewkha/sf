@@ -6,6 +6,7 @@ use kartik\icons\Icon;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */

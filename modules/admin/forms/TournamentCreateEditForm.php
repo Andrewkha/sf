@@ -15,7 +15,75 @@ use app\modules\admin\models\Country;
 
 class TournamentCreateEditForm extends Model
 {
+    public $tournament;
+    public $country_id;
+    public $logo;
+    public $type;
+    public $tours;
+    public $status;
+    public $starts;
+    public $autoprocess;
+    public $autoprocessURL;
+    public $winnersForecastDue;
 
+    /** @property $model Tournament|null  */
+    private $model = null;
+
+    public function __construct(Tournament $model = null, array $config = [])
+    {
+        if ($model !== null)
+            $this->model = $model;
+        parent::__construct($config);
+    }
+
+    public function init()
+    {
+        if($this->model !== null) {
+            $this->tournament = $this->model->tournament;
+            $this->country_id = $this->model->country_id;
+            $this->logo = $this->model->logo;
+            $this->type = $this->model->type;
+            $this->tours = $this->model->tours;
+            $this->status = $this->model->status;
+            $this->starts = $this->model->starts;
+            $this->autoprocess = $this->model->autoprocess;
+            $this->autoprocessURL = $this->model->autoprocessURL;
+            $this->winnersForecastDue = $this->model->winnersForecastDue;
+        }
+    }
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['tournament', 'country_id', 'status'], 'required'],
+            [['country_id', 'type', 'tours', 'status', 'starts', 'autoprocess', 'winnersForecastDue'], 'integer'],
+            [['tournament'], 'string', 'max' => 150],
+            [['logo', 'autoprocessURL'], 'string', 'max' => 255],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'tournament' => 'Турнир',
+            'country_id' => 'Страна',
+            'logo' => 'Логотип турнира',
+            'type' => 'Тип',
+            'tours' => 'Количество туров',
+            'status' => 'Статус',
+            'starts' => 'Начало',
+            'autoprocess' => 'Автопроцессинг',
+            'autoprocessURL' => 'Страница автопроцессинга',
+            'winnersForecastDue' => 'Окончание приема прогноза на победителей',
+        ];
+    }
     public static function getCountriesArray()
     {
         return ArrayHelper::map(Country::find()->orderBy(['country' => SORT_ASC])->asArray()->all(), 'id', 'country');

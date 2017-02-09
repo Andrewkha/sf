@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Tournament */
+/* @var $model app\modules\admin\forms\TournamentCreateEditForm */
 
-$this->title = 'Update Tournament: ' . $model->id;
+$this->title = 'Update Tournament: ' . $model->tournament;
 $this->params['breadcrumbs'][] = ['label' => 'Tournaments', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->tournament, 'url' => ['view', 'id' => $model->tournament]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="tournament-update">

@@ -68,16 +68,23 @@ class TournamentController extends Controller
     /**
      * Edit the tournament details
      * @param integer $id
+     * @return mixed
      */
     public function actionEdit($id)
     {
         $tournament = $this->tournamentQuery->where(['id' => $id])->one();
 
-        $form = $this->make(TournamentCreateEditForm::class);
+        /** @var TournamentCreateEditForm $form */
+        $form = $this->make(TournamentCreateEditForm::class, [$tournament]);
         /** @var TournamentEvent $event */
         $event = $this->make(TournamentEvent::class, [$tournament]);
 
-        $this->make(AjaxRequestModelValidator::class, [$tournament])->validate();
+        $this->make(AjaxRequestModelValidator::class, [$form])->validate();
+        if ($form->load(Yii::$app->request->post())) {
+
+        }
+
+        return $this->render('update', ['model' => $tournament]);
     }
 
     /**
