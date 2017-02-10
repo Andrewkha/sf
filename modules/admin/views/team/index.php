@@ -203,7 +203,7 @@ $countries = TeamCreateEditForm::getCountriesArray();
                         'class' => 'col-xs-2'
                     ],
                     'format' => 'raw',
-                    'value' => function($model) {
+                    'value' => function(\app\modules\admin\models\Team $model) {
                         return Html::img($model->fileUrl, ['height' => '50', 'width' => '50']);
                     },
                     'headerOptions' => [

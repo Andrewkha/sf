@@ -77,9 +77,16 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                     'class' => 'kv-align-center',
                 ],
                 'format' => 'raw',
+                'content' => function(Tournament $model) {
+                    return $this->render('_form.php', [
+                        'model' => $model,
+                    ]);
+                }
+                /**
                 'value' => function (Tournament $model) {
                     return Html::a($model->tournament, ['tournament/edit', 'id' => $model->id]);
                 }
+                 */
             ],
 
             [

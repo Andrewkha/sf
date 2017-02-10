@@ -5,10 +5,19 @@ use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
 use kartik\icons\Icon;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Tournament */
 
+?>
+
+<?php Modal::begin([
+    'header' => $model->tournament,
+    'toggleButton' => ['label' => $model->tournament, 'class' => 'btn btn-link'],
+    'options' => ['tabindex' => false],
+    'size' => Modal::SIZE_LARGE,
+]);
 ?>
 
 <?= DetailView::widget([
@@ -17,9 +26,6 @@ use kartik\icons\Icon;
     'panel' => [
         'heading' => Icon::show('trophy', ['class' => 'fa-lg'] , Icon::FA) . ' Редактирование турнира: ' . $model->tournament,
         'type' => DetailView::TYPE_PRIMARY,
-    ],
-    'container' => [
-        'class' => 'col-xs-7'
     ],
     'condensed' => true,
     'formOptions' => [
@@ -188,4 +194,5 @@ use kartik\icons\Icon;
     ],
 
 ]);
+Modal::end();
 ?>
