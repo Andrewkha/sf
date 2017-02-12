@@ -46,6 +46,9 @@ use yii\bootstrap\Modal;
             'columns' => [
                 [
                     'attribute' => 'tournament',
+                    'format' => 'raw',
+                    'type' => DetailView::INPUT_TEXT,
+                    'options' => ['id' => 'tournament-tournament' . '-' . $model->id],
                     'labelColOptions' => ['style' => 'width:15%'],
                     'valueColOptions' => ['style' => 'width:35%'],
                 ],
@@ -54,6 +57,7 @@ use yii\bootstrap\Modal;
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
                     'value' => TournamentHelper::getTypeFriendly($model->status),
+                    'options' => ['id' => 'tournament-status' . '-' . $model->id],
                     'widgetOptions' => [
                         'data' => \app\modules\admin\helpers\TournamentHelper::getStatusList(),
                         'pluginOptions' => ['allowClear' => true],
@@ -72,6 +76,7 @@ use yii\bootstrap\Modal;
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
                     'value' => $model->country->country,
+                    'options' => ['id' => 'tournament-country_id' . '-' . $model->id],
                     'widgetOptions' => [
                         'data' => TournamentCreateEditForm::getCountriesArray(),
                         'options' => ['placeholder' => 'Страна'],
@@ -83,6 +88,7 @@ use yii\bootstrap\Modal;
                 ],
                 [
                     'attribute' => 'tours',
+                    'options' => ['id' => 'tournament-tours' . '-' . $model->id],
                     'labelColOptions' => ['style' => 'width:20%'],
                     'valueColOptions' => ['style' => 'width:30%'],
                     'inputContainer' => ['class'=>'col-xs-4'],
@@ -94,6 +100,7 @@ use yii\bootstrap\Modal;
                 [
                     'attribute' => 'type',
                     'format' => 'raw',
+                    'options' => ['id' => 'tournament-type' . '-' . $model->id],
                     'type' => DetailView::INPUT_SWITCH,
                     'widgetOptions' => [
                         'pluginOptions' => [
@@ -106,6 +113,7 @@ use yii\bootstrap\Modal;
                 ],
                 [
                     'attribute' => 'autoprocess',
+                    'options' => ['id' => 'tournament-autoprocess' . '-' . $model->id],
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SWITCH,
                     'widgetOptions' => [
@@ -121,6 +129,7 @@ use yii\bootstrap\Modal;
         ],
         [
             'attribute' => 'autoprocessURL',
+            'options' => ['id' => 'tournament-autoprocessurl' . '-' . $model->id],
             'labelColOptions' => ['style' => 'width:15%'],
             'valueColOptions' => ['style' => 'width:85%'],
             'inputContainer' => ['class'=>'col-xs-8'],
@@ -129,6 +138,7 @@ use yii\bootstrap\Modal;
             'columns' => [
                 [
                     'attribute' => 'starts',
+                    'options' => ['id' => 'tournament-starts' . '-' . $model->id],
                     'value' => (isset($model->starts))? date('d.m.Y', $model->starts) : '',
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
@@ -149,6 +159,7 @@ use yii\bootstrap\Modal;
 
                 [
                     'attribute' => 'winnersForecastDue',
+                    'options' => ['id' => 'tournament-winnersforecastdue' . '-' . $model->id],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
                         'removeButton' => false,
@@ -172,6 +183,7 @@ use yii\bootstrap\Modal;
             'columns' => [
                 [
                     'attribute' => 'logo',
+                    'options' => ['id' => 'tournament-logo' . '-' . $model->id],
                     'format' => 'raw',
                     'language' => 'ru',
                     'type' => DetailView::INPUT_FILEINPUT,
