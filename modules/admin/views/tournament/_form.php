@@ -28,6 +28,7 @@ use yii\bootstrap\Modal;
         'type' => DetailView::TYPE_PRIMARY,
     ],
     'condensed' => true,
+    'formClass' => 'kartik\form\ActiveForm',
     'formOptions' => [
         'options' => [
             'enctype' => 'multipart/form-data'
@@ -56,12 +57,11 @@ use yii\bootstrap\Modal;
                     'attribute' => 'status',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'value' => TournamentHelper::getTypeFriendly($model->status),
                     'options' => ['id' => 'tournament-status' . '-' . $model->id],
                     'widgetOptions' => [
                         'data' => \app\modules\admin\helpers\TournamentHelper::getStatusList(),
-                        'pluginOptions' => ['allowClear' => true],
                         'options' => ['placeholder' => 'Статус'],
+                        'pluginOptions' => ['allowClear' => true],
                     ],
                     'labelColOptions' => ['style' => 'width:20%'],
                     'valueColOptions' => ['style' => 'width:30%'],
@@ -75,7 +75,6 @@ use yii\bootstrap\Modal;
                     'attribute' => 'country_id',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'value' => $model->country->country,
                     'options' => ['id' => 'tournament-country_id' . '-' . $model->id],
                     'widgetOptions' => [
                         'data' => TournamentCreateEditForm::getCountriesArray(),
@@ -129,7 +128,9 @@ use yii\bootstrap\Modal;
         ],
         [
             'attribute' => 'autoprocessURL',
+            'format' => 'raw',
             'options' => ['id' => 'tournament-autoprocessurl' . '-' . $model->id],
+            'type' => DetailView::INPUT_TEXT,
             'labelColOptions' => ['style' => 'width:15%'],
             'valueColOptions' => ['style' => 'width:85%'],
             'inputContainer' => ['class'=>'col-xs-8'],
@@ -138,8 +139,11 @@ use yii\bootstrap\Modal;
             'columns' => [
                 [
                     'attribute' => 'starts',
-                    'options' => ['id' => 'tournament-starts' . '-' . $model->id],
-                    'value' => (isset($model->starts))? date('d.m.Y', $model->starts) : '',
+                    'options' =>
+                        [
+                            'id' => 'tournament-starts' . '-' . $model->id,
+                            'value' => date('d.m.Y', $model->starts)
+                        ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
                         'removeButton' => false,
@@ -148,9 +152,6 @@ use yii\bootstrap\Modal;
                             'format' => 'dd.mm.yyyy',
                             'todayHighlight' => true,
                         ],
-                        'options' => [
-                            'value' => (isset($model->starts))? date('d.m.Y', $model->starts) : '',
-                        ]
                     ],
                     'labelColOptions' => ['style' => 'width:15%'],
                     'valueColOptions' => ['style' => 'width:35%'],
@@ -159,7 +160,10 @@ use yii\bootstrap\Modal;
 
                 [
                     'attribute' => 'winnersForecastDue',
-                    'options' => ['id' => 'tournament-winnersforecastdue' . '-' . $model->id],
+                    'options' => [
+                        'id' => 'tournament-winnersforecastdue' . '-' . $model->id,
+                        'value' => date('d.m.Y', $model->winnersForecastDue)
+                    ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
                         'removeButton' => false,
@@ -168,11 +172,7 @@ use yii\bootstrap\Modal;
                             'format' => 'dd.mm.yyyy',
                             'todayHighlight' => true,
                         ],
-                        'options' => [
-                            'value' => (isset($model->winnersForecastDue))? date('d.m.Y', $model->winnersForecastDue) : '',
-                        ]
                     ],
-                    'value' => (isset($model->winnersForecastDue))? date('d.m.Y', $model->winnersForecastDue) : '',
                     'labelColOptions' => ['style' => 'width:20%'],
                     'valueColOptions' => ['style' => 'width:30%'],
                     'inputContainer' => ['class'=>'col-xs-9'],

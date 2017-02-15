@@ -6,7 +6,6 @@ use kartik\icons\Icon;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
-use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */
@@ -77,16 +76,11 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                     'class' => 'kv-align-center',
                 ],
                 'format' => 'raw',
-                'content' => function(Tournament $model) {
+                'value' => function(Tournament $model) {
                     return $this->render('_form.php', [
                         'model' => $model,
                     ]);
                 }
-                /**
-                'value' => function (Tournament $model) {
-                    return Html::a($model->tournament, ['tournament/edit', 'id' => $model->id]);
-                }
-                 */
             ],
 
             [

@@ -106,8 +106,8 @@ class Tournament extends \yii\db\ActiveRecord
         return [
             [['tournament', 'country_id', 'status'], 'required'],
             [['country_id', 'type', 'tours', 'status', 'autoprocess'], 'integer'],
-            ['starts', 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'starts'],
-            ['winnersForecastDue', 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'winnersForecastDue'],
+            [['starts'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'starts'],
+            [['winnersForecastDue'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'winnersForecastDue'],
             [['tournament'], 'string', 'max' => 150],
             [['autoprocessURL'], 'string', 'max' => 255],
             [['logo'], 'image', 'maxSize' => 1024*1024, 'tooBig' => 'Максимальный размер файла 1Мб',],

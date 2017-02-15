@@ -58,9 +58,12 @@ class TournamentCreateEditForm extends Model
     {
         return [
             [['tournament', 'country_id', 'status'], 'required'],
-            [['country_id', 'type', 'tours', 'status', 'starts', 'autoprocess', 'winnersForecastDue'], 'integer'],
+            [['country_id', 'type', 'tours', 'status', 'autoprocess'], 'integer'],
+            [['starts'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'starts'],
+            [['winnersForecastDue'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'winnersForecastDue'],
             [['tournament'], 'string', 'max' => 150],
-            [['logo', 'autoprocessURL'], 'string', 'max' => 255],
+            [['autoprocessURL'], 'string', 'max' => 255],
+            [['logo'], 'image', 'maxSize' => 1024*1024, 'tooBig' => 'Максимальный размер файла 1Мб',],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
