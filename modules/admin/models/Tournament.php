@@ -105,12 +105,10 @@ class Tournament extends \yii\db\ActiveRecord
     {
         return [
             [['tournament', 'country_id', 'status'], 'required'],
-            [['country_id', 'type', 'tours', 'status', 'autoprocess'], 'integer'],
-            [['starts'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'starts'],
-            [['winnersForecastDue'], 'date', 'format' => 'php:d.m.Y', 'timestampAttribute' => 'winnersForecastDue'],
-      //      ['tournament', 'unique', 'message' => 'Такой турнир уже есть'],
+            [['country_id', 'type', 'tours', 'status', 'autoprocess', 'starts', 'winnersForecastDue'], 'integer'],
+            ['tournament', 'unique', 'message' => 'Такой турнир уже есть'],
             [['tournament'], 'string', 'max' => 150],
-            [['autoprocessURL'], 'string', 'max' => 255],
+            [['autoprocessURL'], 'url'],
             [['logo'], 'image', 'maxSize' => 1024*1024, 'tooBig' => 'Максимальный размер файла 1Мб',],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
@@ -129,10 +127,10 @@ class Tournament extends \yii\db\ActiveRecord
             'type' => 'Тип',
             'tours' => 'Количество туров',
             'status' => 'Статус',
-            'starts' => 'Начало турнира',
+            'startsDate' => 'Начало турнира',
             'autoprocess' => 'Автопроцессинг',
             'autoprocessURL' => 'Источник данных',
-            'winnersForecastDue' => 'Окончание приема прогноза на победителей',
+            'wFDueDate' => 'Окончание приема прогноза на победителей',
         ];
     }
 

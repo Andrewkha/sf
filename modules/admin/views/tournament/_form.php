@@ -44,8 +44,7 @@ $id = isset($model->id) ? $model-> id : '';
     'buttons2' => '{reset} {save}',
     'saveOptions' => [
         'label' => Icon::show('floppy-o', ['class' => 'fa-lg'], Icon::FA),
-        'id' => isset($model->id)? 'tournament-id-' . $model->id : NULL,
-        'name' => isset($model->id)? 'Tournament[id]' : NULL,
+        'name' => isset($model->id)? 'TournamentCreateEditForm[id]' : NULL,
         'value' => $id,
     ],
     'resetOptions' => [
@@ -151,7 +150,6 @@ $id = isset($model->id) ? $model-> id : '';
                     'options' =>
                         [
                             'id' => 'tournament-starts' . '-' . $id,
-                            'value' => isset($model->starts)? date('d.m.Y', $model->starts) : '',
                         ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
@@ -171,7 +169,6 @@ $id = isset($model->id) ? $model-> id : '';
                     'attribute' => 'winnersForecastDue',
                     'options' => [
                         'id' => 'tournament-winnersforecastdue' . '-' . $id,
-                        'value' => isset($model->winnersForecastDue) ? date('d.m.Y', $model->winnersForecastDue) : '',
                     ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [

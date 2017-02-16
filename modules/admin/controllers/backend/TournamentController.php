@@ -3,10 +3,12 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
+use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use app\modules\admin\traits\ContainerAwareTrait;
 use yii\base\Module;
@@ -59,9 +61,16 @@ class TournamentController extends Controller
         $searchModel = new TournamentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        /**
+         * @var $editModel TournamentCreateEditForm
+         * Used for editing the selected model
+         */
+        $editModel = $this->make(TournamentCreateEditForm::class);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'editModel' => $editModel,
         ]);
     }
 
@@ -72,14 +81,21 @@ class TournamentController extends Controller
 
     public function actionEdit()
     {
+        /** @var TournamentCreateEditForm $formData */
+        $formData = $this->make(TournamentCreateEditForm::class);
         /** @var Tournament $tournament*/
-        $tournament = $this->make(Tournament::class);
-        $this->make(AjaxRequestModelValidator::class, [$tournament])->validate();
+        $this->make(AjaxRequestModelValidator::class, [$formData])->validate();
 
-        if($tournament->load(Yii::$app->request->post()) && $tournament->save())
-            Yii::$app->session->setFlash('success', 'Изменения сохранены');
+        if($formData->load(Yii::$app->request->post()) && $formData->validate()) {
 
-        return $this->redirect('index');
+            if ($this->make(TournamentEditService::class,[$formData])->run()) {
+                Yii::$app->session->setFlash('success', 'Изменения сохранены');
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка изменения');
+            }
+
+            return $this->redirect(['tournament/']);
+        }
     }
 
     /**

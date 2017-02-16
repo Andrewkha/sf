@@ -10,6 +10,7 @@ use app\modules\admin\models\Tournament;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $editModel TournamentCreateEditForm */
 
 $this->title = 'Турниры';
 $this->params['breadcrumbs'][] = $this->title;
@@ -76,9 +77,10 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                     'class' => 'kv-align-center',
                 ],
                 'format' => 'raw',
-                'value' => function(Tournament $model) {
+                'value' => function(Tournament $model) use ($editModel){
+                    $editModel->assignProperties($model);
                     return $this->render('_form.php', [
-                        'model' => $model,
+                        'model' => $editModel,
                     ]);
                 }
             ],

@@ -46,6 +46,7 @@ class Bootstrap implements BootstrapInterface
 
             //services
             $di->set(services\ItemCreateService::class);
+            $di->set(services\TournamentEditService::class);
 
             // validators
             $di->set(validator\AjaxRequestModelValidator::class);
