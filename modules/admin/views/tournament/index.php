@@ -43,7 +43,6 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                 'content' => Html::a(Icon::show('plus-square', [], Icon::FA), ['#'], [
                     'type' => 'button',
                     'class' => 'btn btn-success',
-                    'onclick' => "toggle(this, 'add-form')"
                 ]),
                 'options' => [
                     'class' => 'btn-group-sm'
@@ -79,7 +78,7 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                 'format' => 'raw',
                 'value' => function(Tournament $model) use ($editModel){
                     $editModel->assignProperties($model);
-                    return $this->render('_form.php', [
+                    return $this->render('_edit.php', [
                         'model' => $editModel,
                     ]);
                 }

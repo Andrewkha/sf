@@ -8,7 +8,6 @@ use app\modules\admin\validator\AjaxRequestModelValidator;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use app\modules\admin\traits\ContainerAwareTrait;
 use yii\base\Module;
@@ -16,7 +15,7 @@ use app\modules\admin\models\query\TournamentQuery;
 use yii\filters\VerbFilter;
 use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
-use app\modules\admin\events\TournamentEvent;
+
 
 /**
  * TournamentController implements the CRUD actions for Tournament model.
