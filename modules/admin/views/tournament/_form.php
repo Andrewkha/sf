@@ -10,13 +10,18 @@ use kartik\icons\Icon;
 /* @var $model app\modules\admin\models\Tournament */
 
 /* @var $id string */
+/* @var $heading string */
+/* @var $action string */
+
 $id = isset($model->id) ? $model-> id : '';
+$heading = isset($model->id) ? ' Редактирование турнира: ' . $model->tournament : 'Создание турнира';
+$action = isset($model->id) ? 'tournament/edit' : 'tournament/create';
 ?>
 <?= DetailView::widget([
     'model' => $model,
     'mode' => DetailView::MODE_EDIT,
     'panel' => [
-        'heading' => Icon::show('trophy', ['class' => 'fa-lg'] , Icon::FA) . ' Редактирование турнира: ' . $model->tournament,
+        'heading' => Icon::show('trophy', ['class' => 'fa-lg'] , Icon::FA) . $heading,
         'type' => DetailView::TYPE_PRIMARY,
     ],
     'condensed' => true,
@@ -27,7 +32,7 @@ $id = isset($model->id) ? $model-> id : '';
         'options' => [
             'enctype' => 'multipart/form-data'
         ],
-        'action' => ['tournament/edit'],
+        'action' => [$action],
     ],
     'buttons2' => '{reset} {save}',
     'saveOptions' => [
@@ -53,10 +58,9 @@ $id = isset($model->id) ? $model-> id : '';
                     'attribute' => 'status',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'options' => ['id' => 'tournament-status' . '-' . $id],
+                    'options' => ['id' => 'tournament-status' . '-' . $id, 'placeholder' => 'Статус'],
                     'widgetOptions' => [
                         'data' => \app\modules\admin\helpers\TournamentHelper::getStatusList(),
-                        'options' => ['placeholder' => 'Статус'],
                         'pluginOptions' => ['allowClear' => true],
                     ],
                     'labelColOptions' => ['style' => 'width:20%'],
@@ -71,7 +75,7 @@ $id = isset($model->id) ? $model-> id : '';
                     'attribute' => 'country_id',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'options' => ['id' => 'tournament-country_id' . '-' . $id],
+                    'options' => ['id' => 'tournament-country_id' . '-' . $id, 'placeholder' => 'Страна'],
                     'widgetOptions' => [
                         'data' => TournamentCreateEditForm::getCountriesArray(),
                         'options' => ['placeholder' => 'Страна'],

@@ -6,6 +6,7 @@ use kartik\icons\Icon;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */
@@ -17,6 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $countries = TournamentCreateEditForm::getCountriesArray();
 ?>
 <div class="tournament-index">
+
+
+
     <div class = "row">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -40,10 +44,7 @@ $countries = TournamentCreateEditForm::getCountriesArray();
         ],
         'toolbar' => [
             [
-                'content' => Html::a(Icon::show('plus-square', [], Icon::FA), ['#'], [
-                    'type' => 'button',
-                    'class' => 'btn btn-success',
-                ]),
+                'content' => $this->render('_create', ['model' => $editModel]),
                 'options' => [
                     'class' => 'btn-group-sm'
                 ]
