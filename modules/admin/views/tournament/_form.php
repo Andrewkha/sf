@@ -10,6 +10,10 @@ use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Tournament */
 
+/* @var $id string */
+
+$id = isset($model->id) ? $model-> id : '';
+
 ?>
 
 <?php Modal::begin([
@@ -30,14 +34,19 @@ use yii\bootstrap\Modal;
     'condensed' => true,
     'formClass' => 'kartik\form\ActiveForm',
     'formOptions' => [
+        'enableAjaxValidation' => true,
+        'enableClientValidation' => false,
         'options' => [
             'enctype' => 'multipart/form-data'
         ],
-        'action' => ['tournament/update'],
+        'action' => ['tournament/edit'],
     ],
     'buttons2' => '{reset} {save}',
     'saveOptions' => [
         'label' => Icon::show('floppy-o', ['class' => 'fa-lg'], Icon::FA),
+        'id' => isset($model->id)? 'tournament-id-' . $model->id : NULL,
+        'name' => isset($model->id)? 'Tournament[id]' : NULL,
+        'value' => $id,
     ],
     'resetOptions' => [
         'label' => Icon::show('ban', ['class' => 'fa-lg'], Icon::FA),
@@ -49,7 +58,7 @@ use yii\bootstrap\Modal;
                     'attribute' => 'tournament',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_TEXT,
-                    'options' => ['id' => 'tournament-tournament' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-tournament' . '-' . $id],
                     'labelColOptions' => ['style' => 'width:15%'],
                     'valueColOptions' => ['style' => 'width:35%'],
                 ],
@@ -57,7 +66,7 @@ use yii\bootstrap\Modal;
                     'attribute' => 'status',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'options' => ['id' => 'tournament-status' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-status' . '-' . $id],
                     'widgetOptions' => [
                         'data' => \app\modules\admin\helpers\TournamentHelper::getStatusList(),
                         'options' => ['placeholder' => 'Статус'],
@@ -75,7 +84,7 @@ use yii\bootstrap\Modal;
                     'attribute' => 'country_id',
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SELECT2,
-                    'options' => ['id' => 'tournament-country_id' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-country_id' . '-' . $id],
                     'widgetOptions' => [
                         'data' => TournamentCreateEditForm::getCountriesArray(),
                         'options' => ['placeholder' => 'Страна'],
@@ -87,7 +96,7 @@ use yii\bootstrap\Modal;
                 ],
                 [
                     'attribute' => 'tours',
-                    'options' => ['id' => 'tournament-tours' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-tours' . '-' . $id],
                     'labelColOptions' => ['style' => 'width:20%'],
                     'valueColOptions' => ['style' => 'width:30%'],
                     'inputContainer' => ['class'=>'col-xs-4'],
@@ -99,7 +108,7 @@ use yii\bootstrap\Modal;
                 [
                     'attribute' => 'type',
                     'format' => 'raw',
-                    'options' => ['id' => 'tournament-type' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-type' . '-' . $id],
                     'type' => DetailView::INPUT_SWITCH,
                     'widgetOptions' => [
                         'pluginOptions' => [
@@ -112,7 +121,7 @@ use yii\bootstrap\Modal;
                 ],
                 [
                     'attribute' => 'autoprocess',
-                    'options' => ['id' => 'tournament-autoprocess' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-autoprocess' . '-' . $id],
                     'format' => 'raw',
                     'type' => DetailView::INPUT_SWITCH,
                     'widgetOptions' => [
@@ -129,7 +138,7 @@ use yii\bootstrap\Modal;
         [
             'attribute' => 'autoprocessURL',
             'format' => 'raw',
-            'options' => ['id' => 'tournament-autoprocessurl' . '-' . $model->id],
+            'options' => ['id' => 'tournament-autoprocessurl' . '-' . $id],
             'type' => DetailView::INPUT_TEXT,
             'labelColOptions' => ['style' => 'width:15%'],
             'valueColOptions' => ['style' => 'width:85%'],
@@ -141,8 +150,8 @@ use yii\bootstrap\Modal;
                     'attribute' => 'starts',
                     'options' =>
                         [
-                            'id' => 'tournament-starts' . '-' . $model->id,
-                            'value' => date('d.m.Y', $model->starts)
+                            'id' => 'tournament-starts' . '-' . $id,
+                            'value' => isset($model->starts)? date('d.m.Y', $model->starts) : '',
                         ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
@@ -161,8 +170,8 @@ use yii\bootstrap\Modal;
                 [
                     'attribute' => 'winnersForecastDue',
                     'options' => [
-                        'id' => 'tournament-winnersforecastdue' . '-' . $model->id,
-                        'value' => date('d.m.Y', $model->winnersForecastDue)
+                        'id' => 'tournament-winnersforecastdue' . '-' . $id,
+                        'value' => isset($model->winnersForecastDue) ? date('d.m.Y', $model->winnersForecastDue) : '',
                     ],
                     'type' => DetailView::INPUT_DATE,
                     'widgetOptions' => [
@@ -183,19 +192,20 @@ use yii\bootstrap\Modal;
             'columns' => [
                 [
                     'attribute' => 'logo',
-                    'options' => ['id' => 'tournament-logo' . '-' . $model->id],
+                    'options' => ['id' => 'tournament-logo' . '-' . $id, 'accept' => 'image/*'],
                     'format' => 'raw',
                     'language' => 'ru',
                     'type' => DetailView::INPUT_FILEINPUT,
                     'widgetOptions' => [
                         'pluginOptions' => [
+                            'showRemove' => false,
+                            'showUpload' => false,
                             'initialPreview' => [
                                 $model->fileUrl,
                             ],
                             'initialPreviewAsData'=>true,
                             'initialCaption' => '',
                         ],
-                        'options' => ['accept' => 'image/*'],
                     ],
                     'labelColOptions' => ['style' => 'width:15%'],
                     'valueColOptions' => ['style' => 'width:85%'],

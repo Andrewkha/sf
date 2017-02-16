@@ -14,7 +14,6 @@ use app\modules\admin\traits\ContainerAwareTrait;
 use yii\db\ActiveRecord;
 use yii\base\Exception;
 use yii\log\Logger;
-use Yii;
 
 class ItemCreateService implements ServiceInterface
 {

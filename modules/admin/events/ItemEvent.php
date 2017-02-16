@@ -14,6 +14,7 @@ use yii\base\Event;
 class ItemEvent extends Event
 {
     const EVENT_AFTER_CREATE ='afterCreate';
+    const EVENT_AFTER_UPDATE = 'afterUpdate';
 
     protected $model;
 
