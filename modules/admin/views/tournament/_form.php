@@ -13,7 +13,7 @@ use kartik\icons\Icon;
 /* @var $heading string */
 /* @var $action string */
 
-$id = isset($model->id) ? $model-> id : '';
+$id = isset($model->id) ? $model->id : 'create_form';
 $heading = isset($model->id) ? ' Редактирование турнира: ' . $model->tournament : 'Создание турнира';
 $action = isset($model->id) ? 'tournament/edit' : 'tournament/create';
 ?>

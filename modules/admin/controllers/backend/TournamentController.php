@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers\backend;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
+use app\modules\admin\services\ItemCreateService;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
@@ -104,14 +105,20 @@ class TournamentController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Tournament();
+        /** @var TournamentCreateEditForm $form*/
+        $form = $this->make(TournamentCreateEditForm::class);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $this->make(AjaxRequestModelValidator::class, [$form])->validate();
+
+        if($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $tournament = $this->make(Tournament::class, [], $form->attributes);
+
+            if ($this->make(ItemCreateService::class, [$tournament])->run()) {
+                Yii::$app->session->setFlash('success', "Турнир успешно добавлен");
+            } else {
+                Yii::$app->session->setFlash('error', 'Невозможно создать турнир. См лог файл для деталей');
+            }
+            return $this->redirect(['tournament/']);
         }
     }
 
