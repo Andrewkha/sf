@@ -6,7 +6,6 @@ use kartik\icons\Icon;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\Tournament;
-use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\TournamentSearch */
@@ -77,12 +76,29 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                     'class' => 'kv-align-center',
                 ],
                 'format' => 'raw',
-                'value' => function(Tournament $model) use ($editModel){
+                'value' => function(Tournament $model){
+                    return Html::a($model->tournament, ['tournament/details', 'id' => $model->id]);
+                }
+            ],
+
+            [
+                'header' => 'Параметры',
+                'filter' => false,
+                'mergeHeader' => true,
+                'options' => [
+                    'class' => 'col-xs-1',
+                ],
+                'format' => 'raw',
+                'value' => function($model) use ($editModel) {
                     $editModel->assignProperties($model);
                     return $this->render('_edit.php', [
                         'model' => $editModel,
                     ]);
-                }
+                },
+                'headerOptions' => [
+                    'class' => 'kv-align-center',
+                ],
+                'hAlign' => 'center'
             ],
 
             [
@@ -134,19 +150,6 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                     'pluginOptions' => ['allowClear' => true],
                 ],
                 'filterInputOptions' => ['placeholder' => 'Все'],
-            ],
-
-            [
-                'attribute' => 'tours',
-                'filter' => false,
-                'mergeHeader' => true,
-                'options' => [
-                    'class' => 'col-xs-1',
-                ],
-                'headerOptions' => [
-                    'class' => 'kv-align-center',
-                ],
-                'hAlign' => 'center'
             ],
 
             [

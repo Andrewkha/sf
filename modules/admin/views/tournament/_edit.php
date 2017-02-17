@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\Modal;
+use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Tournament */
@@ -9,7 +10,7 @@ use yii\bootstrap\Modal;
 
 <?php Modal::begin([
     'header' => $model->tournament,
-    'toggleButton' => ['label' => $model->tournament, 'class' => 'btn btn-link'],
+    'toggleButton' => ['label' => Icon::show('tasks', [], Icon::FA), 'class' => 'btn btn-link'],
     'options' => ['tabindex' => false],
     'size' => Modal::SIZE_LARGE,
 ]);

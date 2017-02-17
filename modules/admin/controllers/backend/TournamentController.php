@@ -148,4 +148,11 @@ class TournamentController extends Controller
         return $this->redirect(['tournament/']);
     }
 
+    public function actionDetails($id)
+    {
+        /** @var Tournament $tournament */
+        $tournament = $this->tournamentQuery->where(['id' => $id])->one();
+
+        return $this->render('details', ['model' => $tournament]);
+    }
 }

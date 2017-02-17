@@ -58,7 +58,7 @@ class Bootstrap implements BootstrapInterface
                 $model = is_array($definition) ? $definition['class'] : $definition;
                 $name = (substr($class, strrpos($class, '\\') + 1));
                 $modelClassMap[$class] = $model;
-                if (in_array($name, ['Country', 'Team', 'Tournament'])) {
+                if (in_array($name, ['Country', 'Team', 'Tournament', 'Game', 'TeamTournament'])) {
                     $di->set(
                         "app\\modules\\admin\\models\\query\\{$name}Query",
                         function () use ($model) {
@@ -102,6 +102,8 @@ class Bootstrap implements BootstrapInterface
             'Country' => 'app\modules\admin\models\Country',
             'Team' => 'app\modules\admin\models\Team',
             'Tournament' => 'app\modules\admin\models\Tournament',
+            'TeamTournament' => 'app\modules\admin\models\TeamTournament',
+            'Game' => 'app\modules\admin\models\Game',
 
             // --- search
             'CountrySearch' => 'app\modules\admin\models\search\CountrySearch',
@@ -120,6 +122,8 @@ class Bootstrap implements BootstrapInterface
                 'Country',
                 'Team',
                 'Tournament',
+                'TeamTournament',
+                'Game',
             ],
             'app\modules\admin\models\search' => [
                 'TeamSearch',
