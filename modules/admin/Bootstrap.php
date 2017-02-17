@@ -32,6 +32,9 @@ class Bootstrap implements BootstrapInterface
         $di = Yii::$container;
 
         try {
+            //calculator
+            $di->set(resources\gameCalculator\GamePointsCalculator::class);
+
             //events
             $di->set(events\ItemEvent::class);
             $di->set(events\TournamentEvent::class);
@@ -58,7 +61,7 @@ class Bootstrap implements BootstrapInterface
                 $model = is_array($definition) ? $definition['class'] : $definition;
                 $name = (substr($class, strrpos($class, '\\') + 1));
                 $modelClassMap[$class] = $model;
-                if (in_array($name, ['Country', 'Team', 'Tournament', 'Game', 'TeamTournament'])) {
+                if (in_array($name, ['Country', 'Team', 'Tournament', 'Game', 'TeamTournament', 'Forecast'])) {
                     $di->set(
                         "app\\modules\\admin\\models\\query\\{$name}Query",
                         function () use ($model) {
@@ -104,6 +107,7 @@ class Bootstrap implements BootstrapInterface
             'Tournament' => 'app\modules\admin\models\Tournament',
             'TeamTournament' => 'app\modules\admin\models\TeamTournament',
             'Game' => 'app\modules\admin\models\Game',
+            'Game' => 'app\modules\admin\models\Forecast',
 
             // --- search
             'CountrySearch' => 'app\modules\admin\models\search\CountrySearch',
@@ -124,6 +128,7 @@ class Bootstrap implements BootstrapInterface
                 'Tournament',
                 'TeamTournament',
                 'Game',
+                'Forecast',
             ],
             'app\modules\admin\models\search' => [
                 'TeamSearch',

@@ -30,6 +30,11 @@ class Game extends \yii\db\ActiveRecord
     protected $pointsHome = NULL;
     protected $pointsGuest = NULL;
 
+    public function isFinished()
+    {
+        return ($this->scoreHome !== NULL && $this->scoreGuest !== NULL);
+    }
+
     /**
      * @inheritdoc
      */

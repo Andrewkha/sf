@@ -6,11 +6,18 @@
  * Time: 12:30 PM
  */
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Tournament */
+use app\modules\admin\widgets\TournamentParticipants;
 
-$this->title = $model->tournament;
+/* @var $this yii\web\View */
+/* @var $tournament app\modules\admin\models\Tournament */
+/* @var $content string */
+
+$this->title = $tournament->tournament;
 $this->params['breadcrumbs'][] = ['label' => 'Турниры', 'url' => ['tournament/']];;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
+<?php if ($tournament->isNotStarted()) :?>
+    <?= TournamentParticipants::widget(['tournament' => $tournament]);?>
+<?php endif; ?>
