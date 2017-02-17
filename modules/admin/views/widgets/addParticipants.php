@@ -21,7 +21,10 @@ use kartik\select2\Select2;
         <?= Select2::widget([
             'name' => 'candidates',
             'data' => ArrayHelper::map($candidates, 'id', 'team', 'country.country'),
-            'options' => ['placeholder' => 'Добавьте в турнир участников', 'multiple' => true]
+            'options' => ['placeholder' => 'Добавьте в турнир участников', 'multiple' => true],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ]
         ]);?>
     </div>
 <?php ActiveForm::end();?>
