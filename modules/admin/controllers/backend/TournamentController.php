@@ -83,7 +83,7 @@ class TournamentController extends Controller
     {
         /** @var TournamentCreateEditForm $formData */
         $formData = $this->make(TournamentCreateEditForm::class);
-        /** @var Tournament $tournament*/
+
         $this->make(AjaxRequestModelValidator::class, [$formData])->validate();
 
         if($formData->load(Yii::$app->request->post()) && $formData->validate()) {
@@ -93,7 +93,6 @@ class TournamentController extends Controller
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка изменения');
             }
-
             return $this->redirect(['tournament/']);
         }
     }

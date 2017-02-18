@@ -182,7 +182,6 @@ $action = isset($model->id) ? 'tournament/edit' : 'tournament/create';
                 [
                     'attribute' => 'logo',
                     'options' => ['id' => 'tournament-logo' . '-' . $id, 'accept' => 'image/*'],
-                    'format' => 'raw',
                     'language' => 'ru',
                     'type' => DetailView::INPUT_FILEINPUT,
                     'widgetOptions' => [
@@ -193,7 +192,6 @@ $action = isset($model->id) ? 'tournament/edit' : 'tournament/create';
                                 $model->fileUrl,
                             ],
                             'initialPreviewAsData'=>true,
-                            'initialCaption' => '',
                         ],
                     ],
                     'labelColOptions' => ['style' => 'width:15%'],

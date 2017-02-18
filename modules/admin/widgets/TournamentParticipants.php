@@ -8,8 +8,8 @@
 
 namespace app\modules\admin\widgets;
 
-
 use app\modules\admin\models\query\TeamQuery;
+use app\modules\admin\models\Country;
 use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\Tournament;
 use kartik\base\Widget;
@@ -46,11 +46,16 @@ class TournamentParticipants extends Widget
 
     protected function getCandidates()
     {
-        $this->candidates = $this->teamQuery
-            ->whereCountry($this->tournament->country_id)
+        $query = $this->teamQuery
             ->andWhere(['not in', 'id', ArrayHelper::getColumn($this->participants, 'team_id')])
-            ->orderBy(['team' => SORT_ASC])
-            ->all();
+            ->orderBy(['team' => SORT_ASC]);
+
+        if ($this->tournament->country->country === Country::INTERNATIONAL)
+            $this->candidates = $query->all();
+        else
+            $this->candidates = $query
+                ->whereCountry($this->tournament->country_id)
+                ->all();
     }
 
     protected function getParticipants()

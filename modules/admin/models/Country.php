@@ -15,6 +15,7 @@ use app\modules\admin\models\query\CountryQuery;
  */
 class Country extends \yii\db\ActiveRecord
 {
+    const INTERNATIONAL = 'Международный';
 
     /**
      * @inheritdoc

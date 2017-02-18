@@ -75,6 +75,7 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                 'headerOptions' => [
                     'class' => 'kv-align-center',
                 ],
+                'vAlign' => 'middle',
                 'format' => 'raw',
                 'value' => function(Tournament $model){
                     return Html::a($model->tournament, ['tournament/details', 'id' => $model->id]);

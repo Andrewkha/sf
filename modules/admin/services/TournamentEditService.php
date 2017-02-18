@@ -55,7 +55,6 @@ class TournamentEditService implements ServiceInterface
         try {
             if(!$tournament->save()) {
                 $transaction->rollBack();
-
                 return false;
             }
 
