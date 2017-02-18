@@ -27,8 +27,6 @@ $action = isset($model->id) ? 'tournament/edit' : 'tournament/create';
     'condensed' => true,
     'formClass' => 'kartik\form\ActiveForm',
     'formOptions' => [
-        'enableAjaxValidation' => true,
-        'enableClientValidation' => false,
         'options' => [
             'enctype' => 'multipart/form-data'
         ],
