@@ -50,6 +50,7 @@ class Bootstrap implements BootstrapInterface
             //services
             $di->set(services\ItemCreateService::class);
             $di->set(services\TournamentEditService::class);
+            $di->set(services\AddParticipantService::class);
 
             // validators
             $di->set(validator\AjaxRequestModelValidator::class);
@@ -107,7 +108,7 @@ class Bootstrap implements BootstrapInterface
             'Tournament' => 'app\modules\admin\models\Tournament',
             'TeamTournament' => 'app\modules\admin\models\TeamTournament',
             'Game' => 'app\modules\admin\models\Game',
-            'Game' => 'app\modules\admin\models\Forecast',
+            'Forecast' => 'app\modules\admin\models\Forecast',
 
             // --- search
             'CountrySearch' => 'app\modules\admin\models\search\CountrySearch',

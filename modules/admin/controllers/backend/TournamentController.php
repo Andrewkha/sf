@@ -3,12 +3,14 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
+use app\modules\admin\services\AddParticipantService;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use app\modules\admin\services\ItemCreateService;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
+use yii\base\Exception;
 use yii\web\Controller;
 use app\modules\admin\traits\ContainerAwareTrait;
 use yii\base\Module;
@@ -160,5 +162,15 @@ class TournamentController extends Controller
     {
         $post = Yii::$app->request->post();
 
+        try {
+            if ($this->make(AddParticipantService::class, [$id, $post['candidates']])->run())
+                Yii::$app->session->setFlash('success', 'Участники успешно добавлены');
+            else
+                Yii::$app->session->setFlash('error', 'Что-то пошло не так');
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(['tournament/details', 'id' => $id]);
     }
 }

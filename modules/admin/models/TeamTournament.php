@@ -33,6 +33,7 @@ class TeamTournament extends \yii\db\ActiveRecord
             [['team_id', 'tournament_id'], 'required'],
             [['team_id', 'tournament_id'], 'integer'],
             [['alias'], 'string', 'max' => 255],
+            ['team_id', 'unique', 'targetAttribute' => ['team_id', 'tournament_id']],
             [['team_id'], 'exist', 'skipOnError' => true, 'targetClass' => Team::className(), 'targetAttribute' => ['team_id' => 'id']],
             [['tournament_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tournament::className(), 'targetAttribute' => ['tournament_id' => 'id']],
         ];
