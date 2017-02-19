@@ -27,13 +27,11 @@ class TournamentEditService implements ServiceInterface
 
     protected $form;
     protected $tournament;
-    protected $tournamentQuery;
     protected $logger;
 
-    public function __construct(TournamentCreateEditForm $form, Tournament $tournament, TournamentQuery $tournamentQuery, Logger $logger)
+    public function __construct(TournamentCreateEditForm $form, Tournament $tournament, Logger $logger)
     {
           $this->form = $form;
-          $this->tournamentQuery = $tournamentQuery;
           $this->tournament = $tournament;
           $this->logger = $logger;
     }

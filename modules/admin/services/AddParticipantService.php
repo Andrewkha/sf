@@ -14,20 +14,17 @@ use app\modules\admin\models\query\TournamentQuery;
 use app\modules\admin\models\Tournament;
 use yii\base\Exception;
 use yii\log\Logger;
-use yii\web\NotFoundHttpException;
 
 class AddParticipantService implements ServiceInterface
 {
     protected $logger;
     protected $tournament;
-    protected $tournamentQuery;
     protected $teamQuery;
     protected $teams;
 
-    public function __construct(Tournament $tournament, $participants, TeamQuery $teamQuery, TournamentQuery $tournamentQuery, Logger $logger)
+    public function __construct(Tournament $tournament, $participants, TeamQuery $teamQuery, Logger $logger)
     {
         $this->logger = $logger;
-        $this->tournamentQuery = $tournamentQuery;
         $this->teamQuery = $teamQuery;
         $this->teams = $this->teamQuery->andWhere(['in', 'id',$participants])->all();
         $this->tournament = $tournament;
