@@ -26,13 +26,15 @@ class TournamentEditService implements ServiceInterface
     use ContainerAwareTrait;
 
     protected $form;
+    protected $tournament;
     protected $tournamentQuery;
     protected $logger;
 
-    public function __construct(TournamentCreateEditForm $form, TournamentQuery $tournamentQuery, Logger $logger)
+    public function __construct(TournamentCreateEditForm $form, Tournament $tournament, TournamentQuery $tournamentQuery, Logger $logger)
     {
           $this->form = $form;
           $this->tournamentQuery = $tournamentQuery;
+          $this->tournament = $tournament;
           $this->logger = $logger;
     }
     /**
@@ -42,7 +44,7 @@ class TournamentEditService implements ServiceInterface
     {
         $model = $this->form;
         /** @var Tournament $tournament */
-        $tournament = $this->tournamentQuery->where(['id' => $model->id])->one();
+        $tournament = $this->tournament;
 
         foreach ($model->getAttributes() as $attribute => $value) {
             if ($attribute !== 'id') {

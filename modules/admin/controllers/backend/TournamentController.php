@@ -18,6 +18,7 @@ use app\modules\admin\models\query\TournamentQuery;
 use yii\filters\VerbFilter;
 use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -90,7 +91,13 @@ class TournamentController extends Controller
 
         if($formData->load(Yii::$app->request->post()) && $formData->validate()) {
 
-            if ($this->make(TournamentEditService::class,[$formData])->run()) {
+            try {
+                $tournament = $this->findModel($formData->id);
+            } catch (Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+                return $this->redirect(['tournament/']);
+            }
+            if ($this->make(TournamentEditService::class,[$formData, $tournament])->run()) {
                 Yii::$app->session->setFlash('success', 'Изменения сохранены');
             } else {
                 Yii::$app->session->setFlash('error', 'Ошибка изменения');
@@ -131,13 +138,12 @@ class TournamentController extends Controller
      */
     public function actionDelete($id)
     {
-        /** @var Tournament $tournament */
-        $tournament = $this->tournamentQuery->where(['id' => $id])->one();
-
-        /** @var ItemEvent $event */
-        $event = $this->make(ItemEvent::class, [$tournament]);
-
         try {
+            /** @var Tournament $tournament */
+            $tournament = $this->tournamentQuery->where(['id' => $id])->one();
+
+            /** @var ItemEvent $event */
+            $event = $this->make(ItemEvent::class, [$tournament]);
             $tournament->delete();
             Yii::$app->session->setFlash('success', "Турнир $tournament->tournament успешно удален");
             $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
@@ -152,8 +158,12 @@ class TournamentController extends Controller
 
     public function actionDetails($id)
     {
-        $tournament = $this->tournamentQuery->where(['id' => $id])->one();
-
+        try {
+            $tournament = $this->findModel($id);
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['tournament/']);
+        }
         return $this->render('details', ['tournament' => $tournament]);
     }
 
@@ -163,7 +173,8 @@ class TournamentController extends Controller
         $post = Yii::$app->request->post();
 
         try {
-            if ($this->make(AddParticipantService::class, [$id, $post['candidates']])->run())
+            $tournament = $this->findModel($id);
+            if ($this->make(AddParticipantService::class, [$tournament, $post['candidates']])->run())
                 Yii::$app->session->setFlash('success', 'Участники успешно добавлены');
             else
                 Yii::$app->session->setFlash('error', 'Что-то пошло не так');
@@ -172,5 +183,14 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/details', 'id' => $id]);
+    }
+
+    protected function findModel($id)
+    {
+        if ($model = $this->tournamentQuery->where(['id' => $id])->one()) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('Такого турнира нет');
+        }
     }
 }
