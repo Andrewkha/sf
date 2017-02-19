@@ -155,14 +155,10 @@ class TournamentController extends Controller
         return $this->render('details', ['tournament' => $tournament]);
     }
 
-    /**
-     * Add tournament participants
-     * @param $id
-     * @return string
-     */
 
     public function actionAddParticipants($id)
     {
+        $post = Yii::$app->request->post();
 
     }
 }

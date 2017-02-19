@@ -41,7 +41,7 @@ class TournamentParticipants extends Widget
         $this->getParticipants();
         $this->getCandidates();
 
-        return $this->render('/widgets/addParticipants', ['candidates' => $this->candidates]);
+        return $this->render('/widgets/addParticipants', ['candidates' => $this->candidates, 'tournament' => $this->tournament]);
     }
 
     protected function getCandidates()
