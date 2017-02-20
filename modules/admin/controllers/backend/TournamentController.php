@@ -3,6 +3,8 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
+use app\modules\admin\models\query\TeamTournamentQuery;
+use app\modules\admin\models\TeamTournament;
 use app\modules\admin\services\AddParticipantService;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
@@ -183,6 +185,33 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/details', 'id' => $id]);
+    }
+
+    /**
+     * Assigns the autoprocess aliases to the teams for the tournament
+     * @param $id integer is a Tournament id
+     * @return mixed
+    */
+
+    public function actionAlias($id)
+    {
+        try {
+            /** @var Tournament $tournament */
+            $tournament = $this->findModel($id);
+            $models = $tournament->getTeamTournaments()->with('team')->all();
+
+            if (!empty($models))
+            /** @var TeamTournament $item */
+                foreach ($models as &$item)
+                    $item->setScenario(TeamTournament::SCENARIO_ALIAS_ASSIGN);
+            else
+                throw new Exception('Сначала добавьте участников');
+
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['tournament/details', 'id' => $id]);
+        }
+        return $this->render('alias', ['tournament' => $tournament, 'models' => $models]);
     }
 
     protected function findModel($id)

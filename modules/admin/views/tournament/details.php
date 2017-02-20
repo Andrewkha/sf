@@ -7,17 +7,20 @@
  */
 
 use app\modules\admin\widgets\TournamentParticipants;
+use kartik\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $tournament app\modules\admin\models\Tournament */
-/* @var $content string */
 
 $this->title = $tournament->tournament;
 $this->params['breadcrumbs'][] = ['label' => 'Турниры', 'url' => ['tournament/']];;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+<div class = "row">
+    <?php if ($tournament->isNotStarted()) :?>
+        <?= TournamentParticipants::widget(['tournament' => $tournament]);?>
+    <?php endif; ?>
+</div>
 
-<?php if ($tournament->isNotStarted()) :?>
-    <?= TournamentParticipants::widget(['tournament' => $tournament]);?>
-<?php endif; ?>
+<?= Html::a('Назначить псевдонимы автопроцессинга', ['tournament/alias', 'id' => $tournament->id]);?>
