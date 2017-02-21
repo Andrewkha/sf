@@ -9,6 +9,7 @@
 namespace app\modules\admin\services;
 
 use app\modules\admin\contracts\ServiceInterface;
+use app\modules\admin\events\TournamentEvent;
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\models\query\TournamentQuery;
 use app\modules\admin\models\Tournament;
@@ -52,6 +53,8 @@ class TournamentEditService implements ServiceInterface
 
         $transaction = $tournament->getDb()->beginTransaction();
 
+        $flag = $tournament->isSetToFinished();
+
         try {
             if(!$tournament->save()) {
                 $transaction->rollBack();
@@ -60,6 +63,9 @@ class TournamentEditService implements ServiceInterface
 
             $tournament->trigger(ItemEvent::EVENT_AFTER_UPDATE, $this->make(ItemEvent::class, [$tournament]));
             $transaction->commit();
+            if ($flag) {
+                $tournament->trigger(TournamentEvent::EVENT_TOURNAMENT_FINISHED, $this->make(TournamentEvent::class, [$tournament]));
+            }
 
             return true;
         } catch (Exception $e) {

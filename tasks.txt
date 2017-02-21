@@ -2,6 +2,7 @@ Validate all the links - menu
 Login/logout в зависимости от статуса текущего юзера
 Position AlertBlock
 
-JS - убрать/показать форму http://javascript.ru/forum/misc/2238-pri-klike-ssylki-otkryt-div-blok-i-pri-klike-eshhjo-raz-zakryt-ego.html
+Events:
 
-Получение списка игр для команды - модель Team посмотреть связи
+    Добавлен новый турнир - разослать письма
+    Турнир закончен - разослать письма - trigger этот event в сервисе редактирования турнира

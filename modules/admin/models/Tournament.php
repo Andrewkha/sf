@@ -48,32 +48,37 @@ class Tournament extends \yii\db\ActiveRecord
 
     public function isFinished()
     {
-        return $this->status === self::STATUS_FINISHED;
+        return $this->status == self::STATUS_FINISHED;
     }
 
     public function isNotStarted()
     {
-        return $this->status === self::STATUS_NOT_STARTED;
+        return $this->status == self::STATUS_NOT_STARTED;
     }
 
     public function isRegular()
     {
-        return $this->type === self::TYPE_REGULAR;
+        return $this->type == self::TYPE_REGULAR;
     }
 
     public function isPlayoff()
     {
-        return $this->type === self::TYPE_PLAYOFF;
+        return $this->type == self::TYPE_PLAYOFF;
     }
 
     public function isAutoProcess()
     {
-        return $this->autoprocess === self::AUTOPROCESS_ENABLED ? true : false;
+        return $this->autoprocess == self::AUTOPROCESS_ENABLED ? true : false;
     }
 
     public function isWinnersForecastOpen()
     {
         return (time() < $this->winnersForecastDue);
+    }
+
+    public function isSetToFinished()
+    {
+        return ($this->getOldAttribute('status') !== self::STATUS_FINISHED && $this->isFinished());
     }
 
     /**
