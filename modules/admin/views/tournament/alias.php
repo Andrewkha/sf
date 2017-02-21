@@ -7,6 +7,7 @@
  */
 
 use kartik\form\ActiveForm;
+use kartik\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $tournament app\modules\admin\models\Tournament */
@@ -18,16 +19,24 @@ $this->params['breadcrumbs'][] = ['label' => $tournament->tournament, 'url' => [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php $form = ActiveForm::begin([
+    'type' => ActiveForm::TYPE_VERTICAL,
+]); ?>
 <div class = "row">
-    <?php $form = ActiveForm::begin([
-        'type' => ActiveForm::TYPE_VERTICAL,
-        'enableAjaxValidation' => true,
-        'enableClientValidation' => false,
-    ]); ?>
-        <div class = "form-group">
-            <?php foreach ($models as $model) :?>
-                <?= $form->field($model, 'alias')->textInput(['placeholder' => 'Псевдоним ' . $model->team->team]); ?>
-            <?php endforeach; ?>
+    <div class = "form-group">
+        <?php foreach ($models as $index => $model) :?>
+            <div class = "col-xs-10 col-sm-8 col-md-6 col-lg-4 col-lg-offset-1">
+                <?= $form->field($model, "[$index]alias", ['showLabels' => false])->textInput(['placeholder' => 'Псевдоним ' . $model->team->team]); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class = "form-group">
+        <div class = "col-xs-12 col-lg-offset-1">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']);?>
+            <?= Html::a('Отмена', ['tournament/details', 'id' => $tournament->id], ['class' => 'btn btn-default']) ?>
         </div>
-    <?php ActiveForm::end();?>
+    </div>
 </div>
+<?php ActiveForm::end();?>
+

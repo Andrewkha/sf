@@ -3,7 +3,6 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
-use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\TeamTournament;
 use app\modules\admin\services\AddParticipantService;
 use app\modules\admin\services\TournamentEditService;
@@ -198,7 +197,7 @@ class TournamentController extends Controller
         try {
             /** @var Tournament $tournament */
             $tournament = $this->findModel($id);
-            $models = $tournament->getTeamTournaments()->with('team')->all();
+            $models = $tournament->getTeamTournaments()->with('team')->indexBy('id')->all();
 
             if (!empty($models))
             /** @var TeamTournament $item */
@@ -206,6 +205,14 @@ class TournamentController extends Controller
                     $item->setScenario(TeamTournament::SCENARIO_ALIAS_ASSIGN);
             else
                 throw new Exception('Сначала добавьте участников');
+
+            if (TeamTournament::loadMultiple($models, Yii::$app->request->post())) {
+                foreach ($models as $model) {
+                    $model->save(false);
+                }
+                Yii::$app->session->setFlash('success','Псевдонимы успешно добавлены');
+                return $this->redirect(['tournament/details', 'id' => $tournament->id]);
+            }
 
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
