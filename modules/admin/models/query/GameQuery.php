@@ -24,4 +24,9 @@ class GameQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['tournament_id' => $tournament]);
     }
+
+    public function finishedGames()
+    {
+        return $this->with(['teamHome', 'teamGuest'])->andWhere(['not', ['scoreHome' => null]])->andWhere(['not', ['scoreGuest' => null]]);
+    }
 }

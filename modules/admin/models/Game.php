@@ -44,7 +44,7 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPointsGuest()
     {
@@ -52,15 +52,15 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param int $pointsGuest
+     * @param int|null $pointsGuest
      */
-    public function setPointsGuest(int $pointsGuest)
+    public function setPointsGuest($pointsGuest)
     {
         $this->pointsGuest = $pointsGuest;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPointsHome()
     {
@@ -68,7 +68,7 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param null $pointsHome
+     * @param int|null $pointsHome
      */
     public function setPointsHome($pointsHome)
     {

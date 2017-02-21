@@ -35,6 +35,9 @@ class Bootstrap implements BootstrapInterface
             //calculator
             $di->set(resources\gameCalculator\GamePointsCalculator::class);
 
+            //dto
+            $di->set(widgets\dto\StandingsItem::class);
+
             //events
             $di->set(events\ItemEvent::class);
             $di->set(events\TournamentEvent::class);

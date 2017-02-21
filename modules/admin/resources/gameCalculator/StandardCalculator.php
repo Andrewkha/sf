@@ -22,25 +22,25 @@ class StandardCalculator implements GamePointCalculatorInterface
         if ($game->scoreHome === NULL || $game->scoreGuest === NULL) {
             $game->setPointsHome(NULL);
             $game->setPointsGuest(NULL);
-            return;
+            return $game;
         }
 
         if ($game->scoreHome > $game->scoreGuest) {
             $game->setPointsHome(self::RESULT_WIN);
             $game->setPointsGuest(self::RESULT_LOSE);
-            return;
+            return $game;
         }
 
         if ($game->scoreHome === $game->scoreGuest) {
             $game->setPointsHome(self::RESULT_DRAW);
             $game->setPointsGuest(self::RESULT_DRAW);
-            return;
+            return $game;
         }
 
         $game->setPointsHome(self::RESULT_LOSE);
-        $game->setPointsGuest(self::RESULT_LOSE);
+        $game->setPointsGuest(self::RESULT_WIN);
 
-        return;
+        return $game;
     }
 
 }

@@ -8,6 +8,7 @@
 
 use app\modules\admin\widgets\TournamentParticipants;
 use kartik\helpers\Html;
+use app\modules\admin\widgets\TournamentStandings;
 
 /* @var $this yii\web\View */
 /* @var $tournament app\modules\admin\models\Tournament */
@@ -22,5 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= TournamentParticipants::widget(['tournament' => $tournament]);?>
     <?php endif; ?>
 </div>
+<div class = "row">
+    <div class = "well col-xs-4 h4">
+        <?= Html::a('Назначить псевдонимы автопроцессинга', ['tournament/alias', 'id' => $tournament->id]);?>
+    </div>
+</div>
 
-<?= Html::a('Назначить псевдонимы автопроцессинга', ['tournament/alias', 'id' => $tournament->id]);?>
+<div class = "row">
+    <?= TournamentStandings::widget(['tournament' => $tournament]);?>
+</div>

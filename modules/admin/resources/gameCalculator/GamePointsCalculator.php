@@ -60,6 +60,6 @@ class GamePointsCalculator
             $this->setGamePoints($game);
         }
 
-        return;
+        return $games;
     }
 }
