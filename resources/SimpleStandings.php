@@ -9,6 +9,7 @@
 namespace app\resources;
 
 use app\modules\admin\models\Team;
+use app\modules\admin\models\Tournament;
 use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\modules\admin\models\Game;
 use app\resources\dto\StandingsItem;
@@ -26,9 +27,13 @@ class SimpleStandings implements StandingsInterface
 
     use ContainerAwareTrait;
 
-    public function getStandings(GamePointsCalculator $calculator, $participants, $games)
+    public function getStandings(Tournament $tournament)
     {
         $items = [];
+
+        $games = $tournament->getGames()->finishedGames()->all();
+        $participants = $tournament->getTeams()->all();
+        $calculator = $this->make(GamePointsCalculator::class, [$tournament]);
 
         foreach ($participants as $team) {
             $gamesPlayed = 0;

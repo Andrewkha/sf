@@ -9,7 +9,6 @@
 namespace app\modules\admin\widgets;
 
 use app\modules\admin\models\Tournament;
-use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\resources\StandingsInterface;
 use app\traits\ContainerAwareTrait;
 use kartik\base\Widget;
@@ -33,11 +32,7 @@ class TournamentStandings extends Widget
     {
         /** @var Tournament $tournament */
         $tournament = $this->tournament;
-        $games = $tournament->getGames()->finishedGames()->all();
-        $participants = $tournament->getTeams()->all();
-        $calculator = $this->make(GamePointsCalculator::class, [$this->tournament]);
-
-        $items = $this->make(StandingsInterface::class)->getStandings($calculator, $participants, $games);
+        $items = $this->make(StandingsInterface::class)->getStandings($tournament);
 
         $models = new ArrayDataProvider([
             'allModels' => $items,

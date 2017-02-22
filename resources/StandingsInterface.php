@@ -8,10 +8,9 @@
 
 namespace app\resources;
 
-
-use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
+use app\modules\admin\models\Tournament;
 
 interface StandingsInterface
 {
-    public function getStandings(GamePointsCalculator $calculator, $participants, $games);
+    public function getStandings(Tournament $tournament);
 }

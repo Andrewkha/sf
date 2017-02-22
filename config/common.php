@@ -16,7 +16,6 @@ return [
     'name' => 'Сайт спортивных прогнозов',
     'bootstrap' => [
         'log',
-        'app\modules\admin\Bootstrap',
         'app\Bootstrap'
     ],
     'basePath' => dirname(__DIR__),
