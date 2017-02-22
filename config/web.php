@@ -10,7 +10,21 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'layout' => '@app/modules/admin/views/layouts/admin',
-            'controllerNamespace' => 'app\modules\admin\controllers\backend'
+            'controllerNamespace' => 'app\modules\admin\controllers\backend',
+            'modules' => [
+                'user' => [
+                    'class' => 'app\modules\user\Module',
+                    'controllerNamespace' => 'app\modules\user\controllers\backend',
+                    'viewPath' => '@app/modules/user/views/backend',
+                ],
+            ],
+        ],
+
+        'user' => [
+            'class' => 'app\modules\user\Module',
+            'layout' => '@app/modules/user/views/layouts/user',
+            'controllerNamespace' => 'app\modules\user\controllers\frontend',
+            'viewPath' => '@app/modules/user/views/frontend',
         ]
     ],
     'aliases' => [

@@ -9,26 +9,13 @@ namespace app\modules\admin\models\query;
  */
 class ForecastQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public function whereGame($game_id)
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Forecast[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
+        return $this->andWhere(['game_id' => $game_id]);
     }
 
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Forecast|array|null
-     */
-    public function one($db = null)
+    public function whereUser($user_id)
     {
-        return parent::one($db);
+        return $this->andWhere(['user_id' => $user_id]);
     }
 }

@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\models\TeamTournament;
+use app\modules\admin\models\Team;
 use app\modules\admin\services\AddParticipantService;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
@@ -195,7 +196,7 @@ class TournamentController extends Controller
             $tournament = $this->findModel($tournament);
             /** @var Team $team */
             $team = $tournament->getTeams()->andWhere(['id' => $id])->one();
-            $tournament->unlink('teams', $team);
+            $tournament->unlink('teams', $team, true);
             Yii::$app->session->setFlash('success', "Команда $team->team удалена из турнира $tournament->tournament");
 
         } catch (Exception $e) {

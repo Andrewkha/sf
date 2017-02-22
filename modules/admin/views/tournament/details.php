@@ -9,6 +9,7 @@
 use app\modules\admin\widgets\TournamentParticipants;
 use kartik\helpers\Html;
 use app\modules\admin\widgets\TournamentStandings;
+use app\modules\admin\widgets\TournamentForecasters;
 
 /* @var $this yii\web\View */
 /* @var $tournament app\modules\admin\models\Tournament */
@@ -31,4 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class = "row">
     <?= TournamentStandings::widget(['tournament' => $tournament]);?>
+</div>
+
+<div class = "row">
+    <div class = "well col-xs-4 h4">
+        <?= 'Все прогнозисты турнира';?>
+    </div>
+</div>
+<div class = "row">
+    <?= TournamentForecasters::widget(['tournament' => $tournament]);?>
 </div>

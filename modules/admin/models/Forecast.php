@@ -3,6 +3,7 @@
 namespace app\modules\admin\models;
 
 use Yii;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%forecast}}".
@@ -11,6 +12,7 @@ use Yii;
  * @property integer $game_id
  * @property integer $fscoreHome
  * @property integer $fscoreGuest
+ * @property integer|null $forecastPoints
  * @property integer $date
  *
  * @property Game $game
@@ -18,6 +20,17 @@ use Yii;
  */
 class Forecast extends \yii\db\ActiveRecord
 {
+    protected $forecastPoints = NULL;
+
+    public function getForecastPoints()
+    {
+        return $this->forecastPoints;
+    }
+
+    public function setForecastPoints($points)
+    {
+        $this->forecastPoints = $points;
+    }
     /**
      * @inheritdoc
      */

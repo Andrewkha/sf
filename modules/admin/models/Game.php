@@ -2,8 +2,8 @@
 
 namespace app\modules\admin\models;
 
-use phpDocumentor\Reflection\Types\Null_;
 use Yii;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "{{%game}}".
