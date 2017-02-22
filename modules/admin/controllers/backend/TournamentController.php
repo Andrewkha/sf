@@ -51,6 +51,7 @@ class TournamentController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'remove-participant' => ['POST']
                 ],
             ],
         ];
@@ -141,7 +142,7 @@ class TournamentController extends Controller
     {
         try {
             /** @var Tournament $tournament */
-            $tournament = $this->tournamentQuery->where(['id' => $id])->one();
+            $tournament = $this->findModel($id);
 
             /** @var ItemEvent $event */
             $event = $this->make(ItemEvent::class, [$tournament]);
@@ -154,6 +155,7 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/']);
+
     }
 
 
@@ -184,6 +186,23 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/details', 'id' => $id]);
+    }
+
+    public function actionRemoveParticipant($id, $tournament)
+    {
+        try {
+            /** @var Tournament $tournament */
+            $tournament = $this->findModel($tournament);
+            /** @var Team $team */
+            $team = $tournament->getTeams()->andWhere(['id' => $id])->one();
+            $tournament->unlink('teams', $team);
+            Yii::$app->session->setFlash('success', "Команда $team->team удалена из турнира $tournament->tournament");
+
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(['tournament/details', 'id' => $tournament->id]);
     }
 
     /**

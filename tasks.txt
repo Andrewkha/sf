@@ -6,3 +6,5 @@ Events:
 
     Добавлен новый турнир - разослать письма - need to add trigger
     Турнир закончен - разослать письма - trigger added, need to handle
+
+    при сохранении результатов игры - закончен ли тур, закончен ли турнир, если турнир not started - set to started, если турнир finished - exception

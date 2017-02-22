@@ -103,6 +103,9 @@ use kartik\icons\Icon;
                 'template' => '{delete}',
                 'deleteOptions' => ['label' => Icon::show('trash', ['class' => 'fa-lg'], Icon::FA)],
                 'visible' => ($tournament->isNotStarted()) ? true : false,
+                'urlCreator' => function ($action, $model, $key, $index) use ($tournament) {
+                    return \yii\helpers\Url::to(['tournament/remove-participant', 'id' => $model->team->id, 'tournament' => $tournament->id]);
+                }
             ]
         ],
     ]);?>
