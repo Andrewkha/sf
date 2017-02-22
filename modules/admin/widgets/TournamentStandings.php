@@ -10,12 +10,10 @@ namespace app\modules\admin\widgets;
 
 use app\modules\admin\models\Tournament;
 use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
-use app\modules\admin\traits\ContainerAwareTrait;
-use app\modules\admin\widgets\dto\StandingsItem;
+use app\resources\StandingsInterface;
+use app\traits\ContainerAwareTrait;
 use kartik\base\Widget;
-use app\modules\admin\models\Game;
 use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
 
 /**
  * Class TournamentStandings
@@ -37,40 +35,15 @@ class TournamentStandings extends Widget
         $tournament = $this->tournament;
         $games = $tournament->getGames()->finishedGames()->all();
         $participants = $tournament->getTeams()->all();
+        $calculator = $this->make(GamePointsCalculator::class, [$this->tournament]);
 
-        $items = [];
+        $items = $this->make(StandingsInterface::class)->getStandings($calculator, $participants, $games);
 
-        foreach ($participants as $team) {
-            $gamesPlayed = 0;
-            $points = 0;
-            if (!empty($games)) {
-                $games = $this->assignGamePoints($games);
-                foreach ($games as $game) {
-                    /**@var $game Game */
-                    if ($game->teamHome_id === $team->id) {
-                        $gamesPlayed++;
-                        $points += $game->pointsHome;
-                    } elseif ($game->teamGuest_id === $team->id) {
-                        $gamesPlayed++;
-                        $points += $game->pointsGuest;
-                    }
-                }
-            }
-            $items[] = $this->make(StandingsItem::class, [$team, $gamesPlayed, $points]);
-        }
-        ArrayHelper::multisort($items, 'points', SORT_DESC, [SORT_NUMERIC]);
         $models = new ArrayDataProvider([
             'allModels' => $items,
         ]);
 
         return $this->render('/widgets/standings', ['models' => $models, 'tournament' => $tournament]);
 
-    }
-
-    protected function assignGamePoints($games)
-    {
-        /** @var GamePointsCalculator $calculator */
-        $calculator = $this->make(GamePointsCalculator::class, [$this->tournament]);
-        return $calculator->setGamesPoints($games);
     }
 }

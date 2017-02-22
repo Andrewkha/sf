@@ -5,7 +5,7 @@ namespace app\modules\admin\controllers\backend;
 use app\modules\admin\events\ItemEvent;
 use app\modules\admin\models\Country;
 use app\modules\admin\services\ItemCreateService;
-use app\modules\admin\traits\ContainerAwareTrait;
+use app\traits\ContainerAwareTrait;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use kartik\grid\EditableColumnAction;
 use Yii;

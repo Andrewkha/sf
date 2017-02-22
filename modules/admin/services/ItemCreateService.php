@@ -10,7 +10,7 @@ namespace app\modules\admin\services;
 
 use app\modules\admin\contracts\ServiceInterface;
 use app\modules\admin\events\ItemEvent;
-use app\modules\admin\traits\ContainerAwareTrait;
+use app\traits\ContainerAwareTrait;
 use yii\db\ActiveRecord;
 use yii\base\Exception;
 use yii\log\Logger;
@@ -41,8 +41,8 @@ class ItemCreateService implements ServiceInterface
                 return false;
             }
 
-            $model->trigger(ItemEvent::EVENT_AFTER_CREATE, $this->make(ItemEvent::class, [$model]));
             $transaction->commit();
+            $model->trigger(ItemEvent::EVENT_AFTER_CREATE, $this->make(ItemEvent::class, [$model]));
 
             return true;
         } catch (Exception $e) {

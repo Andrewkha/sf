@@ -17,7 +17,7 @@ use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
 use yii\filters\VerbFilter;
 use yii\base\Module;
-use app\modules\admin\traits\ContainerAwareTrait;
+use app\traits\ContainerAwareTrait;
 use app\modules\admin\forms\TeamCreateEditForm;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 

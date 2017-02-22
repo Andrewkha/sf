@@ -6,7 +6,7 @@
  * Time: 10:29 AM
  */
 
-namespace app\modules\admin\traits;
+namespace app\traits;
 
 use Yii;
 

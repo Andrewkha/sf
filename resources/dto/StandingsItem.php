@@ -6,7 +6,7 @@
  * Time: 2:39 PM
  */
 
-namespace app\modules\admin\widgets\dto;
+namespace app\resources\dto;
 
 use app\modules\admin\models\Team;
 

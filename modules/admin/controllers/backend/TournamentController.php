@@ -13,7 +13,7 @@ use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
 use yii\base\Exception;
 use yii\web\Controller;
-use app\modules\admin\traits\ContainerAwareTrait;
+use app\traits\ContainerAwareTrait;
 use yii\base\Module;
 use app\modules\admin\models\query\TournamentQuery;
 use yii\filters\VerbFilter;

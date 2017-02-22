@@ -11,10 +11,9 @@ namespace app\modules\admin\services;
 use app\modules\admin\contracts\ServiceInterface;
 use app\modules\admin\events\TournamentEvent;
 use app\modules\admin\forms\TournamentCreateEditForm;
-use app\modules\admin\models\query\TournamentQuery;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\events\ItemEvent;
-use app\modules\admin\traits\ContainerAwareTrait;
+use app\traits\ContainerAwareTrait;
 use yii\log\Logger;
 use yii\base\Exception;
 

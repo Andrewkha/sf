@@ -14,6 +14,7 @@ use yii\base\Event;
 class TournamentEvent extends Event
 {
     const EVENT_TOURNAMENT_FINISHED = 'tournamentFinished';
+    const EVENT_TOURNAMENT_ADDED = 'tournamentAdded';
 
     protected $tournament;
 

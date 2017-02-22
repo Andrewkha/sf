@@ -17,6 +17,7 @@ return [
     'bootstrap' => [
         'log',
         'app\modules\admin\Bootstrap',
+        'app\Bootstrap'
     ],
     'basePath' => dirname(__DIR__),
     'components' => [
