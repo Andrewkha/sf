@@ -53,13 +53,4 @@ class GamePointsCalculator
     {
         return $this->calculator->getGamePoints($game);
     }
-
-    public function setGamesPoints(array $games)
-    {
-        foreach ($games as &$game) {
-            $this->setGamePoints($game);
-        }
-
-        return $games;
-    }
 }

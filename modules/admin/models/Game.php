@@ -2,6 +2,8 @@
 
 namespace app\modules\admin\models;
 
+use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
+use app\traits\ContainerAwareTrait;
 use Yii;
 use app\modules\user\models\User;
 
@@ -27,6 +29,8 @@ use app\modules\user\models\User;
  */
 class Game extends \yii\db\ActiveRecord
 {
+    use ContainerAwareTrait;
+
     protected $pointsHome = NULL;
     protected $pointsGuest = NULL;
 
@@ -43,20 +47,18 @@ class Game extends \yii\db\ActiveRecord
         return '{{%game}}';
     }
 
+    public function setPointsGame(GamePointsCalculator $calculator)
+    {
+        $this->pointsHome = $calculator->setGamePoints($this)['pointsHome'];
+        $this->pointsGuest = $calculator->setGamePoints($this)['pointsGuest'];
+    }
+
     /**
      * @return int|null
      */
     public function getPointsGuest()
     {
         return $this->pointsGuest;
-    }
-
-    /**
-     * @param int|null $pointsGuest
-     */
-    public function setPointsGuest($pointsGuest)
-    {
-        $this->pointsGuest = $pointsGuest;
     }
 
     /**
@@ -68,11 +70,15 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param int|null $pointsHome
+     * Setting home/guest points after Game model found
      */
-    public function setPointsHome($pointsHome)
+    public function afterFind()
     {
-        $this->pointsHome = $pointsHome;
+        parent::afterFind();
+
+        /** @var GamePointsCalculator $calculator */
+        $calculator = $this->make(GamePointsCalculator::class, [$this->tournament]);
+        $this->setPointsGame($calculator);
     }
 
     /**

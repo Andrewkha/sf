@@ -19,28 +19,32 @@ class StandardCalculator implements GamePointCalculatorInterface
 
     public function getGamePoints(Game $game)
     {
+        $result = [
+            'pointsHome' => NULL,
+            'pointsGuest' => NULL
+        ];
+
         if ($game->scoreHome === NULL || $game->scoreGuest === NULL) {
-            $game->setPointsHome(NULL);
-            $game->setPointsGuest(NULL);
-            return $game;
+            return $result;
         }
 
         if ($game->scoreHome > $game->scoreGuest) {
-            $game->setPointsHome(self::RESULT_WIN);
-            $game->setPointsGuest(self::RESULT_LOSE);
-            return $game;
+            $result['pointsHome'] = self::RESULT_WIN;
+            $result['pointsGuest'] = self::RESULT_LOSE;
+
+            return $result;
         }
 
         if ($game->scoreHome === $game->scoreGuest) {
-            $game->setPointsHome(self::RESULT_DRAW);
-            $game->setPointsGuest(self::RESULT_DRAW);
-            return $game;
+            $result['pointsHome'] = self::RESULT_DRAW;
+            $result['pointsGuest'] = self::RESULT_DRAW;
+            return $result;
         }
 
-        $game->setPointsHome(self::RESULT_LOSE);
-        $game->setPointsGuest(self::RESULT_WIN);
+        $result['pointsHome'] = self::RESULT_LOSE;
+        $result['pointsGuest'] = self::RESULT_WIN;
 
-        return $game;
+        return $result;
     }
 
 }

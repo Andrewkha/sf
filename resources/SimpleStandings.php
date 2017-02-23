@@ -10,7 +10,6 @@ namespace app\resources;
 
 use app\modules\admin\models\Team;
 use app\modules\admin\models\Tournament;
-use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\modules\admin\models\Game;
 use app\resources\dto\StandingsItem;
 use app\traits\ContainerAwareTrait;
@@ -19,7 +18,6 @@ use yii\helpers\ArrayHelper;
 class SimpleStandings implements StandingsInterface
 {
     /**
-     * @param GamePointsCalculator $calculator
      * @param Team[] $participants
      * @param Game[] $games
      * @return StandingsItem[] $items
@@ -33,13 +31,11 @@ class SimpleStandings implements StandingsInterface
 
         $games = $tournament->getGames()->finishedGames()->all();
         $participants = $tournament->getTeams()->all();
-        $calculator = $this->make(GamePointsCalculator::class, [$tournament]);
 
         foreach ($participants as $team) {
             $gamesPlayed = 0;
             $points = 0;
             if (!empty($games)) {
-                $games = $calculator->setGamesPoints($games);
                 foreach ($games as $game) {
                     /**@var $game Game */
                     if ($game->teamHome_id === $team->id) {
