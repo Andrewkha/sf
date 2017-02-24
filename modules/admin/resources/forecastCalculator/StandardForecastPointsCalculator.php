@@ -15,9 +15,22 @@ use app\modules\admin\models\query\GameQuery;
 
 class StandardForecastPointsCalculator implements ForecastPointsCalculatorInterface
 {
-    public function setForecastPoints(Game $game)
-    {
-        $forecasts = $game->getForecasts()->all();
 
+    const FORECAST_FULL_MATCH = 3;
+    const FORECAST_SCORE_DIFF = 2;
+    const FORECAST_WINNER = 1;
+    const FORECAST_NONE = 0;
+
+    public function setForecastPoints(Forecast $forecast)
+    {
+        /** @var Game $game */
+        $game = $forecast->game;
+
+        if ($game->scoreHome === $forecast->fscoreHome && $game->scoreGuest === $forecast->fscoreGuest) return self::FORECAST_FULL_MATCH;
+        if (($game->scoreHome - $game->scoreGuest) === ($forecast->fscoreHome - $forecast->fscoreGuest)) return self::FORECAST_SCORE_DIFF;
+        if ((($game->pointsHome - $game->scoreGuest) > 0 && ($forecast->fscoreHome - $forecast->fscoreGuest) > 0)
+            || (($game->pointsHome - $game->scoreGuest) < 0 && ($forecast->fscoreHome - $forecast->fscoreGuest) < 0)) return self::FORECAST_WINNER;
+
+        return self::FORECAST_NONE;
     }
 }

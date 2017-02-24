@@ -8,9 +8,10 @@
  */
 namespace app\modules\admin\resources\forecastCalculator;
 
+use app\modules\admin\models\Forecast;
 use app\modules\admin\models\Game;
 
 interface ForecastPointsCalculatorInterface
 {
-    public function setForecastPoints(Game $game);
+    public function setForecastPoints(Forecast $forecast);
 }

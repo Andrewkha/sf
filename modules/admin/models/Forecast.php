@@ -2,6 +2,9 @@
 
 namespace app\modules\admin\models;
 
+use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculatorInterface;
+use app\modules\admin\resources\forecastCalculator\StandardForecastPointsCalculator;
+use app\traits\ContainerAwareTrait;
 use Yii;
 use app\modules\user\models\User;
 
@@ -20,6 +23,8 @@ use app\modules\user\models\User;
  */
 class Forecast extends \yii\db\ActiveRecord
 {
+    use ContainerAwareTrait;
+
     protected $forecastPoints = NULL;
 
     public function getForecastPoints()
@@ -27,9 +32,9 @@ class Forecast extends \yii\db\ActiveRecord
         return $this->forecastPoints;
     }
 
-    public function setForecastPoints($points)
+    protected function setForecastPoints(ForecastPointsCalculatorInterface $calculator)
     {
-        $this->forecastPoints = $points;
+        $this->forecastPoints = $calculator->setForecastPoints($this);
     }
     /**
      * @inheritdoc
@@ -64,6 +69,15 @@ class Forecast extends \yii\db\ActiveRecord
             'fscoreGuest' => 'Fscore Guest',
             'date' => 'Date',
         ];
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        /** @var StandardForecastPointsCalculator $calculator */
+        $calculator = $this->make(StandardForecastPointsCalculator::class);
+        $this->setForecastPoints($calculator);
     }
 
     /**

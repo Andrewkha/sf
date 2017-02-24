@@ -4,7 +4,6 @@ namespace app\modules\admin\models;
 
 use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\traits\ContainerAwareTrait;
-use Yii;
 use app\modules\user\models\User;
 
 /**
