@@ -3,9 +3,7 @@
 namespace app\modules\admin\models;
 
 use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculatorInterface;
-use app\modules\admin\resources\forecastCalculator\StandardForecastPointsCalculator;
 use app\traits\ContainerAwareTrait;
-use Yii;
 use app\modules\user\models\User;
 
 /**
@@ -75,8 +73,8 @@ class Forecast extends \yii\db\ActiveRecord
     {
         parent::afterFind();
 
-        /** @var StandardForecastPointsCalculator $calculator */
-        $calculator = $this->make(StandardForecastPointsCalculator::class);
+        /** @var ForecastPointsCalculatorInterface $calculator */
+        $calculator = $this->make(ForecastPointsCalculatorInterface::class);
         $this->setForecastPoints($calculator);
     }
 

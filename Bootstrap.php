@@ -14,6 +14,8 @@ use app\modules\admin\models\query\TournamentQuery;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\TeamTournament;
 use app\modules\admin\models\Tournament;
+use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculatorInterface;
+use app\modules\admin\resources\forecastCalculator\StandardForecastPointsCalculator;
 use app\resources\SimpleStandings;
 use app\resources\StandingsInterface;
 use Yii;
@@ -32,6 +34,9 @@ class Bootstrap implements BootstrapInterface
 
         //Standings Interface
         $container->setSingleton(StandingsInterface::class, SimpleStandings::class);
+
+        //forecast points calculator interface
+        $container->setSingleton(ForecastPointsCalculatorInterface::class, StandardForecastPointsCalculator::class);
 
         //Query classes
         $container->set(TournamentQuery::class, Tournament::find());
