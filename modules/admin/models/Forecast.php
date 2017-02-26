@@ -3,7 +3,6 @@
 namespace app\modules\admin\models;
 
 use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculator;
-use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculatorInterface;
 use app\traits\ContainerAwareTrait;
 use app\modules\user\models\User;
 
