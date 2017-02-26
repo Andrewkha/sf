@@ -35,9 +35,6 @@ class Bootstrap implements BootstrapInterface
         //Standings Interface
         $container->setSingleton(StandingsInterface::class, SimpleStandings::class);
 
-        //forecast points calculator interface
-        $container->setSingleton(ForecastPointsCalculatorInterface::class, StandardForecastPointsCalculator::class);
-
         //Query classes
         $container->set(TournamentQuery::class, Tournament::find());
         $container->set(TeamQuery::class, Team::find() );
