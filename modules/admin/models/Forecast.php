@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\models;
 
+use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculator;
 use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculatorInterface;
 use app\traits\ContainerAwareTrait;
 use app\modules\user\models\User;
@@ -30,7 +31,7 @@ class Forecast extends \yii\db\ActiveRecord
         return $this->forecastPoints;
     }
 
-    protected function setForecastPoints(ForecastPointsCalculatorInterface $calculator)
+    protected function setForecastPoints(ForecastPointsCalculator $calculator)
     {
         $this->forecastPoints = $calculator->setForecastPoints($this);
     }
@@ -73,8 +74,8 @@ class Forecast extends \yii\db\ActiveRecord
     {
         parent::afterFind();
 
-        /** @var ForecastPointsCalculatorInterface $calculator */
-        $calculator = $this->make(ForecastPointsCalculatorInterface::class);
+        /** @var ForecastPointsCalculator $calculator */
+        $calculator = $this->make(ForecastPointsCalculator::class);
         $this->setForecastPoints($calculator);
     }
 

@@ -10,6 +10,7 @@ namespace app\modules\admin\resources\gameCalculator;
 
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\Game;
+use app\traits\ContainerAwareTrait;
 
 /**
  * Class GamePointsCalculator
@@ -22,6 +23,7 @@ use app\modules\admin\models\Game;
 
 class GamePointsCalculator
 {
+    use ContainerAwareTrait;
     private $tournament;
     private $calculator;
 
@@ -31,16 +33,12 @@ class GamePointsCalculator
         $this->calculator = $this->getCalculator();
     }
 
-    /**
-     * @return PlayOffCalculator|StandardCalculator
-     */
-
     private function getCalculator()
     {
         if ($this->tournament->isRegular()) {
-            return new StandardCalculator();
+            return $this->make(StandardCalculator::class);
         } else {
-            return new PlayOffCalculator();
+            return $this->make(PlayOffCalculator::class);
         }
     }
 
