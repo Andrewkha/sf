@@ -83,6 +83,20 @@ use kartik\icons\Icon;
             ],
 
             [
+                'header' => 'В-П-Н',
+                /** @param $model \app\resources\dto\StandingsItem */
+                'value' => function($model) {
+
+                    return $model->gamesWin. ' - ' . $model->gamesLost . ' - ' . $model->gamesDraw;
+                },
+                'hAlign' => 'center',
+                'vAlign' => 'middle',
+                'options' => [
+                    'class' => 'col-xs-1'
+                ]
+            ],
+
+            [
                 'header' => 'Очки',
                 'value' => function($model) {
                     return $model->points;
