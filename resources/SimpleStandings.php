@@ -32,7 +32,7 @@ class SimpleStandings implements StandingsInterface
         $items = [];
 
         $games = $tournament->getGames()->finishedGames()->orderBy(['tour' => SORT_ASC])->all();
-        $participants = $tournament->getTeams()->all();
+        $participants = $tournament->teams;
         /** @var GamePointsCalculator $calculator */
         $calculator = $this->make(GamePointsCalculator::class, [$tournament]);
 

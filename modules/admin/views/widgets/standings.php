@@ -58,8 +58,9 @@ use kartik\icons\Icon;
 
             [
                 'header' => 'Команда',
+                'format' => 'raw',
                 'value' => function($model) {
-                    return $model->team->team;
+                    return $this->render('_teamResults', ['model' => $model]);
                 },
                 'headerOptions' => [
                     'class' => 'kv-align-center',
@@ -83,7 +84,7 @@ use kartik\icons\Icon;
             ],
 
             [
-                'header' => 'В-П-Н',
+                'header' => 'В - П - Н',
                 /** @param $model \app\resources\dto\StandingsItem */
                 'value' => function($model) {
 
