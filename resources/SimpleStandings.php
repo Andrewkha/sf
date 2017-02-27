@@ -11,6 +11,7 @@ namespace app\resources;
 use app\modules\admin\models\Team;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\Game;
+use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\resources\dto\Match;
 use app\resources\dto\StandingsItem;
 use app\traits\ContainerAwareTrait;
@@ -32,6 +33,8 @@ class SimpleStandings implements StandingsInterface
 
         $games = $tournament->getGames()->finishedGames()->orderBy(['tour' => SORT_ASC])->all();
         $participants = $tournament->getTeams()->all();
+        /** @var GamePointsCalculator $calculator */
+        $calculator = $this->make(GamePointsCalculator::class, [$tournament]);
 
         foreach ($participants as $team) {
             /** @var Team $team */
@@ -44,6 +47,7 @@ class SimpleStandings implements StandingsInterface
                 foreach ($games as $game) {
 
                     /**@var $game Game */
+                    $game->setPointsGame($calculator);
                     if ($game->teamHome_id === $team->id) {
                         $gamesPlayed++;
                         $points += $game->pointsHome;

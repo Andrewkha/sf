@@ -43,7 +43,7 @@ $countries = TournamentCreateEditForm::getCountriesArray();
         ],
         'toolbar' => [
             [
-                'content' => $this->render('_create', ['model' => $editModel]),
+                'content' => $this->render('_createTournament', ['model' => $editModel]),
                 'options' => [
                     'class' => 'btn-group-sm'
                 ]
@@ -92,7 +92,7 @@ $countries = TournamentCreateEditForm::getCountriesArray();
                 'format' => 'raw',
                 'value' => function($model) use ($editModel) {
                     $editModel->assignProperties($model);
-                    return $this->render('_edit.php', [
+                    return $this->render('_editTournament.php', [
                         'model' => $editModel,
                     ]);
                 },

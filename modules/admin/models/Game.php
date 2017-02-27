@@ -68,17 +68,6 @@ class Game extends \yii\db\ActiveRecord
         return $this->pointsHome;
     }
 
-    /**
-     * Setting home/guest points after Game model found
-     */
-    public function afterFind()
-    {
-        parent::afterFind();
-
-        /** @var GamePointsCalculator $calculator */
-        $calculator = $this->make(GamePointsCalculator::class, [$this->tournament]);
-        $this->setPointsGame($calculator);
-    }
 
     /**
      * @inheritdoc
