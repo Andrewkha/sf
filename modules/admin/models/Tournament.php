@@ -2,8 +2,9 @@
 
 namespace app\modules\admin\models;
 
-use Yii;
 use app\modules\admin\resources\behaviors\fileUploadBehavior;
+use app\modules\user\models\User;
+
 
 /**
  * This is the model class for table "{{%tournament}}".
@@ -68,7 +69,7 @@ class Tournament extends \yii\db\ActiveRecord
 
     public function isAutoProcess()
     {
-        return $this->autoprocess == self::AUTOPROCESS_ENABLED ? true : false;
+        return ($this->autoprocess == self::AUTOPROCESS_ENABLED && !$this->isFinished());
     }
 
     public function isWinnersForecastOpen()
