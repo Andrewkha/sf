@@ -93,7 +93,7 @@ use kartik\icons\Icon;
                 'hAlign' => 'center',
                 'vAlign' => 'middle',
                 'options' => [
-                    'class' => 'col-xs-1'
+                    'class' => 'col-xs-2'
                 ]
             ],
 

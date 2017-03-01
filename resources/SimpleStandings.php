@@ -55,7 +55,7 @@ class SimpleStandings implements StandingsInterface
                         $goalsMissed += $game->scoreGuest;
                         $scored = $game->scoreHome;
                         $missed = $game->scoreGuest;
-                        $title = $game->teamHome->team . ' - ' . $game->scoreHome . ' ' . $game->scoreHome . ' : ' . $game->scoreGuest;
+                        $title = $game->teamHome->team . ' - ' . $game->teamGuest->team . ' ' . $game->scoreHome . ' : ' . $game->scoreGuest;
                         $matches[$game->tour] = $this->make(Match::class, [$game->tour, $game->date, $scored, $missed, $title]);
                     } elseif ($game->teamGuest_id === $team->id) {
                         $gamesPlayed++;
@@ -64,7 +64,7 @@ class SimpleStandings implements StandingsInterface
                         $goalsMissed += $game->scoreHome;
                         $scored = $game->scoreGuest;
                         $missed = $game->scoreHome;
-                        $title = $game->teamHome->team . ' - ' . $game->scoreHome . ' ' . $game->scoreHome . ' : ' . $game->scoreGuest;
+                        $title = $game->teamHome->team . ' - ' . $game->teamGuest->team . ' ' . $game->scoreHome . ' : ' . $game->scoreGuest;
                         $matches[$game->tour] = $this->make(Match::class, [$game->tour, $game->date, $scored, $missed, $title]);
                     }
                 }
