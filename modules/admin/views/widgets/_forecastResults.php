@@ -20,7 +20,10 @@ use yii\bootstrap\Modal;
 ]);
 ?>
     <div class = "text-center row">
-        <?= \kartik\grid\GridView::widget([
+        <?php if ($model->tours->getTotalCount() === 0) :?>
+            <h3>Прогноз не был сделан</h3>
+        <?php else: ?>
+            <?= \kartik\grid\GridView::widget([
             'dataProvider' => $model->tours,
             'showPageSummary' => true,
             'options' => [
@@ -59,6 +62,7 @@ use yii\bootstrap\Modal;
                 ]
             ]
         ]); ?>
+        <?php endif;; ?>
     </div>
 <?php
 Modal::end();
