@@ -6,22 +6,60 @@
  * Time: 12:42 PM
  */
 use yii\bootstrap\Modal;
-use kartik\helpers\Html;
-
 
 /* @var $this yii\web\View */
 /* @var $model \app\resources\dto\ForecastStandingsItem */
-/* @var $games array */
+
 ?>
 
 <?php Modal::begin([
-    'header' => $model->user->username . ' - детали прогноза',
+    'header' => '<h4>' . $model->user->username . ' - саммари по турам' . '</h4>',
     'toggleButton' => ['label' => $model->user->username, 'class' => 'btn btn-link'],
     'options' => ['tabindex' => false],
-    'size' => Modal::SIZE_LARGE,
+    'size' => Modal::SIZE_DEFAULT,
 ]);
 ?>
+    <div class = "text-center row">
+        <?= \kartik\grid\GridView::widget([
+            'dataProvider' => $model->tours,
+            'showPageSummary' => true,
+            'options' => [
+                'class' => 'col-xs-offset-3 col-xs-6'
+            ],
+            'summary' => false,
+            'condensed' => true,
+            'columns' => [
+                [
+                    'attribute' => 'tour',
+                    'header' => 'Тур',
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'options' => [
+                        'class' => 'col-xs-6'
+                    ],
+                    'pageSummary' => 'Всего'
+                ],
 
+                [
+                    'attribute' => 'tourPoints',
+                    'header' => 'Очки',
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'options' => [
+                        'class' => 'col-xs-6'
+                    ],
+                    'pageSummary' => true,
+                    'pageSummaryOptions' => [
+                        'align' => 'center'
+                    ]
+                ]
+            ]
+        ]); ?>
+    </div>
 <?php
 Modal::end();
 ?>

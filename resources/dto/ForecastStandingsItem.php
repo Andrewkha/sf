@@ -10,6 +10,7 @@ namespace app\resources\dto;
 
 
 use app\modules\user\models\User;
+use yii\data\ArrayDataProvider;
 
 class ForecastStandingsItem
 {
@@ -21,7 +22,7 @@ class ForecastStandingsItem
      * ForecastStandingsItem constructor.
      * @param User $user
      * @param $totalPoints
-     * @param Tour[] $tours
+     * @param ArrayDataProvider $tours
      */
     public function __construct(User $user, $totalPoints, $tours)
     {

@@ -94,13 +94,18 @@ class TournamentForecasters extends Widget
                 $totalPoints += $forecast->getForecastPoints();
                 $tour = $games[$forecast->game_id]->tour;
                 if(!key_exists($tour, $tours))
-                    $tours[$tour] = $this->make(Tour::class);
+                    $tours[$tour] = $this->make(Tour::class, [$tour]);
                 $tours[$tour]->tourPoints += $forecast->getForecastPoints();
                 $tours[$tour]->tourGames[$forecast->game_id] = $this->make(ForecastDetailsGame::class, [$forecast->fscoreHome, $forecast->fscoreGuest, $forecast->getForecastPoints()]);
                 $tours[$tour]->getTourForecastStatus($gamesInTour[$tour]['gamesintour']);
             }
 
-            $item = $this->make(ForecastStandingsItem::class, [$user->user, $totalPoints, $tours]);
+            /** @var ArrayDataProvider $tourDataProviders */
+            $tourDataProvider = new ArrayDataProvider([
+                'allModels' => $tours
+            ]);
+
+            $item = $this->make(ForecastStandingsItem::class, [$user->user, $totalPoints, $tourDataProvider]);
             $items[] = $item;
         }
 

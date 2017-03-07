@@ -20,13 +20,15 @@ class Tour
     public $tourPoints;
     public $tourGames;
     public $tourForecastStatus;
+    public $tour;
 
     const TOUR_FORECAST_COMPLETE = 2;
     const TOUR_FORECAST_PARTIAL = 1;
     const TOUR_FORECAST_EMPTY = 0;
 
-    public function __construct($tourPoints = 0)
+    public function __construct($tour, $tourPoints = 0)
     {
+        $this->tour = $tour;
         $this->tourPoints = $tourPoints;
     }
 

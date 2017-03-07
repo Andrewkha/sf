@@ -14,12 +14,15 @@ use kartik\grid\GridView;
 /* @var $games array */
 ?>
 
-<div class = "row">
+<?php if ($models->getTotalCount() === 0) :?>
+    <h3>В этом турнире нет пользователей</h3>
+<?php else : ?>
+    <div class = "row">
     <?= GridView::widget([
     'dataProvider' => $models,
     'resizableColumns' => false,
     'options' => [
-        'class' => 'col-xs-12 col-md-10'
+        'class' => 'col-xs-12 col-md-10 col-lg-8'
     ],
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'toolbar' => false,
@@ -47,8 +50,8 @@ use kartik\grid\GridView;
         [
             'header' => 'Пользователь',
             'format' => 'raw',
-            'value' => function($model) use ($games) {
-                return $this->render('_forecastResults', ['model' => $model, 'games' => $games]);
+            'value' => function($model) {
+                return $this->render('_forecastResults', ['model' => $model]);
             },
             'headerOptions' => [
                 'class' => 'kv-align-center',
@@ -76,7 +79,7 @@ use kartik\grid\GridView;
             'header' => 'Прогнозы по турам',
             'format' => 'raw',
             'value' => function($model) {
-                return $this->render('_forecastTour', ['model' => $model]);
+                ;
             },
             'headerOptions' => [
                 'class' => 'kv-align-center',
@@ -89,3 +92,4 @@ use kartik\grid\GridView;
     ],
 ]);?>
 </div>
+<?php endif; ?>
