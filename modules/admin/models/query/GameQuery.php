@@ -22,11 +22,16 @@ class GameQuery extends \yii\db\ActiveQuery
 
     public function whereTournament($tournament)
     {
-        return $this->andWhere(['tournament_id' => $tournament]);
+        return $this->where(['tournament_id' => $tournament]);
+    }
+
+    public function finishedGamesWithTeams()
+    {
+        return $this->finishedGames()->with(['teamHome', 'teamGuest']);
     }
 
     public function finishedGames()
     {
-        return $this->with(['teamHome', 'teamGuest'])->andWhere(['not', ['scoreHome' => null]])->andWhere(['not', ['scoreGuest' => null]]);
+        return $this->andWhere(['not', ['scoreHome' => null]])->andWhere(['not', ['scoreGuest' => null]]);
     }
 }

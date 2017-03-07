@@ -13,5 +13,5 @@ use app\modules\admin\models\Game;
 
 interface ForecastPointsCalculatorInterface
 {
-    public function setForecastPoints(Forecast $forecast);
+    public function setForecastPoints(Forecast $forecast, Game $game);
 }

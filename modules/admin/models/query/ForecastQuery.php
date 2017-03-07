@@ -18,4 +18,12 @@ class ForecastQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['user_id' => $user_id]);
     }
+
+    public function allTournamentForecast($tournament)
+    {
+        return $this->joinWith(['game'])
+            ->andWhere(['tournament_id' => $tournament])
+            ->andWhere(['not', ['scoreHome' => null]])
+            ->andWhere(['not', ['scoreGuest' => null]]);
+    }
 }

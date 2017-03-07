@@ -10,6 +10,8 @@ namespace app\modules\admin\resources\forecastCalculator;
 
 
 use app\modules\admin\models\Forecast;
+use app\modules\admin\models\Game;
+use app\modules\admin\models\Tournament;
 use app\traits\ContainerAwareTrait;
 
 /**
@@ -21,15 +23,17 @@ class ForecastPointsCalculator
 {
     use ContainerAwareTrait;
     private $forecastCalculator;
+    private $tournament;
 
-    public function __construct()
+    public function __construct(Tournament $tournament)
     {
+        $this->tournament = $tournament;
         $this->forecastCalculator = $this->getCalculator();
     }
 
-    public function setForecastPoints(Forecast $forecast)
+    public function setForecastPoints(Forecast $forecast, Game $game)
     {
-        return $this->forecastCalculator->setForecastPoints($forecast);
+        return $this->forecastCalculator->setForecastPoints($forecast, $game);
     }
 
     private function getCalculator()

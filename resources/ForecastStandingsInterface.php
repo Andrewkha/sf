@@ -2,13 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: achernys
- * Date: 2/22/2017
- * Time: 1:44 PM
+ * Date: 3/2/2017
+ * Time: 11:21 AM
  */
 
 namespace app\resources;
 
-interface StandingsInterface
+use app\modules\admin\models\Tournament;
+
+interface ForecastStandingsInterface
 {
     public function getStandings($items);
 }

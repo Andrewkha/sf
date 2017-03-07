@@ -30,9 +30,9 @@ class Forecast extends \yii\db\ActiveRecord
         return $this->forecastPoints;
     }
 
-    protected function setForecastPoints(ForecastPointsCalculator $calculator)
+    public function setForecastPoints(ForecastPointsCalculator $calculator, Game $game)
     {
-        $this->forecastPoints = $calculator->setForecastPoints($this);
+        $this->forecastPoints = $calculator->setForecastPoints($this, $game);
     }
     /**
      * @inheritdoc
@@ -67,15 +67,6 @@ class Forecast extends \yii\db\ActiveRecord
             'fscoreGuest' => 'Fscore Guest',
             'date' => 'Date',
         ];
-    }
-
-    public function afterFind()
-    {
-        parent::afterFind();
-
-        /** @var ForecastPointsCalculator $calculator */
-        $calculator = $this->make(ForecastPointsCalculator::class);
-        $this->setForecastPoints($calculator);
     }
 
     /**

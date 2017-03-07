@@ -5,6 +5,8 @@ namespace app\modules\user\models;
 use Yii;
 use app\modules\admin\models\Forecast;
 use app\modules\admin\models\Tournament;
+use app\modules\admin\models\UserTournament;
+use app\modules\admin\models\TournamentWinnerForecast;
 
 /**
  * This is the model class for table "{{%user}}".

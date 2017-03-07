@@ -48,6 +48,7 @@ class TournamentParticipants extends Widget
     {
         $query = $this->teamQuery
             ->andWhere(['not in', 'id', ArrayHelper::getColumn($this->participants, 'team_id')])
+            ->with('country')
             ->orderBy(['team' => SORT_ASC]);
 
         if ($this->tournament->country->country === Country::INTERNATIONAL)

@@ -5,7 +5,6 @@
  * Date: 2/27/2017
  * Time: 5:39 PM
  */
-use yii\bootstrap\ButtonGroup;
 use yii\bootstrap\Modal;
 use kartik\helpers\Html;
 use app\resources\dto\Match;

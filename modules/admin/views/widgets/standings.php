@@ -19,7 +19,7 @@ use kartik\icons\Icon;
         'dataProvider' => $models,
         'resizableColumns' => false,
         'options' => [
-            'class' => 'col-xs-12 col-md-8 col-lg-6'
+            'class' => 'col-xs-12 col-md-10 col-lg-7'
         ],
         'headerRowOptions'=>['class'=>'kartik-sheet-style'],
         'toolbar' => false,
@@ -45,7 +45,7 @@ use kartik\icons\Icon;
             ],
 
             [
-                'header' => 'ID участника',
+                'header' => 'ID',
                 'value' => function($model) {
                     return $model->team->id;
                 },
@@ -67,7 +67,7 @@ use kartik\icons\Icon;
                 ],
                 'vAlign' => 'middle',
                 'options' => [
-                    'class' => 'col-xs-3'
+                    'class' => 'col-xs-4'
                 ]
             ],
 
@@ -84,16 +84,17 @@ use kartik\icons\Icon;
             ],
 
             [
-                'header' => 'В - П - Н',
+                'header' => 'В - Н - П',
                 /** @param $model \app\resources\dto\StandingsItem */
                 'value' => function($model) {
 
-                    return $model->gamesWin. ' - ' . $model->gamesLost . ' - ' . $model->gamesDraw;
+                    return $model->gamesWin. ' - ' . $model->gamesDraw . ' - ' . $model->gamesLost ;
                 },
+                'format' => 'raw',
                 'hAlign' => 'center',
                 'vAlign' => 'middle',
                 'options' => [
-                    'class' => 'col-xs-2'
+                    'class' => 'col-xs-3'
                 ]
             ],
 
