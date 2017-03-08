@@ -13,7 +13,7 @@ use yii\bootstrap\Modal;
 ?>
 
 <?php Modal::begin([
-    'header' => '<h4>' . $model->user->username . ' - саммари по турам' . '</h4>',
+    'header' => '<h4>' . $model->user->username . '</h4>',
     'toggleButton' => ['label' => $model->user->username, 'class' => 'btn btn-link'],
     'options' => ['tabindex' => false],
     'size' => Modal::SIZE_DEFAULT,

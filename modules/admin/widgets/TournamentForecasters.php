@@ -55,7 +55,9 @@ class TournamentForecasters extends Widget
             'allModels' => $items,
         ]);
 
-        $games = ArrayHelper::index($this->games, 'id', 'tour');
+        $games = array_map(function ($item) {
+            return new ArrayDataProvider(['allModels' => $item]);
+        }, ArrayHelper::index($this->games, 'id', 'tour'));
 
         return $this->render('/widgets/forecastStandings', ['models' => $models, 'tournament' => $tournament, 'games' => $games]);
     }

@@ -11,7 +11,7 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $models \yii\data\ArrayDataProvider */
 /* @var $tournament \app\modules\admin\models\Tournament */
-/* @var $games array */
+/* @var $games \yii\data\ArrayDataProvider[] */
 ?>
 
 <?php if ($models->getTotalCount() === 0) :?>
@@ -78,13 +78,19 @@ use kartik\grid\GridView;
         [
             'header' => 'Прогнозы по турам',
             'format' => 'raw',
-            'value' => function($model) {
-                ;
+            'value' => function($model) use ($games) {
+                $string = '';
+                foreach ($games as $tour => $tourGames) {
+                    $forecast = isset($model->tours->allModels[$tour]) ? $model->tours->allModels[$tour] : NULL;
+                    $string .= $this->render('_forecastTour', ['tour' => $tour, 'games' => $tourGames, 'forecast' => $forecast, 'user' => $model->user]);
+                }
+                return $string;
             },
             'headerOptions' => [
                 'class' => 'kv-align-center',
             ],
             'vAlign' => 'middle',
+            'hAlign' => 'center',
             'options' => [
                 'class' => 'col-xs-7'
             ]
