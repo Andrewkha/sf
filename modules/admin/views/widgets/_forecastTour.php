@@ -34,15 +34,33 @@ use kartik\grid\GridView;
     'columns' => [
         [
             'attribute' => 'date',
-
+            'headerOptions' => [
+                'class' => 'kv-align-center',
+            ],
+            'value' => function ($model) {
+                return date('d.m.Y H:i', $model->date);
+            }
         ],
 
         [
             'attribute' => 'teamHome.team',
+            'headerOptions' => [
+                'class' => 'kv-align-center',
+            ],
+        ],
+
+        [
+            'value' => function ($model) use ($forecast) {
+                $forecastString = (is_null($forecast) || !key_exists($model->id, $forecast->tourGames)) ? ' - : - ' : ' ' . $forecast->tourGames[$model->id]->forecastHome . ' : ' . $forecast->tourGames[$model->id]->forecastGuest;
+                return $forecastString;
+            }
         ],
 
         [
             'attribute' => 'teamGuest.team',
+            'headerOptions' => [
+                'class' => 'kv-align-center',
+            ],
         ],
     ]
 ]);?>
