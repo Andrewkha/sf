@@ -31,6 +31,9 @@ use kartik\grid\GridView;
     'dataProvider' => $games,
     'summary' => false,
     'condensed' => true,
+    'rowOptions' => function ($model) use ($forecast) {
+            return (key_exists($model->id, $forecast->tourGames)) ? ['class' => 'success'] : ['class' => 'danger'];
+        },
     'columns' => [
         [
             'attribute' => 'date',
@@ -39,29 +42,45 @@ use kartik\grid\GridView;
             ],
             'value' => function ($model) {
                 return date('d.m.Y H:i', $model->date);
-            }
+            },
+            'vAlign' => 'middle',
         ],
 
         [
             'attribute' => 'teamHome.team',
+            'header' => 'Хозяева',
             'headerOptions' => [
                 'class' => 'kv-align-center',
             ],
+            'vAlign' => 'middle',
         ],
 
         [
+            'header' => 'Прогноз',
             'value' => function ($model) use ($forecast) {
                 $forecastString = (is_null($forecast) || !key_exists($model->id, $forecast->tourGames)) ? ' - : - ' : ' ' . $forecast->tourGames[$model->id]->forecastHome . ' : ' . $forecast->tourGames[$model->id]->forecastGuest;
                 return $forecastString;
-            }
+            },
+            'vAlign' => 'middle',
         ],
 
         [
             'attribute' => 'teamGuest.team',
+            'header' => 'Гости',
             'headerOptions' => [
                 'class' => 'kv-align-center',
             ],
+            'vAlign' => 'middle',
         ],
+
+        [
+            'attribute' => 'totalPoints',
+            'header' => 'Очки',
+            'value' => function ($model) use ($forecast) {
+                return (is_null($forecast) || !key_exists($model->id, $forecast->tourGames)) ? '- ' : ' ' . $forecast->tourGames[$model->id]->forecastPoints;
+            },
+            'vAlign' => 'middle',
+        ]
     ]
 ]);?>
 <?php Modal::end() ?>
