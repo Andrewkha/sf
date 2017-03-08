@@ -32,7 +32,7 @@ use kartik\grid\GridView;
     'summary' => false,
     'condensed' => true,
     'rowOptions' => function ($model) use ($forecast) {
-            return (key_exists($model->id, $forecast->tourGames)) ? ['class' => 'success'] : ['class' => 'danger'];
+            return (!is_null($forecast) && key_exists($model->id, $forecast->tourGames)) ? ['class' => 'success'] : ['class' => 'danger'];
         },
     'columns' => [
         [
