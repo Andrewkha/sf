@@ -64,6 +64,9 @@ use kartik\grid\GridView;
                 return $forecastString;
             },
             'vAlign' => 'middle',
+            'headerOptions' => [
+                'class' => 'kv-align-center',
+            ],
         ],
 
         [
@@ -82,6 +85,9 @@ use kartik\grid\GridView;
                 return (is_null($forecast) || !key_exists($model->id, $forecast->tourGames)) ? '- ' : ' ' . $forecast->tourGames[$model->id]->forecastPoints;
             },
             'vAlign' => 'middle',
+            'headerOptions' => [
+                'class' => 'kv-align-center',
+            ],
             'pageSummary' => true,
         ]
     ]

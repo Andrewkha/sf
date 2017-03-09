@@ -7,10 +7,12 @@
  */
 use kartik\grid\GridView;
 use kartik\icons\Icon;
+use app\modules\admin\widgets\TournamentStandings;
 
 /* @var $this yii\web\View */
 /* @var $models \yii\data\ArrayDataProvider */
 /* @var $tournament \app\modules\admin\models\Tournament */
+/* @var $mode integer */
 
 ?>
 
@@ -53,7 +55,8 @@ use kartik\icons\Icon;
                 'hAlign' => 'center',
                 'options' => [
                     'class' => 'col-xs-1'
-                ]
+                ],
+                'visible' => ($mode === TournamentStandings::MODE_ADMIN) ? true : false,
             ],
 
             [
@@ -118,7 +121,7 @@ use kartik\icons\Icon;
                 ],
                 'template' => '{delete}',
                 'deleteOptions' => ['label' => Icon::show('trash', ['class' => 'fa-lg'], Icon::FA)],
-                'visible' => ($tournament->isNotStarted()) ? true : false,
+                'visible' => ($tournament->isNotStarted() && $mode === TournamentStandings::MODE_ADMIN) ? true : false,
                 'urlCreator' => function ($action, $model, $key, $index) use ($tournament) {
                     return \yii\helpers\Url::to(['tournament/remove-participant', 'id' => $model->team->id, 'tournament' => $tournament->id]);
                 }

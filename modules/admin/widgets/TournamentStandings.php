@@ -29,9 +29,13 @@ use app\resources\dto\Match;
 
 class TournamentStandings extends Widget
 {
+    const MODE_ADMIN = 1;
+    const MODE_USER = 0;
+
     use ContainerAwareTrait;
 
     public $tournament;
+    public $mode;
     protected $standings;
 
     public function __construct(StandingsInterface $standings, array $config = [])
@@ -50,7 +54,7 @@ class TournamentStandings extends Widget
             'allModels' => $items,
         ]);
 
-        return $this->render('/widgets/standings', ['models' => $models, 'tournament' => $tournament]);
+        return $this->render('/widgets/standings', ['models' => $models, 'tournament' => $tournament, 'mode' => $this->mode]);
 
     }
 

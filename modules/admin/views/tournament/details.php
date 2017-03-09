@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class = "row">
-    <?= TournamentStandings::widget(['tournament' => $tournament]);?>
+    <?= TournamentStandings::widget(['tournament' => $tournament, 'mode' => TournamentStandings::MODE_ADMIN]);?>
 </div>
 <hr>
 <div class = "row">
