@@ -62,7 +62,7 @@ use yii\bootstrap\Modal;
                 ]
             ]
         ]); ?>
-        <?php endif;; ?>
+        <?php endif; ?>
     </div>
 <?php
 Modal::end();

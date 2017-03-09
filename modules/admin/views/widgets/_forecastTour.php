@@ -31,6 +31,7 @@ use kartik\grid\GridView;
     'dataProvider' => $games,
     'summary' => false,
     'condensed' => true,
+    'showPageSummary' => true,
     'rowOptions' => function ($model) use ($forecast) {
             return (!is_null($forecast) && key_exists($model->id, $forecast->tourGames)) ? ['class' => 'success'] : ['class' => 'danger'];
         },
@@ -43,6 +44,7 @@ use kartik\grid\GridView;
             'value' => function ($model) {
                 return date('d.m.Y H:i', $model->date);
             },
+            'enableSorting' => false,
             'vAlign' => 'middle',
         ],
 
@@ -80,6 +82,7 @@ use kartik\grid\GridView;
                 return (is_null($forecast) || !key_exists($model->id, $forecast->tourGames)) ? '- ' : ' ' . $forecast->tourGames[$model->id]->forecastPoints;
             },
             'vAlign' => 'middle',
+            'pageSummary' => true,
         ]
     ]
 ]);?>

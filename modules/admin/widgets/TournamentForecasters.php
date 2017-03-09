@@ -56,7 +56,15 @@ class TournamentForecasters extends Widget
         ]);
 
         $games = array_map(function ($item) {
-            return new ArrayDataProvider(['allModels' => $item]);
+            return new ArrayDataProvider([
+                'allModels' => $item,
+                'sort' => [
+                    'attributes' => ['date'],
+                    'defaultOrder' => [
+                        'date' => SORT_ASC,
+                    ]
+                ]
+            ]);
         }, ArrayHelper::index($this->games, 'id', 'tour'));
 
         return $this->render('/widgets/forecastStandings', ['models' => $models, 'tournament' => $tournament, 'games' => $games]);
