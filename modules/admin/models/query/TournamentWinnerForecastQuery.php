@@ -9,26 +9,10 @@ namespace app\modules\admin\models\query;
  */
 class TournamentWinnerForecastQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\TournamentWinnerForecast[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\TournamentWinnerForecast|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
+    public function whereUserTournament($user, $tournament) {
+        return $this->where(['user_id' => $user])
+            ->andWhere(['tournament_id' => $tournament])
+            ->orderBy(['position' => SORT_ASC])
+            ->indexBy(['position']);
     }
 }

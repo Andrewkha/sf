@@ -8,7 +8,9 @@
 
 namespace app\resources;
 
+use app\modules\admin\models\Tournament;
+
 interface StandingsInterface
 {
-    public function getStandings($items);
+    public function getStandings(Tournament $tournament);
 }

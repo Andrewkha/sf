@@ -17,17 +17,20 @@ class ForecastStandingsItem
     public $user;
     public $tours;
     public $totalPoints;
+    public $guessExactScore;
 
     /**
      * ForecastStandingsItem constructor.
      * @param User $user
      * @param $totalPoints
      * @param ArrayDataProvider $tours
+     * @param $guessExactScore
      */
-    public function __construct(User $user, $totalPoints, $tours)
+    public function __construct(User $user, $totalPoints, $tours, $guessExactScore)
     {
         $this->user = $user;
         $this->totalPoints = $totalPoints;
         $this->tours = $tours;
+        $this->guessExactScore = $guessExactScore;
     }
 }

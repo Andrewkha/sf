@@ -12,5 +12,5 @@ use app\modules\admin\models\Tournament;
 
 interface ForecastStandingsInterface
 {
-    public function getStandings($items);
+    public function getStandings(Tournament $tournament);
 }

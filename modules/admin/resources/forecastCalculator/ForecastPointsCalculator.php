@@ -17,11 +17,14 @@ use app\traits\ContainerAwareTrait;
 /**
  * Class ForecastPointsCalculator
  * @property ForecastPointsCalculatorInterface $forecastCalculator
+ * @property $exactScorePoints number of points provided for guessing the exact score. Using to detect better forecaster when the total points are the same
  * @package app\modules\admin\resources\forecastCalculator
  */
 class ForecastPointsCalculator
 {
     use ContainerAwareTrait;
+
+    public $exactScorePoints;
     private $forecastCalculator;
     private $tournament;
 
@@ -29,6 +32,8 @@ class ForecastPointsCalculator
     {
         $this->tournament = $tournament;
         $this->forecastCalculator = $this->getCalculator();
+        $class = get_class($this->forecastCalculator);
+        $this->exactScorePoints = $class::FORECAST_FULL_MATCH;
     }
 
     public function setForecastPoints(Forecast $forecast, Game $game)
