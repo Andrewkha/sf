@@ -52,7 +52,8 @@ class TournamentController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'remove-participant' => ['POST']
+                    'remove-participant' => ['POST'],
+                    'remind' => ['POST'],
                 ],
             ],
         ];
@@ -239,6 +240,11 @@ class TournamentController extends Controller
             return $this->redirect(['tournament/details', 'id' => $id]);
         }
         return $this->render('alias', ['tournament' => $tournament, 'models' => $models]);
+    }
+
+    public function actionRemind($id)
+    {
+        echo($id);
     }
 
     protected function findModel($id)

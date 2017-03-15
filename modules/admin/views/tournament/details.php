@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Назначить псевдонимы автопроцессинга', ['tournament/alias', 'id' => $tournament->id]);?>
     </div>
 </div>
-
 <div class = "row">
     <?= TournamentStandings::widget(['tournament' => $tournament, 'mode' => TournamentStandings::MODE_ADMIN]);?>
 </div>
@@ -41,4 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class = "row">
     <?= TournamentForecasters::widget(['tournament' => $tournament]);?>
+</div>
+<div class = "row">
+    <?= \app\modules\admin\widgets\NextTour::widget(['tournament' => $tournament]);?>
 </div>

@@ -12,7 +12,7 @@ class GameQuery extends \yii\db\ActiveQuery
 
     public function whereTourInTournament($tournament, $tour)
     {
-        return $this->andWhere(['tournament_id' => $tournament, 'tour' => $tour]);
+        return $this->where(['tournament_id' => $tournament, 'tour' => $tour]);
     }
 
     public function whereParticipants($teamHome, $teamGuest)
