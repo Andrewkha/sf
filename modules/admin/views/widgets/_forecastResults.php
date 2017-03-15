@@ -67,6 +67,7 @@ use yii\bootstrap\Modal;
             <?php endforeach;?>
         <?php endif?>
     <hr>
+
     <div class = "text-center row">
         <?php if ($model->tours->getTotalCount() === 0) :?>
             <h3>Прогноз не был сделан</h3>
