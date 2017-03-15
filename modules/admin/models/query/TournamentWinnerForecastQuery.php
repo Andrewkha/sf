@@ -12,7 +12,8 @@ class TournamentWinnerForecastQuery extends \yii\db\ActiveQuery
     public function whereUserTournament($user, $tournament) {
         return $this->where(['user_id' => $user])
             ->andWhere(['tournament_id' => $tournament])
+            ->with('team')
             ->orderBy(['position' => SORT_ASC])
-            ->indexBy(['position']);
+            ->indexBy('position');
     }
 }

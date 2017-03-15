@@ -13,4 +13,5 @@ use app\modules\admin\models\Tournament;
 interface StandingsInterface
 {
     public function getStandings(Tournament $tournament);
+    public function getWinners(Tournament $tournament);
 }

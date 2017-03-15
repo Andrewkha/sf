@@ -17,7 +17,10 @@ class ForecastStandingsItem
     public $user;
     public $tours;
     public $totalPoints;
+    public $pointsPerForecast;
     public $guessExactScore;
+    public $winnersForecast;
+    public $winnersForecastResult;
 
     /**
      * ForecastStandingsItem constructor.
@@ -25,12 +28,17 @@ class ForecastStandingsItem
      * @param $totalPoints
      * @param ArrayDataProvider $tours
      * @param $guessExactScore
+     * @param ArrayDataProvider $winnersForecast
+     * @param array $winnersForecastResult
      */
-    public function __construct(User $user, $totalPoints, $tours, $guessExactScore)
+    public function __construct(User $user, $totalPoints,$pointsPerForecast, ArrayDataProvider $tours, $guessExactScore, ArrayDataProvider $winnersForecast, $winnersForecastResult)
     {
         $this->user = $user;
         $this->totalPoints = $totalPoints;
+        $this->pointsPerForecast = $pointsPerForecast;
         $this->tours = $tours;
         $this->guessExactScore = $guessExactScore;
+        $this->winnersForecast = $winnersForecast;
+        $this->winnersForecastResult = $winnersForecastResult;
     }
 }

@@ -18,7 +18,7 @@ class ForecastSimpleStandings implements ForecastStandingsInterface
     public function getStandings(Tournament $tournament)
     {
         $items = $this->getData($tournament);
-        ArrayHelper::multisort($items, ['totalPoints', 'guessExactScore'], [SORT_DESC, SORT_DESC], [SORT_NUMERIC, SORT_NUMERIC]);
+        ArrayHelper::multisort($items, ['totalPoints', 'guessExactScore', 'pointsPerForecast'], [SORT_DESC, SORT_DESC, SORT_DESC], [SORT_NUMERIC, SORT_NUMERIC, SORT_NUMERIC]);
 
         return $items;
     }

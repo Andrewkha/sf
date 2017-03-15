@@ -8,10 +8,11 @@
 
 namespace app\modules\admin\resources\winnersForecastCalculator;
 
-use app\modules\admin\resources\forecastCalculator\StandardForecastPointsCalculator;
+use app\resources\dto\WinnersForecastItem;
 use app\traits\ContainerAwareTrait;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\Team;
+use app\modules\user\models\User;
 use app\modules\admin\models\TournamentWinnerForecast;
 
 /**
@@ -42,13 +43,12 @@ class WinnersForecastPointsCalculator
     }
 
     /**
-     * @param Team[] $winners
-     * @param TournamentWinnerForecast[] $forecast
-     * @return array
+     * @param User $user
+     * @return WinnersForecastItem[]
      */
 
-    public function getWinnersForecastResult($winners, $forecast)
+    public function getWinnersForecastResult(User $user)
     {
-        return $this->calculator->getWinnersForecastResult($winners, $forecast);
+        return $this->calculator->getWinnersForecastResult($this->tournament, $user);
     }
 }

@@ -18,84 +18,96 @@ use kartik\grid\GridView;
     <h3>В этом турнире нет пользователей</h3>
 <?php else : ?>
     <div class = "row">
-    <?= GridView::widget([
-    'dataProvider' => $models,
-    'resizableColumns' => false,
-    'options' => [
-        'class' => 'col-xs-12 col-md-10 col-lg-8'
-    ],
-    'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-    'toolbar' => false,
-    'panelHeadingTemplate' => '<h3 class = "panel-title">{heading}</h3>',
-    'panel'=>[
-        'type'=>GridView::TYPE_PRIMARY,
-        'heading'=> 'Все прогнозы турнира: ' . $tournament->tournament,
-        'headingOptions' => [
-            'class' => 'panel-heading'
-        ],
-        'footer' => false,
-        'before' => false,
-        'after' => false,
-    ],
-
-    'columns' => [
-        [
-            'header' => 'Место',
-            'class' => 'kartik\grid\SerialColumn',
+         <?= GridView::widget([
+            'dataProvider' => $models,
+            'resizableColumns' => false,
             'options' => [
-                'class' => 'col-xs-1'
-            ]
-        ],
-
-        [
-            'header' => 'Пользователь',
-            'format' => 'raw',
-            'value' => function($model) {
-                return $this->render('_forecastResults', ['model' => $model]);
-            },
-            'headerOptions' => [
-                'class' => 'kv-align-center',
+                'class' => 'col-xs-12 col-md-10 col-lg-8'
             ],
-            'vAlign' => 'middle',
-            'options' => [
-                'class' => 'col-xs-3'
-            ]
-        ],
-
-
-        [
-            'header' => 'Очки',
-            'value' => function($model) {
-                return $model->totalPoints;
-            },
-            'vAlign' => 'middle',
-            'hAlign' => 'center',
-            'options' => [
-                'class' => 'col-xs-1'
-            ]
-        ],
-
-        [
-            'header' => 'Прогнозы по турам',
-            'format' => 'raw',
-            'value' => function($model) use ($games) {
-                $string = '';
-                foreach ($games as $tour => $tourGames) {
-                    $forecast = isset($model->tours->allModels[$tour]) ? $model->tours->allModels[$tour] : NULL;
-                    $string .= $this->render('_forecastTour', ['tour' => $tour, 'games' => $tourGames, 'forecast' => $forecast, 'user' => $model->user]);
-                }
-                return $string;
-            },
-            'headerOptions' => [
-                'class' => 'kv-align-center',
+            'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+            'toolbar' => false,
+            'panelHeadingTemplate' => '<h3 class = "panel-title">{heading}</h3>',
+            'panel'=>[
+                'type'=>GridView::TYPE_PRIMARY,
+                'heading'=> 'Все прогнозы турнира: ' . $tournament->tournament,
+                'headingOptions' => [
+                    'class' => 'panel-heading'
+                ],
+                'footer' => false,
+                'before' => false,
+                'after' => false,
             ],
-            'vAlign' => 'middle',
-            'hAlign' => 'center',
-            'options' => [
-                'class' => 'col-xs-7'
-            ]
-        ],
-    ],
+
+            'columns' => [
+                [
+                    'header' => 'Место',
+                    'class' => 'kartik\grid\SerialColumn',
+                    'options' => [
+                        'class' => 'col-xs-1'
+                    ]
+                ],
+
+                [
+                    'header' => 'Пользователь',
+                    'format' => 'raw',
+                    'value' => function($model) {
+                        return $this->render('_forecastResults', ['model' => $model]);
+                    },
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'options' => [
+                        'class' => 'col-xs-2'
+                    ]
+                ],
+
+
+                [
+                    'header' => 'Очки',
+                    'value' => function($model) {
+                        return $model->totalPoints;
+                    },
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                    'options' => [
+                        'class' => 'col-xs-1'
+                    ]
+                ],
+
+                [
+                    'header' => 'В среднем на 1 прогноз',
+                    'value' => function($model) {
+                        return Yii::$app->formatter->asDecimal($model->pointsPerForecast, 2);
+                    },
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                    'options' => [
+                        'class' => 'col-xs-1'
+                    ]
+                ],
+
+                [
+                    'header' => 'Прогнозы по турам',
+                    'format' => 'raw',
+                    'value' => function($model) use ($games) {
+                        $string = '';
+                        foreach ($games as $tour => $tourGames) {
+                            $forecast = isset($model->tours->allModels[$tour]) ? $model->tours->allModels[$tour] : NULL;
+                            $string .= $this->render('_forecastTour', ['tour' => $tour, 'games' => $tourGames, 'forecast' => $forecast, 'user' => $model->user]);
+                        }
+                        return $string;
+                    },
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                    'options' => [
+                        'class' => 'col-xs-7'
+                    ]
+                ],
+            ],
 ]);?>
-</div>
+    </div>
 <?php endif; ?>

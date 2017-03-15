@@ -36,6 +36,6 @@ class SimpleStandings implements StandingsInterface
         for ($i = 0; $i <= 2; $i++)
             $winners[$i+1] = ArrayHelper::getValue($standings, ["$i.team"]);
 
-        print_r($winners); exit;
+        return $winners;
     }
 }

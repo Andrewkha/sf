@@ -10,9 +10,11 @@ namespace app\resources;
 
 use app\modules\admin\models\query\ForecastQuery;
 use app\modules\admin\models\query\GameQuery;
+use app\modules\admin\models\query\TournamentWinnerForecastQuery;
 use app\modules\admin\models\query\UserTournamentQuery;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\resources\forecastCalculator\ForecastPointsCalculator;
+use app\modules\admin\resources\winnersForecastCalculator\WinnersForecastPointsCalculator;
 use app\traits\ContainerAwareTrait;
 use app\resources\dto\Tour;
 use app\modules\admin\models\Forecast;
@@ -25,22 +27,32 @@ trait ForecastStandingsGetDataTrait
 {
     use ContainerAwareTrait;
 
+    /**
+     * Takes the tournament and returns all the forecast statistics for all the forecasters
+     * @param Tournament $tournament
+     * @return ForecastStandingsItem[]
+     */
     public function getData(Tournament $tournament)
     {
         $items = [];
 
         /** @var ForecastPointsCalculator $calculator */
         $calculator = $this->make(ForecastPointsCalculator::class,[$tournament]);
+        /** @var WinnersForecastPointsCalculator $winnersForecastCalculator */
+        $winnersForecastCalculator = $this->make(WinnersForecastPointsCalculator::class, [$tournament]);
 
         $userTournamentQuery = $this->make(UserTournamentQuery::class);
         $forecastQuery = $this->make(ForecastQuery::class);
         $gameQuery = $this->make(GameQuery::class);
+        $tournamentWinnerForecastQuery = $this->make(TournamentWinnerForecastQuery::class);
+
         $games = $gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->indexBy('id')->all();
         $users = $userTournamentQuery->whereTournament($tournament->id)->with('user')->all();
 
         $gamesInTour = (new \yii\db\Query())->select('tour, COUNT(*) as gamesintour')->from('{{%game}}')->where(['tournament_id' => $tournament->id])->indexBy('tour')->groupBy('tour')->all();
 
         foreach ($users as $user) {
+
             /** @var UserTournament $user */
             $forecasts[$user->user_id] = $forecastQuery
                 ->where(['user_id' => $user->user_id])
@@ -52,6 +64,11 @@ trait ForecastStandingsGetDataTrait
 
             /** @var Tour[] $tours */
             $tours = [];
+            $winnersForecast = new ArrayDataProvider([
+                'allModels' => $tournamentWinnerForecastQuery->whereUserTournament($user->user_id, $tournament->id)->all()
+            ]);
+
+            $winnersForecastResult = $winnersForecastCalculator->getWinnersForecastResult($user->user);
 
             foreach ($forecasts[$user->user_id] as $forecast) {
                 /** @var Forecast $forecast */
@@ -67,12 +84,17 @@ trait ForecastStandingsGetDataTrait
                 $tours[$tour]->getTourForecastStatus($gamesInTour[$tour]['gamesintour']);
             }
 
+            $pointsPerForecast = (count($forecasts[$user->user_id]) == 0) ? 0 : $totalPoints/count($forecasts[$user->user_id]);
+            if (isset($winnersForecastResult['totalPoints']))
+                $totalPoints += $winnersForecastResult['totalPoints']->eventPoints;
+
             /** @var ArrayDataProvider $tourDataProviders */
             $tourDataProvider = new ArrayDataProvider([
-                'allModels' => $tours
+                'allModels' => $tours,
+                'pagination' => false
             ]);
 
-            $item = $this->make(ForecastStandingsItem::class, [$user->user, $totalPoints, $tourDataProvider, $guessExactScore]);
+            $item = $this->make(ForecastStandingsItem::class, [$user->user, $totalPoints, $pointsPerForecast, $tourDataProvider, $guessExactScore, $winnersForecast, $winnersForecastResult]);
             $items[] = $item;
         }
 
