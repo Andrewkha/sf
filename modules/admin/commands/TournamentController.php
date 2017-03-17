@@ -62,7 +62,6 @@ class TournamentController extends Controller
     public function actionRemindForecast()
     {
         /** @var Tournament[] $tournaments */
-
         $tournaments = $this->tournamentQuery->inProgress()->all();
         foreach ($tournaments as $tournament) {
             $nextTour = TournamentHelper::getNextTour($tournament);

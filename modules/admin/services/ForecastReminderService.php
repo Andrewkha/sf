@@ -84,9 +84,9 @@ class ForecastReminderService implements ServiceInterface
 
     public function run()
     {
-      /*  if (!$this->checkSchedule())
+        if (!$this->checkSchedule())
             return false;
-*/
+
         /** @var Game[] $games */
         $games = $this->gameQuery->whereTourInTournament($this->tournament->id, $this->tour)->with(['teamHome', 'teamGuest'])->all();
 

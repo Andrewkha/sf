@@ -32,6 +32,7 @@ use app\resources\SimpleStandings;
 use app\resources\StandingsInterface;
 use Yii;
 use yii\base\BootstrapInterface;
+use yii\log\Logger;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -75,6 +76,12 @@ class Bootstrap implements BootstrapInterface
         });
         $container->set(ForecastRemindersQuery::class, function () {
             return ForecastReminders::find();
+        });
+
+        //logger
+
+        $container->set(Logger::class, function () {
+            return \Yii::getLogger();
         });
     }
 }
