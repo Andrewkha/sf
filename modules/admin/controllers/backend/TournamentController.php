@@ -249,7 +249,7 @@ class TournamentController extends Controller
             /** @var Tournament $tournament */
             $tournament = $this->findModel($id);
             if ($this->make(ForecastReminderService::class, [$tournament, $tour])->run())
-                Yii::$app->session->setFlash('Напоминания успешно отправлены');
+                Yii::$app->session->setFlash('success', 'Напоминания успешно отправлены');
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
