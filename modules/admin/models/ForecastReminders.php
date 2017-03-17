@@ -3,28 +3,26 @@
 namespace app\modules\admin\models;
 
 use app\modules\user\models\User;
-
 /**
- * This is the model class for table "{{%user_tournament}}".
+ * This is the model class for table "{{%forecast_reminders}}".
  *
  * @property integer $user_id
  * @property integer $tournament_id
- * @property integer $notification
+ * @property integer $tour
+ * @property integer $reminders
+ * @property integer $date
  *
  * @property Tournament $tournament
  * @property User $user
  */
-class UserTournament extends \yii\db\ActiveRecord
+class ForecastReminders extends \yii\db\ActiveRecord
 {
-    const NOTIFICATION_ENABLED = 1;
-    const NOTIFICATION_DISABLED = 0;
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user_tournament}}';
+        return '{{%forecast_reminders}}';
     }
 
     /**
@@ -33,8 +31,8 @@ class UserTournament extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'tournament_id'], 'required'],
-            [['user_id', 'tournament_id', 'notification'], 'integer'],
+            [['user_id', 'tournament_id', 'tour'], 'required'],
+            [['user_id', 'tournament_id', 'tour', 'reminders', 'date'], 'integer'],
             [['tournament_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tournament::className(), 'targetAttribute' => ['tournament_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -48,7 +46,9 @@ class UserTournament extends \yii\db\ActiveRecord
         return [
             'user_id' => 'User ID',
             'tournament_id' => 'Tournament ID',
-            'notification' => 'Notification',
+            'tour' => 'Tour',
+            'reminders' => 'Reminders',
+            'date' => 'Date',
         ];
     }
 
@@ -70,10 +70,10 @@ class UserTournament extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\modules\admin\models\query\UserTournamentQuery the active query used by this AR class.
+     * @return \app\modules\admin\models\query\ForecastRemindersQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\modules\admin\models\query\UserTournamentQuery(get_called_class());
+        return new \app\modules\admin\models\query\ForecastRemindersQuery(get_called_class());
     }
 }

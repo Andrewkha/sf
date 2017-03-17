@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\user\models\query;
+use app\modules\admin\models\UserTournament;
 
 /**
  * This is the ActiveQuery class for [[\app\modules\user\models\User]].
@@ -9,26 +10,9 @@ namespace app\modules\user\models\query;
  */
 class UserQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
 
-    /**
-     * @inheritdoc
-     * @return \app\modules\user\models\User[]|array
-     */
-    public function all($db = null)
+    public function tournamentNotificationsSubscribers($tournament)
     {
-        return parent::all($db);
-    }
-
-    /**
-     * @inheritdoc
-     * @return \app\modules\user\models\User|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
+        return $this->joinWith('userTournaments', false)->where(['tournament_id' => $tournament, 'notification' => UserTournament::NOTIFICATION_ENABLED]);
     }
 }

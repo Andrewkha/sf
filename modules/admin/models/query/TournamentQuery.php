@@ -14,4 +14,14 @@ class TournamentQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['or', ['status' => Tournament::STATUS_NOT_STARTED], ['status' => Tournament::STATUS_IN_PROGRESS]]);
     }
+
+    public function notStarted()
+    {
+        return $this->where(['status' => Tournament::STATUS_NOT_STARTED]);
+    }
+
+    public function inProgress()
+    {
+        return $this->where(['status' => Tournament::STATUS_IN_PROGRESS]);
+    }
 }

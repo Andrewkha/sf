@@ -2,19 +2,19 @@
 
 namespace app\modules\admin;
 
+use yii\base\Module as BaseModule;
 /**
  * admin module definition class
  */
-class Module extends \yii\base\Module
+class Module extends BaseModule
 {
+    /**
+     * @var integer when set not started tournament to started
+     */
+    public $daysSetTournamentToStarted = 60*60*24*5;
 
     /**
-     * @inheritdoc
+     * @var int how many automatic reminders about missing/not complete forecast
      */
-    public function init()
-    {
-        parent::init();
-
-        // custom initialization code goes here
-    }
+    public $numberOfForecastReminders = 2;
 }

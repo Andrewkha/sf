@@ -6,6 +6,7 @@ use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\models\TeamTournament;
 use app\modules\admin\models\Team;
 use app\modules\admin\services\AddParticipantService;
+use app\modules\admin\services\ForecastReminderService;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use app\modules\admin\services\ItemCreateService;
@@ -242,9 +243,18 @@ class TournamentController extends Controller
         return $this->render('alias', ['tournament' => $tournament, 'models' => $models]);
     }
 
-    public function actionRemind($id)
+    public function actionRemind($id, $tour)
     {
-        echo($id);
+        try {
+            /** @var Tournament $tournament */
+            $tournament = $this->findModel($id);
+            if ($this->make(ForecastReminderService::class, [$tournament, $tour])->run())
+                Yii::$app->session->setFlash('Напоминания успешно отправлены');
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(['tournament/details', 'id' => $id]);
     }
 
     protected function findModel($id)

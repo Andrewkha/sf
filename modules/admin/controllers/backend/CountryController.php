@@ -18,7 +18,6 @@ use yii\base\Module;
 use app\modules\admin\models\query\CountryQuery;
 use yii\db\ActiveRecord;
 
-
 /**
  * CountryController implements the CRUD actions for Country model.
  */

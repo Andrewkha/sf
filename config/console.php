@@ -2,7 +2,12 @@
 
 $config = [
     'id' => 'sf-console',
-    'controllerNamespace' => 'app\commands',
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'controllerNamespace' => 'app\modules\admin\commands',
+        ],
+    ],
     'components' => [
         'log' => [
             'targets' => [

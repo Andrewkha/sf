@@ -9,7 +9,9 @@
 namespace app;
 
 use app\modules\admin\models\Forecast;
+use app\modules\admin\models\ForecastReminders;
 use app\modules\admin\models\query\ForecastQuery;
+use app\modules\admin\models\query\ForecastRemindersQuery;
 use app\modules\admin\models\query\TeamQuery;
 use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\query\TournamentQuery;
@@ -47,13 +49,32 @@ class Bootstrap implements BootstrapInterface
         $container->setSingleton(ForecastStandingsInterface::class, ForecastSimpleStandings::class);
 
         //Query classes
-        $container->set(TournamentQuery::class, Tournament::find());
-        $container->set(TeamQuery::class, Team::find() );
-        $container->set(TeamTournamentQuery::class, TeamTournament::find());
-        $container->set(TournamentWinnerForecastQuery::class, TournamentWinnerForecast::find());
-        $container->set(ForecastQuery::class, Forecast::find());
-        $container->set(UserTournamentQuery::class, UserTournament::find());
-        $container->set(UserQuery::class, User::find());
-        $container->set(GameQuery::class, Game::find());
+        $container->set(TournamentQuery::class, function () {
+            return Tournament::find();
+        });
+        $container->set(TeamQuery::class, function () {
+            return  Team::find();
+        });
+        $container->set(TeamTournamentQuery::class, function () {
+            return TeamTournament::find();
+        });
+        $container->set(TournamentWinnerForecastQuery::class, function () {
+            return TournamentWinnerForecast::find();
+        });
+        $container->set(ForecastQuery::class, function () {
+            return Forecast::find();
+        });
+        $container->set(UserTournamentQuery::class, function () {
+            return UserTournament::find();
+        });
+        $container->set(UserQuery::class, function () {
+            return User::find();
+        });
+        $container->set(GameQuery::class, function () {
+            return Game::find();
+        });
+        $container->set(ForecastRemindersQuery::class, function () {
+            return ForecastReminders::find();
+        });
     }
 }

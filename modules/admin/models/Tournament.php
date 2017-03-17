@@ -140,6 +140,10 @@ class Tournament extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getFirstGameDate()
+    {
+        return $this->getGames()->min('date');
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -13,4 +13,4 @@ use kartik\helpers\Html;
 /* @var $tournament \app\modules\admin\models\Tournament */
 ?>
 
-<?= Html::a("Отправить напоминания на $nextTour тур", ['tournament/remind', 'id' => $tournament->id] ,['class' => 'btn btn-success', 'data-method' => 'post']);
+<?= Html::a("Отправить напоминания на $nextTour тур", ['tournament/remind', 'id' => $tournament->id, 'tour' => $nextTour] ,['class' => 'btn btn-success', 'data-method' => 'post']);
