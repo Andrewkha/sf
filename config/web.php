@@ -27,9 +27,7 @@ $config = [
             'viewPath' => '@app/modules/user/views/frontend',
         ]
     ],
-    'aliases' => [
-        '@admin' => '@app/modules/admin/'
-    ],
+
     'components' => [
 
         'user' => [

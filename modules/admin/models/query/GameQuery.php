@@ -34,4 +34,10 @@ class GameQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere(['not', ['scoreHome' => null]])->andWhere(['not', ['scoreGuest' => null]]);
     }
+
+    public function firstGameInTourDate($tournament, $tour)
+    {
+        return $this->whereTourInTournament($tournament, $tour)->min('date');
+    }
+
 }

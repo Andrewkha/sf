@@ -17,4 +17,14 @@ class Module extends BaseModule
      * @var int how many automatic reminders about missing/not complete forecast
      */
     public $numberOfForecastReminders = 2;
+
+    /**
+     * @var array timeframe for sending the secondnotification
+     */
+    public $secondNotificationFrame = ['from' => 60*60*24*3, 'to' => 60*60*24*2];
+
+    /**
+     * @var array timeframe foe sending the first notification
+     */
+    public $firstNotificationFrame = ['from' => 60*60*24*4, 'to' => 60*60*24*5];
 }

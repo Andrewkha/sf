@@ -19,6 +19,9 @@ return [
         'app\Bootstrap'
     ],
     'basePath' => dirname(__DIR__),
+    'aliases' => [
+        '@admin' => '@app/modules/admin/'
+    ],
     'components' => [
 
         'cache' => [

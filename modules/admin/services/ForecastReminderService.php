@@ -10,6 +10,7 @@ namespace app\modules\admin\services;
 
 
 use app\modules\admin\contracts\ServiceInterface;
+use app\modules\admin\factory\MailFactory;
 use app\modules\admin\models\query\ForecastRemindersQuery;
 use app\modules\admin\models\query\GameQuery;
 use app\modules\admin\models\Tournament;
@@ -55,6 +56,9 @@ class ForecastReminderService implements ServiceInterface
     /** @var Module */
     protected $module;
 
+    /** @var  integer */
+    protected $firstGameStarts;
+
     public function __construct(
         Tournament $tournament,
         $tour,
@@ -75,10 +79,14 @@ class ForecastReminderService implements ServiceInterface
         } else
             throw new Exception('Wrong application format');
         $this->module = Yii::$app->getModule('admin');
+        $this->firstGameStarts = $this->gameQuery->firstGameInTourDate($tournament->id, $tour);
     }
 
     public function run()
     {
+      /*  if (!$this->checkSchedule())
+            return false;
+*/
         /** @var Game[] $games */
         $games = $this->gameQuery->whereTourInTournament($this->tournament->id, $this->tour)->with(['teamHome', 'teamGuest'])->all();
 
@@ -93,6 +101,23 @@ class ForecastReminderService implements ServiceInterface
 
         $emptyForecast = $this->getEmpty($recipients);
         $partialForecast = $this->getPartial($recipients, $countGames);
+
+        foreach ($emptyForecast as $one) {
+            /** @var MailService $mailService */
+            $mailService = MailFactory::makeForecastReminderEmptyMailerService($one, $games, $this->firstGameStarts, $this->tour, $this->tournament);
+            if (!$mailService->run())
+                throw new Exception("Ошибка отправки напоминания на турнир $this->tournament->tournament, тур $this->tour пользователю $one->username");
+        }
+        //todo добавить запись в БД!!!
+
+        foreach ($partialForecast as $one) {
+            /** @var MailService $mailService */
+            $mailService = MailFactory::makeForecastReminderPartialMailerService($one, $games, $this->firstGameStarts, $this->tour, $this->tournament);
+            if (!$mailService->run())
+                throw new Exception("Ошибка отправки напоминания на турнир $this->tournament->tournament, тур $this->tour пользователю $one->username");
+        }
+
+        return true;
 
     }
 
@@ -142,4 +167,15 @@ class ForecastReminderService implements ServiceInterface
         });
     }
 
+    protected function checkSchedule()
+    {
+        if ($this->mode === self::MODE_WEB)
+            return true;
+
+        if (($this->firstGameStarts > time() + $this->module->firstNotificationFrame['from'] && $this->firstGameStarts < time() + $this->module->firstNotificationFrame['to']) ||
+            ($this->firstGameStarts > time() + $this->module->secondNotificationFrame['from'] && $this->firstGameStarts < time() + $this->module->secondNotificationFrame['to']))
+            return true;
+        else
+            return false;
+    }
 }

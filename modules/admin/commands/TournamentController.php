@@ -29,6 +29,7 @@ class TournamentController extends Controller
     use ContainerAwareTrait;
 
     protected $tournamentQuery;
+    public $module;
     protected $logger;
 
     public function __construct($id, Module $module, TournamentQuery $tournamentQuery,Logger $logger, array $config = [])
@@ -54,6 +55,8 @@ class TournamentController extends Controller
                 }
             }
         }
+
+        return 0;
     }
 
     public function actionRemindForecast()
@@ -63,7 +66,14 @@ class TournamentController extends Controller
         $tournaments = $this->tournamentQuery->inProgress()->all();
         foreach ($tournaments as $tournament) {
             $nextTour = TournamentHelper::getNextTour($tournament);
-            $this->make(ForecastReminderService::class, [$tournament, $nextTour])->run();
+            try {
+                if ($this->make(ForecastReminderService::class, [$tournament, $nextTour])->run())
+                    $this->logger->log("Task Autoreminder for $tournament->tournament tour $nextTour has been executed", Logger::LEVEL_INFO, 'console');
+            } catch (Exception $e) {
+                $this->logger->log($e->getMessage(), Logger::LEVEL_ERROR, 'console');
+            }
         }
+
+        return 0;
     }
 }
