@@ -22,6 +22,11 @@ return [
     'aliases' => [
         '@admin' => '@app/modules/admin/'
     ],
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ],
+    ],
     'components' => [
 
         'cache' => [

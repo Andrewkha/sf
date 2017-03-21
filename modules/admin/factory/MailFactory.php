@@ -11,6 +11,7 @@ namespace app\modules\admin\factory;
 use app\modules\admin\services\MailService;
 use Yii;
 use app\modules\user\models\User;
+use yii\data\ArrayDataProvider;
 use app\modules\admin\models\Tournament;
 
 class MailFactory
@@ -22,7 +23,8 @@ class MailFactory
         $subject = "Напоминание: сделайте прогноз на матчи $tour тура турнира $tournament->tournament";
         $params = [
             'user' => $user,
-            'games' => $games,
+            'logo' => Yii::$app->params['logo'],
+            'games' => new ArrayDataProvider(['allModels' => $games]),
             'firstGame' => $firstGame,
             'tour' => $tour,
             'tournament' => $tournament,
@@ -38,7 +40,8 @@ class MailFactory
         $subject = "Напоминание: сделайте прогноз на матчи $tour тура турнира $tournament->tournament";
         $params = [
             'user' => $user,
-            'games' => $games,
+            'logo' => Yii::$app->params['logo'],
+            'games' => new ArrayDataProvider(['allModels' => $games]),
             'firstGame' => $firstGame,
             'tour' => $tour,
             'tournament' => $tournament,

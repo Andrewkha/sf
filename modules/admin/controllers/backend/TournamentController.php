@@ -158,7 +158,6 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/']);
-
     }
 
 

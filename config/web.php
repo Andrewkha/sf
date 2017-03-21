@@ -4,9 +4,6 @@ $config = [
     'id' => 'Sportforecast',
     'language'=>'ru-RU',
     'modules' => [
-        'gridview' =>  [
-            'class' => '\kartik\grid\Module'
-        ],
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'layout' => '@app/modules/admin/views/layouts/admin',

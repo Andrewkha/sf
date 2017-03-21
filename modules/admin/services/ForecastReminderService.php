@@ -84,17 +84,18 @@ class ForecastReminderService implements ServiceInterface
 
     public function run()
     {
+
         if (!$this->checkSchedule())
             return false;
 
         /** @var Game[] $games */
-        $games = $this->gameQuery->whereTourInTournament($this->tournament->id, $this->tour)->with(['teamHome', 'teamGuest'])->all();
+        $games = $this->gameQuery->whereTourInTournament($this->tournament->id, $this->tour)->with(['teamHome', 'teamGuest'])->orderBy(['date' => SORT_ASC])->all();
 
         /** @var User[] $recipients */
         $recipients = $this->userQuery
             ->tournamentNotificationsSubscribers($this->tournament->id)
             ->with(['forecasts' => function (ActiveQuery $query) use ($games) {
-                $query->where(['in', 'game_id', ArrayHelper::getColumn($games, 'id')]);
+                $query->where(['in', 'game_id', ArrayHelper::getColumn($games, 'id')])->indexBy('game_id');
             }])->all();
 
         $countGames = count($games);
