@@ -103,23 +103,17 @@ class ForecastReminderService implements ServiceInterface
         $emptyForecast = $this->getEmpty($recipients);
         $partialForecast = $this->getPartial($recipients, $countGames);
 
-        foreach ($emptyForecast as $one) {
-            /** @var MailService $mailService */
-            $mailService = MailFactory::makeForecastReminderEmptyMailerService($one, $games, $this->firstGameStarts, $this->tour, $this->tournament);
-            if (!$mailService->run())
-                throw new Exception("Ошибка отправки напоминания на турнир $this->tournament->tournament, тур $this->tour пользователю $one->username");
-        }
+        $mailService = MailFactory::makeForecastReminderEmptyMailerService($emptyForecast, $games, $this->firstGameStarts, $this->tour, $this->tournament);
+        if ($mailService->run() !== count($emptyForecast))
+            throw new Exception("Ошибка отправки напоминаний о пустом прогнозе на турнир ". $this->tournament->tournament . ", тур $this->tour");
+
         //todo добавить запись в БД!!!
 
-        foreach ($partialForecast as $one) {
-            /** @var MailService $mailService */
-            $mailService = MailFactory::makeForecastReminderPartialMailerService($one, $games, $this->firstGameStarts, $this->tour, $this->tournament);
-            if (!$mailService->run())
-                throw new Exception("Ошибка отправки напоминания на турнир $this->tournament->tournament, тур $this->tour пользователю $one->username");
-        }
+        $mailService = MailFactory::makeForecastReminderPartialMailerService($partialForecast, $games, $this->firstGameStarts, $this->tour, $this->tournament);
+        if ($mailService->run() !== count($partialForecast))
+            throw new Exception("Ошибка отправки напоминаний о частичном прогнозе на турнир ". $this->tournament->tournament . ", тур $this->tour");
 
         return true;
-
     }
 
     /**

@@ -10,9 +10,13 @@ namespace app\modules\admin\services;
 
 use yii\mail\BaseMailer;
 use Yii;
+use app\modules\user\models\User;
 
 class MailServiceMultiple extends MailService
 {
+    /**
+     * @var User[]
+     */
     protected $to = [];
 
     public function __construct($from, array $to, $subject, $view, array $params, BaseMailer $mailer)
@@ -29,11 +33,16 @@ class MailServiceMultiple extends MailService
 
     public function run() {
 
-        return $this->mailer
-            ->compose($this->view, $this->params)
-            ->setFrom($this->from)
-            ->setTo($this->to)
-            ->setSubject($this->subject)
-            ->send();
+        $messages = [];
+        foreach ($this->to as $one) {
+            $this->params['user'] = $one;
+            $messages[] = $this->mailer
+                ->compose($this->view, $this->params)
+                ->setFrom($this->from)
+                ->setTo($one->email)
+                ->setSubject($this->subject);
+        }
+
+        return $this->mailer->sendMultiple($messages);
     }
 }

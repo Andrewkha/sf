@@ -9,20 +9,30 @@
 namespace app\modules\admin\factory;
 
 use app\modules\admin\services\MailService;
+use app\modules\admin\services\MailServiceMultiple;
+use app\modules\admin\models\Game;
 use Yii;
 use app\modules\user\models\User;
 use yii\data\ArrayDataProvider;
 use app\modules\admin\models\Tournament;
+use yii\helpers\ArrayHelper;
 
 class MailFactory
 {
-    public static function makeForecastReminderEmptyMailerService(User $user, $games, $firstGame, $tour,  Tournament $tournament)
+    /**
+     * @param User[] $users
+     * @param Game[] $games
+     * @param $firstGame
+     * @param $tour
+     * @param Tournament $tournament
+     * @return MailServiceMultiple
+     */
+    public static function makeForecastReminderEmptyMailerService(array $users, $games, $firstGame, $tour,  Tournament $tournament)
     {
-        $to = $user->email;
+        $to = $users;
         $from = [Yii::$app->params['adminEmail'] => Yii::$app->params['adminTitle']];
         $subject = "Напоминание: сделайте прогноз на матчи $tour тура турнира $tournament->tournament";
         $params = [
-            'user' => $user,
             'logo' => Yii::$app->params['logo'],
             'games' => new ArrayDataProvider(['allModels' => $games]),
             'firstGame' => $firstGame,
@@ -30,16 +40,23 @@ class MailFactory
             'tournament' => $tournament,
         ];
 
-        return self::makeMailerService($from, $to, $subject, 'remindEmpty', $params);
+        return self::makeMailerServiceMultiple($from, $to, $subject, 'remindEmpty', $params);
     }
 
-    public static function makeForecastReminderPartialMailerService(User $user, $games, $firstGame, $tour,  Tournament $tournament)
+    /**
+     * @param User[] $users
+     * @param Game[] $games
+     * @param $firstGame
+     * @param $tour
+     * @param Tournament $tournament
+     * @return MailServiceMultiple
+     */
+    public static function makeForecastReminderPartialMailerService(array $users, $games, $firstGame, $tour,  Tournament $tournament)
     {
-        $to = $user->email;
+        $to = $users;
         $from = [Yii::$app->params['adminEmail'] => Yii::$app->params['adminTitle']];
         $subject = "Напоминание: сделайте прогноз на матчи $tour тура турнира $tournament->tournament";
         $params = [
-            'user' => $user,
             'logo' => Yii::$app->params['logo'],
             'games' => new ArrayDataProvider(['allModels' => $games]),
             'firstGame' => $firstGame,
@@ -47,11 +64,16 @@ class MailFactory
             'tournament' => $tournament,
         ];
 
-        return self::makeMailerService($from, $to, $subject, 'remindPartial', $params);
+        return self::makeMailerServiceMultiple($from, $to, $subject, 'remindPartial', $params);
     }
 
     public static function makeMailerService($from, $to, $subject, $view, array $params = [])
     {
         return Yii::$container->get(MailService::class, [$from, $to, $subject, $view, $params, Yii::$app->getMailer()]);
+    }
+
+    public static function makeMailerServiceMultiple($from, array $to, $subject, $view, array $params = [])
+    {
+        return Yii::$container->get(MailServiceMultiple::class, [$from, $to, $subject, $view, $params, Yii::$app->getMailer()]);
     }
 }
