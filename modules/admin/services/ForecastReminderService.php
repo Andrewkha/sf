@@ -11,6 +11,7 @@ namespace app\modules\admin\services;
 
 use app\modules\admin\contracts\ServiceInterface;
 use app\modules\admin\factory\MailFactory;
+use app\modules\admin\models\ForecastReminders;
 use app\modules\admin\models\query\ForecastRemindersQuery;
 use app\modules\admin\models\query\GameQuery;
 use app\modules\admin\models\Tournament;
@@ -107,6 +108,11 @@ class ForecastReminderService implements ServiceInterface
             $mailService = MailFactory::makeForecastReminderEmptyMailerService($emptyForecast, $games, $this->firstGameStarts, $this->tour, $this->tournament);
             if ($mailService->run() !== count($emptyForecast))
                 throw new Exception("Ошибка отправки напоминаний о пустом прогнозе на турнир ". $this->tournament->tournament . ", тур $this->tour");
+            else {
+                foreach ($emptyForecast as $one) {
+                    $one->link('tournamentsReminders', $this->tournament, ['tour' => $this->tour, 'date' => time()]);
+                }
+            }
         }
 
         //todo добавить запись в БД!!!
@@ -115,6 +121,11 @@ class ForecastReminderService implements ServiceInterface
             $mailService = MailFactory::makeForecastReminderPartialMailerService($partialForecast, $games, $this->firstGameStarts, $this->tour, $this->tournament);
             if ($mailService->run() !== count($partialForecast))
                 throw new Exception("Ошибка отправки напоминаний о частичном прогнозе на турнир ". $this->tournament->tournament . ", тур $this->tour");
+            else {
+                foreach ($partialForecast as $one) {
+                    $one->link('tournamentsReminders', $this->tournament, ['tour' => $this->tour, 'date' => time()]);
+                }
+            }
         }
 
         return true;

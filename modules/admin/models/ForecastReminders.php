@@ -3,6 +3,7 @@
 namespace app\modules\admin\models;
 
 use app\modules\user\models\User;
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "{{%forecast_reminders}}".
  *
@@ -32,7 +33,7 @@ class ForecastReminders extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'tournament_id', 'tour'], 'required'],
-            [['user_id', 'tournament_id', 'tour', 'reminders', 'date'], 'integer'],
+            [['user_id', 'tournament_id', 'tour', 'date'], 'integer'],
             [['tournament_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tournament::className(), 'targetAttribute' => ['tournament_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -47,7 +48,6 @@ class ForecastReminders extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'tournament_id' => 'Tournament ID',
             'tour' => 'Tour',
-            'reminders' => 'Reminders',
             'date' => 'Date',
         ];
     }

@@ -130,6 +130,14 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTournamentsReminders()
+    {
+        return $this->hasMany(Tournament::className(), ['id' => 'tournament_id'])->viaTable('{{%forecast_reminders}}', ['user_id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      * @return \app\modules\user\models\query\UserQuery the active query used by this AR class.
      */
