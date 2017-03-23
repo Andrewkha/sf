@@ -21,7 +21,10 @@ use app\modules\admin\models\query\TournamentQuery;
 use yii\filters\VerbFilter;
 use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
+use app\modules\admin\models\query\GameQuery;
 use yii\web\NotFoundHttpException;
+use yii\helpers\ArrayHelper;
+use yii\data\ArrayDataProvider;
 
 
 /**
@@ -254,6 +257,28 @@ class TournamentController extends Controller
         }
 
         return $this->redirect(['tournament/details', 'id' => $id]);
+    }
+
+    public function actionSchedule($id)
+    {
+        try {
+            $tournament = $this->findModel($id);
+            $gameQuery = $this->make(GameQuery::class);
+            $games = $gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->orderBy(['date' => SORT_ASC])->indexBy('id')->all();
+            $games = ArrayHelper::index($games, null, 'tour');
+
+            $dataProviders = [];
+            foreach ($games as $tour => $tourGames) {
+                $dataProviders[$tour] = new ArrayDataProvider([
+                    'allModels' => $tourGames,
+                    'key' => 'id'
+                ]);
+            };
+            return $this->render('schedule', ['dataProviders' => $dataProviders, 'tournament' => $tournament]);
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['tournament/details', 'id' => $id]);
+        }
     }
 
     protected function findModel($id)

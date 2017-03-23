@@ -115,8 +115,6 @@ class ForecastReminderService implements ServiceInterface
             }
         }
 
-        //todo добавить запись в БД!!!
-
         if (!empty($partialForecast)) {
             $mailService = MailFactory::makeForecastReminderPartialMailerService($partialForecast, $games, $this->firstGameStarts, $this->tour, $this->tournament);
             if ($mailService->run() !== count($partialForecast))

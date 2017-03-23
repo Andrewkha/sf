@@ -25,7 +25,9 @@ use app\modules\admin\models\UserTournament;
 use app\modules\user\models\query\UserQuery;
 use app\modules\user\models\User;
 use app\modules\admin\models\query\GameQuery;
+use app\modules\admin\models\query\CountryQuery;
 use app\modules\admin\models\Game;
+use app\modules\admin\models\Country;
 use app\resources\ForecastSimpleStandings;
 use app\resources\ForecastStandingsInterface;
 use app\resources\SimpleStandings;
@@ -50,6 +52,10 @@ class Bootstrap implements BootstrapInterface
         $container->setSingleton(ForecastStandingsInterface::class, ForecastSimpleStandings::class);
 
         //Query classes
+
+        $container->set(CountryQuery::class, function () {
+            return Country::find();
+        });
         $container->set(TournamentQuery::class, function () {
             return Tournament::find();
         });

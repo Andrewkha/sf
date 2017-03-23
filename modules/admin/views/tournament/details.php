@@ -15,7 +15,7 @@ use app\modules\admin\widgets\TournamentForecasters;
 /* @var $tournament app\modules\admin\models\Tournament */
 
 $this->title = $tournament->tournament;
-$this->params['breadcrumbs'][] = ['label' => 'Турниры', 'url' => ['tournament/']];;
+$this->params['breadcrumbs'][] = ['label' => 'Турниры', 'url' => ['tournament/']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
