@@ -27,6 +27,6 @@ $this->params['breadcrumbs'][] = 'Расписание';
 
 <?php foreach ($dataProviders as $tour => $dataProvider): ?>
     <div class="row">
-        <?= TourGames::widget(['dataProvider' => $dataProvider, 'tour' => $tour]);?>
+        <?= TourGames::widget(['dataProvider' => $dataProvider, 'tour' => $tour, 'tournament_id' => $tournament->id]);?>
     </div>
 <?php endforeach; ?>

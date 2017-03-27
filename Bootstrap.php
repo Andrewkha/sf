@@ -25,6 +25,8 @@ use app\modules\admin\models\UserTournament;
 use app\modules\user\models\query\UserQuery;
 use app\modules\user\models\User;
 use app\modules\admin\models\query\GameQuery;
+use app\modules\admin\models\query\TourresultnotificationQuery;
+use app\modules\admin\models\Tourresultnotification;
 use app\modules\admin\models\query\CountryQuery;
 use app\modules\admin\models\Game;
 use app\modules\admin\models\Country;
@@ -82,6 +84,9 @@ class Bootstrap implements BootstrapInterface
         });
         $container->set(ForecastRemindersQuery::class, function () {
             return ForecastReminders::find();
+        });
+        $container->set(TourresultnotificationQuery::class, function () {
+            return Tourresultnotification::find();
         });
 
         //logger

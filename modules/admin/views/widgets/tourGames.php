@@ -15,14 +15,18 @@ use kartik\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $tour int*/
+/* @var $tournament_id int*/
 
 ?>
 <div class = "row">
     <?php $form = ActiveForm::begin([
         'type' => ActiveForm::TYPE_INLINE,
-        'fieldConfig' => ['autoPlaceholder' => false]
+        'fieldConfig' => ['autoPlaceholder' => false],
+        'action' => ['game/set-score'],
     ]);?>
 
+    <?= Html::hiddenInput('tour', $tour);?>
+    <?= Html::hiddenInput('tournament_id', $tournament_id);?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => false,

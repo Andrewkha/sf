@@ -2,8 +2,10 @@
 
 namespace app\modules\admin\models;
 
+use app\modules\admin\events\TournamentEvent;
 use app\modules\admin\resources\behaviors\fileUploadBehavior;
 use app\modules\user\models\User;
+use app\traits\ContainerAwareTrait;
 
 
 /**
@@ -33,6 +35,8 @@ use app\modules\user\models\User;
  */
 class Tournament extends \yii\db\ActiveRecord
 {
+    use ContainerAwareTrait;
+
     const TYPE_REGULAR = 1;
     const TYPE_PLAYOFF = 0;
 
@@ -80,6 +84,17 @@ class Tournament extends \yii\db\ActiveRecord
     public function isSetToFinished()
     {
         return ($this->getOldAttribute('status') !== self::STATUS_FINISHED && $this->isFinished());
+    }
+
+    public function setToFinished()
+    {
+        $this->status = self::STATUS_FINISHED;
+        $this->trigger(TournamentEvent::EVENT_TOURNAMENT_FINISHED, $this->make(TournamentEvent::class, [$this]));
+    }
+
+    public function isLastTour($tour)
+    {
+        return ($tour === $this->tours);
     }
 
     /**

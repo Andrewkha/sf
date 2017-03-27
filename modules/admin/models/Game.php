@@ -77,7 +77,7 @@ class Game extends \yii\db\ActiveRecord
         return [
             [['tournament_id', 'teamHome_id', 'teamGuest_id', 'tour', 'scoreHome', 'scoreGuest'], 'integer'],
             [['teamHome_id', 'teamGuest_id', 'tour'], 'required'],
-            [['teamHome_id', 'teamGuest_id'], 'integer', 'min' => 0, 'max' => 99],
+            [['scoreHome', 'scoreGuest'], 'integer', 'min' => 0, 'max' => 99],
             ['teamGuest_id', 'compare', 'compareAttribute' => 'teamHome_id', 'operator' => '!=', 'message' => 'Выберите разные команды'],
             ['teamHome_id', 'compare', 'compareAttribute' => 'teamGuest_id', 'operator' => '!=', 'message' => 'Выберите разные команды'],
             [['teamGuest_id'], 'exist', 'skipOnError' => true, 'targetClass' => Team::className(), 'targetAttribute' => ['teamGuest_id' => 'id']],

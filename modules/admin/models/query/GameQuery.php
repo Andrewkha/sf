@@ -40,4 +40,9 @@ class GameQuery extends \yii\db\ActiveQuery
         return $this->whereTourInTournament($tournament, $tour)->min('date');
     }
 
+    public function isTourFinished($tournament, $tour)
+    {
+        $count = $this->where(['scoreHome' => null, 'scoreGuest' => null])->andWhere(['tournament_id' => $tournament])->andWhere(['tour' => $tour]);
+        return $count->count() == 0;
+    }
 }
