@@ -16,6 +16,9 @@ use yii\web\Controller;
 use Yii;
 use yii\filters\VerbFilter;
 use app\modules\admin\Module;
+use yii\web\NotFoundHttpException;
+use app\modules\admin\events\ItemEvent;
+use yii\db\ActiveRecord;
 
 class GameController extends Controller
 {
@@ -63,6 +66,35 @@ class GameController extends Controller
         }
 
         $this->redirect(['tournament/schedule', 'id' => $tournament]);
+    }
+
+    protected function findModel($id)
+    {
+        if ($model = $this->gameQuery->where(['id' => $id])->one()) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('Нельзя удалить несуществующую игру');
+        }
+    }
+
+    public function actionDelete($id)
+    {
+        try {
+            /** @var Game $game */
+            $game = $this->findModel($id);
+
+            $tournament_id = $game->tournament_id;
+            /** @var ItemEvent $event */
+            $event = $this->make(ItemEvent::class, [$game]);
+            $game->delete();
+            Yii::$app->session->setFlash('success', "Игра $game->id успешно удалена");
+            $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
+
+        } catch (\Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(['tournament/schedule', 'id' => $tournament_id]);
     }
 
 }
