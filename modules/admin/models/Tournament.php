@@ -90,6 +90,7 @@ class Tournament extends \yii\db\ActiveRecord
     {
         $this->status = self::STATUS_FINISHED;
         $this->trigger(TournamentEvent::EVENT_TOURNAMENT_FINISHED, $this->make(TournamentEvent::class, [$this]));
+        $this->save();
     }
 
     public function isLastTour($tour)

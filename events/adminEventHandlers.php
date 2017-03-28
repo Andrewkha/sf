@@ -18,6 +18,8 @@ Event::on(Tournament::class, ItemEvent::EVENT_AFTER_CREATE, function (ItemEvent 
 
 Event::on(Tournament::class, TournamentEvent::EVENT_TOURNAMENT_FINISHED, function (TournamentEvent $e) {
     //todo implement user notification after tournament is finished
+    $logger = Yii::getLogger();
+    $logger->log($e->getTournament()->tournament . 'is set to finished', \yii\log\Logger::LEVEL_ERROR);
 });
 
 Event::on (Tournament::class, TourEvent::EVENT_TOUR_FINISHED, function (TourEvent $event) {

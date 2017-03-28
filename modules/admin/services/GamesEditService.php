@@ -73,7 +73,7 @@ class GamesEditService implements ServiceInterface
             }
             $transaction->commit();
 
-            if ($this->gameQuery->isTourFinished($this->tournament->id, $this->tour)  && $this->tour === $this->tournament->tours)
+            if ($this->gameQuery->isTourFinished($this->tournament->id, $this->tour)  && (int)$this->tour === $this->tournament->tours)
                 $this->tournament->setToFinished();
             elseif ($this->gameQuery->isTourFinished($this->tournament->id, $this->tour) && !$this->tourNotificationQuery->ifNotified($this->tournament->id, $this->tour)) {
 
