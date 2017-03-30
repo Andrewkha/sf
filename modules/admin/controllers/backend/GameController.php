@@ -19,6 +19,7 @@ use app\modules\admin\Module;
 use yii\web\NotFoundHttpException;
 use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
+use app\modules\admin\services\ItemCreateService;
 
 class GameController extends Controller
 {
@@ -68,15 +69,6 @@ class GameController extends Controller
         $this->redirect(['tournament/schedule', 'id' => $tournament]);
     }
 
-    protected function findModel($id)
-    {
-        if ($model = $this->gameQuery->where(['id' => $id])->one()) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('Нельзя удалить несуществующую игру');
-        }
-    }
-
     public function actionDelete($id)
     {
         try {
@@ -97,4 +89,28 @@ class GameController extends Controller
         return $this->redirect(['tournament/schedule', 'id' => $tournament_id]);
     }
 
+    public function actionCreate()
+    {
+        /** @var Game $model*/
+        $model = $this->make(Game::class);
+
+        if($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            if ($this->make(ItemCreateService::class, [$model])->run()) {
+                Yii::$app->session->setFlash('success', "Игра успешно добавлена");
+            } else {
+                Yii::$app->session->setFlash('error', 'Невозможно создать игру. См лог файл для деталей');
+            }
+            return $this->redirect(['tournament/schedule', 'id' => $model->tournament_id]);
+        }
+    }
+
+    protected function findModel($id)
+    {
+        if ($model = $this->gameQuery->where(['id' => $id])->one()) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('Нельзя удалить несуществующую игру');
+        }
+    }
 }

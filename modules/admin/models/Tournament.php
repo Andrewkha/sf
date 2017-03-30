@@ -73,7 +73,7 @@ class Tournament extends \yii\db\ActiveRecord
 
     public function isAutoProcess()
     {
-        return ($this->autoprocess == self::AUTOPROCESS_ENABLED && !$this->isFinished());
+        return ($this->autoprocess == self::AUTOPROCESS_ENABLED && !$this->isFinished() && $this->autoprocessURL != '');
     }
 
     public function isWinnersForecastOpen()

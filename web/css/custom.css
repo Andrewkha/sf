@@ -11,7 +11,8 @@
     margin-bottom: 8px;
 }
 
-.score {
+.score,
+.tour {
     width:3em;
     -moz-appearance: textfield;
     background-color: #fff;

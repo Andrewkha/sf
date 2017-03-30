@@ -27,6 +27,7 @@ use kartik\helpers\Html;
 
     <?= Html::hiddenInput('tour', $tour);?>
     <?= Html::hiddenInput('tournament_id', $tournament_id);?>
+    <div id = "tour<?=$tour?>"></div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => false,

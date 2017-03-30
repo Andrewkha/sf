@@ -30,6 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <div class = "row">
+    <div class = "well col-xs-4 h4">
+        <?= Html::a('Игры турнира', ['tournament/schedule', 'id' => $tournament->id]);?>
+    </div>
+</div>
+<div class = "row">
     <?= TournamentStandings::widget(['tournament' => $tournament, 'mode' => TournamentStandings::MODE_ADMIN]);?>
 </div>
 <hr>

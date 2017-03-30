@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\forms\TournamentCreateEditForm;
+use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\TeamTournament;
 use app\modules\admin\models\Team;
 use app\modules\admin\services\AddParticipantService;
@@ -24,6 +25,7 @@ use yii\db\ActiveRecord;
 use app\modules\admin\models\query\GameQuery;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use app\modules\admin\models\Game;
 use yii\data\ArrayDataProvider;
 
 
@@ -40,9 +42,13 @@ class TournamentController extends Controller
      */
     protected $tournamentQuery;
 
-    public function __construct($id, Module $module, TournamentQuery $tournamentQuery, array $config = [])
+    /** @var  TeamTournamentQuery */
+    protected $teamTournamentQuery;
+
+    public function __construct($id, Module $module, TournamentQuery $tournamentQuery, TeamTournamentQuery $teamTournamentQuery, array $config = [])
     {
         $this->tournamentQuery = $tournamentQuery;
+        $this->teamTournamentQuery = $teamTournamentQuery;
         parent::__construct($id, $module, $config);
     }
 
@@ -58,6 +64,7 @@ class TournamentController extends Controller
                     'delete' => ['POST'],
                     'remove-participant' => ['POST'],
                     'remind' => ['POST'],
+                    'autoprocess' => ['POST']
                 ],
             ],
         ];
@@ -267,6 +274,8 @@ class TournamentController extends Controller
             $games = $gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->orderBy(['date' => SORT_ASC])->indexBy('id')->all();
             $games = ArrayHelper::index($games, null, 'tour');
 
+            $newGame = $this->make(Game::class);
+            $tournamentParticipants = $this->teamTournamentQuery->tournamentParticipants($id)->joinWith('team')->orderBy(['{{%team}}.team' => SORT_ASC])->all();
             $dataProviders = [];
             foreach ($games as $tour => $tourGames) {
                 $dataProviders[$tour] = new ArrayDataProvider([
@@ -274,11 +283,16 @@ class TournamentController extends Controller
                     'key' => 'id'
                 ]);
             };
-            return $this->render('schedule', ['dataProviders' => $dataProviders, 'tournament' => $tournament]);
+            return $this->render('schedule', ['dataProviders' => $dataProviders, 'tournament' => $tournament, 'newGame' => $newGame, 'participants' => $tournamentParticipants]);
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
             return $this->redirect(['tournament/details', 'id' => $id]);
         }
+    }
+
+    public function actionAutoprocess()
+    {
+
     }
 
     protected function findModel($id)
