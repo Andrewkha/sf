@@ -20,6 +20,7 @@ use kartik\helpers\Html;
 <?php $form = ActiveForm::begin([
     'type' => ActiveForm::TYPE_VERTICAL,
     'action' => ['game/create'],
+    'enableAjaxValidation' => true,
 ]);?>
 
 <?= FormGrid::widget([

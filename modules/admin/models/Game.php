@@ -5,6 +5,7 @@ namespace app\modules\admin\models;
 use app\modules\admin\resources\gameCalculator\GamePointsCalculator;
 use app\traits\ContainerAwareTrait;
 use app\modules\user\models\User;
+use yii\db\Query;
 
 /**
  * This is the model class for table "{{%game}}".
@@ -84,6 +85,20 @@ class Game extends \yii\db\ActiveRecord
             [['teamHome_id'], 'exist', 'skipOnError' => true, 'targetClass' => Team::className(), 'targetAttribute' => ['teamHome_id' => 'id']],
             ['date', 'date', 'format' => 'php:d.m.y H:i', 'timestampAttribute' => 'date'],
             [['tournament_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tournament::className(), 'targetAttribute' => ['tournament_id' => 'id']],
+
+            ['teamHome_id', 'unique', 'targetAttribute' => 'teamHome_id', 'filter' => function (Query $query) {
+                $query->andWhere(['tour' => $this->tour, 'tournament_id' => $this->tournament_id]);
+            }, 'message' => "Эта команда в этом туре уже играла"],
+            ['teamHome_id', 'unique', 'targetAttribute' => 'teamGuest_id', 'filter' => function (Query $query) {
+                $query->andWhere(['tour' => $this->tour, 'tournament_id' => $this->tournament_id]);
+            }, 'message' => "Эта команда в этом туре уже играла"],
+            ['teamGuest_id', 'unique', 'targetAttribute' => 'teamHome_id', 'filter' => function (Query $query) {
+                $query->andWhere(['tour' => $this->tour, 'tournament_id' => $this->tournament_id]);
+            }, 'message' => "Эта команда в этом туре уже играла"],
+            ['teamGuest_id', 'unique', 'targetAttribute' => 'teamGuest_id', 'filter' => function (Query $query) {
+                $query->andWhere(['tour' => $this->tour, 'tournament_id' => $this->tournament_id]);
+            }, 'message' => "Эта команда в этом туре уже играла"],
+
         ];
     }
 

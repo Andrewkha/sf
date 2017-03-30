@@ -10,6 +10,7 @@ namespace app\modules\admin\controllers\backend;
 
 use app\modules\admin\models\query\GameQuery;
 use app\modules\admin\services\GamesEditService;
+use app\modules\admin\validator\AjaxRequestModelValidator;
 use app\traits\ContainerAwareTrait;
 use app\modules\admin\models\Game;
 use yii\web\Controller;
@@ -93,6 +94,7 @@ class GameController extends Controller
     {
         /** @var Game $model*/
         $model = $this->make(Game::class);
+        $this->make(AjaxRequestModelValidator::class, [$model])->validate();
 
         if($model->load(Yii::$app->request->post()) && $model->validate()) {
 
