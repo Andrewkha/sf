@@ -32,7 +32,8 @@
         "kartik-v/yii2-widget-switchinput": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "2amigos/yii2-date-time-picker-widget": "~1.0",
-        "kartik-v/yii2-builder": "@dev"
+        "kartik-v/yii2-builder": "@dev",
+        "imangazaliev/didom": "^1.9"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

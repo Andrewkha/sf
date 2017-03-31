@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b99d31ae3dd3241d8ddb6dff04e149c4",
-    "content-hash": "0e431a609f7e3eb555406dfdaadc6410",
+    "hash": "0e62a99d179ebdc63ecd261dfa8f5c5e",
+    "content-hash": "1b8227791088f4d91a2c270ab3fd574b",
     "packages": [
         {
             "name": "2amigos/yii2-date-time-picker-widget",
@@ -567,6 +567,52 @@
                 "icon"
             ],
             "time": "2016-10-24 15:52:54"
+        },
+        {
+            "name": "imangazaliev/didom",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Imangazaliev/DiDOM.git",
+                "reference": "0116a51428b6c34bcdd5d32b8674576154701196"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/0116a51428b6c34bcdd5d32b8674576154701196",
+                "reference": "0116a51428b6c34bcdd5d32b8674576154701196",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DiDom\\": "src/DiDom/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Imangazaliev Muhammad",
+                    "email": "imangazalievm@gmail.com"
+                }
+            ],
+            "description": "Simple and fast HTML parser",
+            "homepage": "https://github.com/Imangazaliev/DiDOM",
+            "keywords": [
+                "didom",
+                "html",
+                "parser",
+                "xml"
+            ],
+            "time": "2017-02-02 05:35:44"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",

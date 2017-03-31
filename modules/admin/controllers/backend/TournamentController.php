@@ -6,6 +6,7 @@ use app\modules\admin\forms\TournamentCreateEditForm;
 use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\TeamTournament;
 use app\modules\admin\models\Team;
+use app\modules\admin\resources\WebScheduleParser;
 use app\modules\admin\services\AddParticipantService;
 use app\modules\admin\services\ForecastReminderService;
 use app\modules\admin\services\TournamentEditService;
@@ -290,9 +291,15 @@ class TournamentController extends Controller
         }
     }
 
-    public function actionAutoprocess()
+    public function actionAutoprocess($id)
     {
-
+        try {
+            $tournament = $this->findModel($id);
+            ((new WebScheduleParser($tournament))->getGamesFromWeb());
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['tournament/details', 'id' => $id]);
+        }
     }
 
     protected function findModel($id)
