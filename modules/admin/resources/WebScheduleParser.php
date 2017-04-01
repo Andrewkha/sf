@@ -87,10 +87,10 @@ class WebScheduleParser
                     if ($dbGame->date != $webGame->date)
                         $dbGame->date = $webGame->date;
 
-                    if ($dbGame->scoreHome != $webGame->scoreHome)
+                    if ($dbGame->scoreHome !== $webGame->scoreHome)
                         $dbGame->scoreHome = $webGame->scoreHome;
 
-                    if ($dbGame->scoreGuest != $webGame->scoreGuest)
+                    if ($dbGame->scoreGuest !== $webGame->scoreGuest)
                         $dbGame->scoreGuest = $webGame->scoreGuest;
 
                     $dirty = $dbGame->getDirtyAttributes();

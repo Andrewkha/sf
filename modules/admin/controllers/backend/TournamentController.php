@@ -28,6 +28,7 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use app\modules\admin\models\Game;
 use yii\data\ArrayDataProvider;
+use app\modules\admin\services\GamesEditService;
 
 
 /**
@@ -295,11 +296,18 @@ class TournamentController extends Controller
     {
         try {
             $tournament = $this->findModel($id);
-            (($this->make(WebScheduleParser::class, [$tournament]))->run());
+            $allGames = ($this->make(WebScheduleParser::class, [$tournament]))->run();
+
+            foreach ($allGames as $tour => $games) {
+                if (!$this->make(GamesEditService::class, [$games, $tournament, $tour])->run())
+                    throw new Exception('Ошибка автозагрузки $tour тура');
+            Yii::$app->session->setFlash('success', "Автозагрузка прошла успешно");
+            }
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
-            return $this->redirect(['tournament/details', 'id' => $id]);
         }
+
+        return $this->redirect(['tournament/schedule', 'id' => $id]);
     }
 
     protected function findModel($id)
