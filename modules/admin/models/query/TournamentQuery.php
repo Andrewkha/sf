@@ -24,4 +24,9 @@ class TournamentQuery extends \yii\db\ActiveQuery
     {
         return $this->where(['status' => Tournament::STATUS_IN_PROGRESS]);
     }
+
+    public function isAutoprocess()
+    {
+        return $this->andWhere(['autoprocess' => Tournament::AUTOPROCESS_ENABLED])->andWhere(['not', ['autoprocessURL' => '']]);
+    }
 }

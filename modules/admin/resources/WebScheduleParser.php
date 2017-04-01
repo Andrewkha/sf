@@ -69,7 +69,7 @@ class WebScheduleParser
 
     protected function getGamesFromDb()
     {
-        return $this->gameQuery->whereTournament($this->tournament->id)->andWhere(['>', 'date', time() - 60*60*24*7*2])->all();
+        return $this->gameQuery->whereTournament($this->tournament->id)->all();
     }
 
     /**

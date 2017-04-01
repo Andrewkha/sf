@@ -66,7 +66,7 @@ class GamesEditService implements ServiceInterface
         try {
             foreach ($this->games as $game) {
                 if(!$game->save()) {
-                    $this->logger->log("Ошибка сохранениня игры $game->id. Вся транзакция отменена", Logger::LEVEL_ERROR);
+                    $this->logger->log("Ошибка сохранениня игры $game->teamHome_id - $game->teamGuest_id Вся транзакция отменена", Logger::LEVEL_ERROR);
                     $transaction->rollBack();
                     return false;
                 }

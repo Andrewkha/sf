@@ -39,7 +39,7 @@ class ChampionatStandardParser implements ParserInterface
 
         foreach ($table->find('tr') as $row) {
             $time = $this->autoTimeToUnix($row->find('td.sport__calendar__table__date')[0]->text());
-            if(($time > time() - 60*60*24*7*2 && $time < time()) || $time > time() + 60*60*4) {
+            if(($time < time()) || $time > time() + 60*60*4) {
                 $home = $row->find('td.sport__calendar__table__teams a.sport__calendar__table__team')[0]->text();
                 $guest = $row->find('td.sport__calendar__table__teams a.sport__calendar__table__team')[1]->text();
 

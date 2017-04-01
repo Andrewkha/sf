@@ -300,7 +300,7 @@ class TournamentController extends Controller
 
             foreach ($allGames as $tour => $games) {
                 if (!$this->make(GamesEditService::class, [$games, $tournament, $tour])->run())
-                    throw new Exception('Ошибка автозагрузки $tour тура');
+                    throw new Exception("Ошибка автозагрузки $tour тура");
             Yii::$app->session->setFlash('success', "Автозагрузка прошла успешно");
             }
         } catch (Exception $e) {

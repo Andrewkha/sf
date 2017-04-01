@@ -12,12 +12,14 @@ use app\modules\admin\helpers\TournamentHelper;
 use app\modules\admin\models\query\TournamentQuery;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\Module;
+use app\modules\admin\resources\WebScheduleParser;
 use app\modules\admin\services\ForecastReminderService;
 use app\modules\admin\services\TournamentStartService;
 use app\traits\ContainerAwareTrait;
 use yii\console\Controller;
 use yii\log\Logger;
 use yii\base\Exception;
+use app\modules\admin\services\GamesEditService;
 
 /**
  * Class TournamentController contains console commands for manipulating with Tournaments
@@ -69,7 +71,28 @@ class TournamentController extends Controller
                 if ($this->make(ForecastReminderService::class, [$tournament, $nextTour])->run())
                     $this->logger->log("Task Autoreminder for $tournament->tournament tour $nextTour has been executed", Logger::LEVEL_INFO, 'console');
             } catch (Exception $e) {
-                $this->logger->log($e->getMessage(), Logger::LEVEL_ERROR, 'console');
+                $this->logger->log($tournament->tournament . ' ' . $e->getMessage(), Logger::LEVEL_ERROR, 'console');
+            }
+        }
+
+        return 0;
+    }
+
+    public function actionAutoprocess()
+    {
+        /** @var Tournament[] $tournaments */
+        $tournaments = $this->tournamentQuery->inProgress()->isAutoprocess()->all();
+
+        foreach ($tournaments as $tournament) {
+            try {
+                $allGames = $this->make(WebScheduleParser::class, [$tournament])->run();
+                foreach ($allGames as $tour => $games) {
+                    if (!$this->make(GamesEditService::class, [$games, $tournament, $tour])->run())
+                        throw new Exception("Ошибка автозагрузки $tour тура турнира " . $tournament->tournament);
+                }
+                $this->logger->log("Task Autoprocess for $tournament->tournament has been executed", Logger::LEVEL_INFO, 'console');
+            } catch (Exception $e) {
+                $this->logger->log($tournament->tournament . ' ' . $e->getMessage(), Logger::LEVEL_ERROR, 'console');
             }
         }
 
