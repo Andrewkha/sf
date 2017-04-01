@@ -124,6 +124,7 @@ class WebScheduleParser
         }
 
         $toDb = array_merge_recursive($toDb, $webGames);
+        $toDb = ArrayHelper::index($toDb, null,'tour');
 
         return $toDb;
     }
