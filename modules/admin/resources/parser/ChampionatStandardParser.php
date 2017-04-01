@@ -28,8 +28,7 @@ class ChampionatStandardParser implements ParserInterface
 
     public function getGamesFromWeb(Tournament $tournament)
     {
-        $aliases = ArrayHelper::map($this->teamTournamentQuery->tournamentParticipants($tournament->id)->all(), 'alias', 'id');
-
+        $aliases = ArrayHelper::map($this->teamTournamentQuery->tournamentParticipants($tournament->id)->all(), 'alias', 'team_id');
         $html = new Document($tournament->autoprocessURL, true);
         //$html = new Document('rfpl.htm', true);
 

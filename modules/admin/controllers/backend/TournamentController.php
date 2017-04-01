@@ -295,7 +295,7 @@ class TournamentController extends Controller
     {
         try {
             $tournament = $this->findModel($id);
-            ((new WebScheduleParser($tournament))->getGamesFromWeb());
+            (($this->make(WebScheduleParser::class, [$tournament]))->run());
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
             return $this->redirect(['tournament/details', 'id' => $id]);

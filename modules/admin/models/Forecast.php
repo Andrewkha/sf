@@ -34,6 +34,13 @@ class Forecast extends \yii\db\ActiveRecord
     {
         $this->forecastPoints = $calculator->setForecastPoints($this, $game);
     }
+
+    public function switchHomeGuest()
+    {
+        $temp = $this->fscoreHome;
+        $this->fscoreHome = $this->fscoreGuest;
+        $this->fscoreGuest = $temp;
+    }
     /**
      * @inheritdoc
      */

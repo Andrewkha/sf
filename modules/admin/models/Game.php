@@ -69,6 +69,12 @@ class Game extends \yii\db\ActiveRecord
         return $this->pointsHome;
     }
 
+    public function switchHomeGuest()
+    {
+        $temp = $this->teamHome_id;
+        $this->teamHome_id = $this->teamGuest_id;
+        $this->teamGuest_id = $temp;
+    }
 
     /**
      * @inheritdoc
