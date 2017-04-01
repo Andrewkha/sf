@@ -134,6 +134,6 @@ class WebScheduleParser
         $gamesFromWeb = $this->getGamesFromWeb();
         $gamesFromDb = $this->getGamesFromDb();
 
-        print_r($this->matchGames($gamesFromWeb, $gamesFromDb));
+        return ($this->matchGames($gamesFromWeb, $gamesFromDb));
     }
 }
