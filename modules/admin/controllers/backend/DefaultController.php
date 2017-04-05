@@ -15,7 +15,6 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        \Yii::$app->session->setFlash('growl', 'Hello!');
         return $this->render('index');
     }
 }

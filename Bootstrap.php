@@ -10,8 +10,10 @@ namespace app;
 
 use app\modules\admin\models\Forecast;
 use app\modules\admin\models\ForecastReminders;
+use app\modules\admin\models\Newz;
 use app\modules\admin\models\query\ForecastQuery;
 use app\modules\admin\models\query\ForecastRemindersQuery;
+use app\modules\admin\models\query\NewzQuery;
 use app\modules\admin\models\query\TeamQuery;
 use app\modules\admin\models\query\TeamTournamentQuery;
 use app\modules\admin\models\query\TournamentQuery;
@@ -57,6 +59,9 @@ class Bootstrap implements BootstrapInterface
 
         $container->set(CountryQuery::class, function () {
             return Country::find();
+        });
+        $container->set(NewzQuery::class, function () {
+            return Newz::find();
         });
         $container->set(TournamentQuery::class, function () {
             return Tournament::find();

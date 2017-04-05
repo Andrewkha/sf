@@ -1,0 +1,158 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: achernys
+ * Date: 4/5/2017
+ * Time: 1:37 PM
+ */
+use app\modules\admin\models\search\NewzSearch;
+use yii\data\ActiveDataProvider;
+use kartik\grid\GridView;
+use kartik\icons\Icon;
+use kartik\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $searchModel app\modules\admin\models\search\NewzSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+?>
+<?php
+$this->title = 'Новости';
+$this->params['breadcrumbs'][] = $this->title;
+$categories = \app\modules\admin\forms\NewzCreateEditForm::getCategories();
+$authors = \app\modules\admin\forms\NewzCreateEditForm::getAuthors();
+
+?>
+
+
+<div class = "news-index">
+    <div class = "row">
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'resizableColumns' => false,
+            'pjax' => true,
+            'options' => [
+                'class' => 'col-xs-12 col-md-10 col-lg-8'
+            ],
+            'pager' => [
+                'firstPageLabel' => Icon::show('fast-backward', [], Icon::FA),
+                'prevPageLabel' => Icon::show('step-backward', [], Icon::FA),
+                'nextPageLabel' => Icon::show('step-forward', [], Icon::FA),
+                'lastPageLabel' => Icon::show('fast-forward', [], Icon::FA),
+            ],
+            'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+            'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+            'panel'=>[
+                'type' => GridView::TYPE_PRIMARY,
+                'heading' => Icon::show('newspaper-o', [], Icon::FA) . $this->title,
+            ],
+
+            'columns' => [
+                [
+                    'class' => 'kartik\grid\SerialColumn',
+                    'options' => [
+                        'class' => 'col-xs-1',
+                    ],
+                ],
+
+                [
+                    'attribute' => 'id',
+                    'filter' => false,
+                    'mergeHeader' => true,
+                    'options' => [
+                        'class' => 'col-xs-1',
+                    ],
+                    'hAlign' => 'center'
+                ],
+
+                [
+                    'attribute' => 'tournament_id',
+                    'options' => [
+                        'class' => 'col-xs-3',
+                    ],
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'value' => function (\app\modules\admin\models\Newz $model) {
+                        return $model->getNewzCategory();
+                    },
+                    'vAlign' => 'middle',
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => $categories,
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => '---Все новости---'],
+                ],
+
+                [
+                    'attribute' => 'subject',
+                    'options' => [
+                        'class' => 'col-xs-2'
+                    ],
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle'
+                ],
+
+                [
+                    'attribute' => 'user_id',
+                    'value' => function ($model) {
+                        return $model->user->username;
+                    },
+                    'options' => [
+                        'class' => 'col-xs-2'
+                    ],
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => $authors,
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => '---Все---'],
+                ],
+
+                [
+                    'attribute' => 'date',
+                    'options' => [
+                        'class' => 'col-xs-1'
+                    ],
+
+                    'value' => function($model) {
+                        return date('d.m.y H:i', $model->date);
+                    },
+                    'headerOptions' => [
+                        'class' => 'kv-align-center',
+                    ],
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                ],
+
+                [
+                    'attribute' => 'status',
+                    'class' => '\kartik\grid\BooleanColumn',
+                    'vAlign' => 'middle',
+                    'hAlign' => 'center',
+                    'options' => [
+                        'class' => 'col-xs-1'
+                    ],
+                ],
+
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'options' => [
+                        'class' => 'col-xs-1',
+                    ],
+                    'template' => '{delete}',
+                    'deleteOptions' => ['label' => Icon::show('trash', ['class' => 'fa-lg'], Icon::FA)],
+                    'header' => false,
+                ],
+            ],
+        ]); ?>
+    </div>
+</div>
