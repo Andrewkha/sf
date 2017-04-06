@@ -18,11 +18,12 @@ use kartik\helpers\Html;
 <?php
 $this->title = 'Новости';
 $this->params['breadcrumbs'][] = $this->title;
+
 $categories = \app\modules\admin\forms\NewzCreateEditForm::getCategories();
 $authors = \app\modules\admin\forms\NewzCreateEditForm::getAuthors();
+$statuses = \app\modules\admin\forms\NewzCreateEditForm::getStatuses();
 
 ?>
-
 
 <div class = "news-index">
     <div class = "row">
@@ -82,7 +83,7 @@ $authors = \app\modules\admin\forms\NewzCreateEditForm::getAuthors();
                     'filterWidgetOptions' => [
                         'pluginOptions' => ['allowClear' => true],
                     ],
-                    'filterInputOptions' => ['placeholder' => '---Все новости---'],
+                    'filterInputOptions' => ['placeholder' => '---Все---'],
                 ],
 
                 [
@@ -135,12 +136,27 @@ $authors = \app\modules\admin\forms\NewzCreateEditForm::getAuthors();
 
                 [
                     'attribute' => 'status',
-                    'class' => '\kartik\grid\BooleanColumn',
                     'vAlign' => 'middle',
                     'hAlign' => 'center',
                     'options' => [
                         'class' => 'col-xs-1'
                     ],
+                    'format' => 'raw',
+                    'value' => function (\app\modules\admin\models\Newz $model)  {
+                        if ($model->isArchived()) {
+                            return Html::a(Icon::show('thumbs-down', ['class' => 'fa-lg', 'style' => 'color: red;'], Icon::FA),
+                                ['news/archive', 'id' => $model->id], ['data-method' => 'post']);
+                        } else {
+                            return Html::a(Icon::show('thumbs-up', ['class' => 'fa-lg', 'style' => 'color: green;'], Icon::FA),
+                                ['news/archive', 'id' => $model->id], ['data-method' => 'post']);
+                        }
+                    },
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => $statuses,
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => '---Все---'],
                 ],
 
                 [

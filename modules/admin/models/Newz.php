@@ -80,15 +80,37 @@ class Newz extends \yii\db\ActiveRecord
             'user_id' => 'Автор',
             'tournament_id' => 'Категория',
             'date' => 'Дата',
-            'status' => 'В архиве?',
+            'status' => 'Статус',
             'newzCategory' => 'Категория'
         ];
+    }
+
+    public function isArchived()
+    {
+        return ($this->status === self::STATUS_ARCHIVED);
+    }
+
+    public function isActive()
+    {
+        return ($this->status === self::STATUS_ACTIVE);
     }
 
     public function toArchive()
     {
         $this->status = self::STATUS_ARCHIVED;
-        $this->save();
+        if ($this->save())
+            return true;
+        else
+            return false;
+    }
+
+    public function toActive()
+    {
+        $this->status = self::STATUS_ACTIVE;
+        if ($this->save())
+            return true;
+        else
+            return false;
     }
     /**
      * @return \yii\db\ActiveQuery

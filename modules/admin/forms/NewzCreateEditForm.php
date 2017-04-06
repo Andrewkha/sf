@@ -33,4 +33,9 @@ class NewzCreateEditForm
         return ArrayHelper::map(Newz::find()->with('user')->distinct('user_id')->all(), 'user_id', 'user.username');
     }
 
+    public static function getStatuses()
+    {
+        return [Newz::STATUS_ACTIVE => 'Актив', Newz::STATUS_ARCHIVED => 'Архив'];
+    }
+
 }
