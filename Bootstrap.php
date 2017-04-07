@@ -32,6 +32,8 @@ use app\modules\admin\models\Tourresultnotification;
 use app\modules\admin\models\query\CountryQuery;
 use app\modules\admin\models\Game;
 use app\modules\admin\models\Country;
+use app\modules\admin\models\Log;
+use app\modules\admin\models\query\LogQuery;
 use app\resources\ForecastSimpleStandings;
 use app\resources\ForecastStandingsInterface;
 use app\resources\SimpleStandings;
@@ -59,6 +61,9 @@ class Bootstrap implements BootstrapInterface
 
         $container->set(CountryQuery::class, function () {
             return Country::find();
+        });
+        $container->set(LogQuery::class, function () {
+            return Log::find();
         });
         $container->set(NewzQuery::class, function () {
             return Newz::find();
