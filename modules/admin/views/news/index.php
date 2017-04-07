@@ -5,8 +5,7 @@
  * Date: 4/5/2017
  * Time: 1:37 PM
  */
-use app\modules\admin\models\search\NewzSearch;
-use yii\data\ActiveDataProvider;
+
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use kartik\helpers\Html;
@@ -46,6 +45,17 @@ $statuses = \app\modules\admin\forms\NewzCreateEditForm::getStatuses();
             'panel'=>[
                 'type' => GridView::TYPE_PRIMARY,
                 'heading' => Icon::show('newspaper-o', [], Icon::FA) . $this->title,
+            ],
+            'toolbar' => [
+                [
+                    'content' => Html::a(Icon::show('plus-square', [], Icon::FA), ['news/create'], [
+                        'type' => 'button',
+                        'class' => 'btn btn-success',
+                    ]),
+                    'options' => [
+                        'class' => 'btn-group-sm'
+                    ]
+                ],
             ],
 
             'columns' => [

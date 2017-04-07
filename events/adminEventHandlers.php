@@ -11,6 +11,7 @@ use app\modules\admin\models\Tournament;
 use app\modules\admin\events\ItemEvent;
 use app\modules\admin\events\TournamentEvent;
 use app\modules\admin\events\TourEvent;
+use app\modules\admin\models\Newz;
 
 Event::on(Tournament::class, ItemEvent::EVENT_AFTER_CREATE, function (ItemEvent $e) {
     //todo implement user notification after tournament is created
@@ -24,4 +25,10 @@ Event::on(Tournament::class, TournamentEvent::EVENT_TOURNAMENT_FINISHED, functio
 
 Event::on (Tournament::class, TourEvent::EVENT_TOUR_FINISHED, function (TourEvent $event) {
 
+});
+
+Event::on(Newz::class, ItemEvent::EVENT_AFTER_CREATE, function (ItemEvent $e) {
+
+    if ($e->getModel()->scenario === Newz::SCENARIO_SEND)
+    {echo 1000; exit;}
 });

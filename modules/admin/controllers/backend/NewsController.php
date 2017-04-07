@@ -8,6 +8,7 @@
 
 namespace app\modules\admin\controllers\backend;
 
+use app\modules\admin\forms\NewzCreateEditForm;
 use app\modules\admin\models\Newz;
 use app\modules\admin\models\query\NewzQuery;
 use app\modules\admin\models\search\NewzSearch;
@@ -18,6 +19,10 @@ use Yii;
 use app\modules\admin\Module;
 use yii\web\NotFoundHttpException;
 use yii\base\Exception;
+use app\modules\admin\events\ItemEvent;
+use yii\db\ActiveRecord;
+use app\modules\admin\validator\AjaxRequestModelValidator;
+use app\modules\admin\services\ItemCreateService;
 
 class NewsController extends Controller
 {
@@ -48,8 +53,6 @@ class NewsController extends Controller
         ];
     }
 
-
-
     public function actionIndex()
     {
         $searchModel = new NewzSearch();
@@ -59,6 +62,32 @@ class NewsController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionCreate()
+    {
+
+        /** @var NewzCreateEditForm $form*/
+        $form = $this->make(NewzCreateEditForm::class);
+
+        $this->make(AjaxRequestModelValidator::class, [$form])->validate();
+
+        if($form->load(Yii::$app->request->post()) && $form->validate()) {
+
+            /** @var Newz $news */
+            $news = $this->make(Newz::class, [], $form->attributes);
+            //todo!!! replace with logged on person
+            $news->user_id = 1;
+
+            if ($this->make(ItemCreateService::class, [$news])->run()) {
+                Yii::$app->session->setFlash('success', "Новость успешно добавлена");
+            } else {
+                Yii::$app->session->setFlash('error', 'Невозможно добавить новость. См лог файл для деталей');
+            }
+            return $this->redirect(['news/']);
+        } else {
+            return $this->render('create', ['form' => $form]);
+        }
     }
 
     public function actionArchive($id)
@@ -78,6 +107,25 @@ class NewsController extends Controller
             }
 
         } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->redirect(['news/']);
+    }
+
+    public function actionDelete($id)
+    {
+        try {
+            /** @var Newz $news */
+            $news = $this->findModel($id);
+
+            /** @var ItemEvent $event */
+            $event = $this->make(ItemEvent::class, [$news]);
+            $news->delete();
+            Yii::$app->session->setFlash('success', "Новость успешно удалена");
+            $this->trigger(ActiveRecord::EVENT_AFTER_DELETE, $event);
+
+        } catch (\Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
 

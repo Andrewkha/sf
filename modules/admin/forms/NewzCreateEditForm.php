@@ -10,12 +10,42 @@ namespace app\modules\admin\forms;
 
 
 use app\modules\admin\models\Newz;
-use app\modules\user\models\User;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use app\modules\user\models\User;
 
-class NewzCreateEditForm
+class NewzCreateEditForm extends Model
 {
+    public $subject;
+    public $body;
+    public $user_id;
+    public $tournament_id;
+    public $isSend;
 
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['subject', 'body', 'tournament_id'], 'required'],
+            [['body'], 'string'],
+            [['user_id', 'tournament_id'], 'integer'],
+            ['isSend', 'safe'],
+            [['subject'], 'string', 'max' => 1024],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'subject' => 'Заголовок',
+            'body' => 'Содержание',
+            'tournament_id' => 'Категория',
+            'isSend' => 'Отправить пользователям'
+        ];
+    }
     public static function getCategories()
     {
         return ['0' => 'Новости сайта'] +

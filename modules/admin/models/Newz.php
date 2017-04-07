@@ -29,10 +29,17 @@ class Newz extends \yii\db\ActiveRecord
     const STATUS_ARCHIVED = 1;
     const STATUS_ACTIVE = 0;
 
+    private $isSend;
     /**
      * @var string - tournament name if for specific tournament, general site newz otherwise
      */
     protected $newzCategory;
+
+    public function __construct(array $config = [])
+    {
+        $this->status = self::STATUS_ACTIVE;
+        parent::__construct($config);
+    }
 
     /**
      * @inheritdoc
@@ -59,7 +66,7 @@ class Newz extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['subject', 'body', 'user_id'], 'required'],
+            [['subject', 'body', 'user_id', 'tournament_id'], 'required', 'on' => ['default', self::SCENARIO_SEND]],
             ['newzCategory', 'safe'],
             [['body'], 'string'],
             [['user_id', 'tournament_id', 'date', 'status'], 'integer'],
@@ -83,6 +90,12 @@ class Newz extends \yii\db\ActiveRecord
             'status' => 'Статус',
             'newzCategory' => 'Категория'
         ];
+    }
+
+    public function setIsSend($value)
+    {
+        if ($value == 1)
+            $this->scenario = self::SCENARIO_SEND;
     }
 
     public function isArchived()
