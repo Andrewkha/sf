@@ -23,7 +23,10 @@ $categories = \app\modules\admin\forms\NewzCreateEditForm::getCategories();
 
     <div class = "row form-group">
         <div class = 'col-md-6 col-lg-4'>
-            <?= $form->field($model,'tournament_id')->dropDownList($categories);?>
+            <?= $form->field($model,'tournament_id')->widget(\kartik\select2\Select2::className(), [
+                    'data' => $categories,
+                    'options' => ['placeholder' => '---Категория---']
+            ]);?>
         </div>
     </div>
 

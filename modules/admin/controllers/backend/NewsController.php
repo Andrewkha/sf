@@ -12,6 +12,7 @@ use app\modules\admin\forms\NewzCreateEditForm;
 use app\modules\admin\models\Newz;
 use app\modules\admin\models\query\NewzQuery;
 use app\modules\admin\models\search\NewzSearch;
+use app\modules\admin\services\NewzEditService;
 use app\traits\ContainerAwareTrait;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -88,6 +89,36 @@ class NewsController extends Controller
         } else {
             return $this->render('create', ['form' => $form]);
         }
+    }
+
+    public function actionUpdate($id)
+    {
+        /** @var NewzCreateEditForm $formData */
+        $formData = $this->make(NewzCreateEditForm::class);
+        $this->make(AjaxRequestModelValidator::class, [$formData])->validate();
+
+        try {
+            $news = $this->findModel($id);
+
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+            return $this->redirect(['news/']);
+        }
+
+        if ($formData->load(Yii::$app->request->post(), $news->formName()) && $formData->validate()) {
+        //todo replace with logged on user
+            $user_id = 1;
+
+            if ($this->make(NewzEditService::class, [$formData, $news, $user_id])->run()) {
+                Yii::$app->session->setFlash('success', 'Изменения сохранены');
+            } else {
+                Yii::$app->session->setFlash('error', 'Ошибка изменения');
+            }
+
+            return $this->redirect(['news/']);
+        }
+
+        return $this->render('edit', ['form' => $news]);
     }
 
     public function actionArchive($id)

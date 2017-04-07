@@ -9,6 +9,7 @@
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use kartik\helpers\Html;
+use app\modules\admin\models\Newz;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\NewzSearch */
@@ -104,7 +105,11 @@ $statuses = \app\modules\admin\forms\NewzCreateEditForm::getStatuses();
                     'headerOptions' => [
                         'class' => 'kv-align-center',
                     ],
-                    'vAlign' => 'middle'
+                    'format' => 'raw',
+                    'vAlign' => 'middle',
+                    'value' => function (Newz $model) {
+                        return Html::a($model->subject, ['news/update', 'id' => $model->id]);
+                    }
                 ],
 
                 [

@@ -88,7 +88,8 @@ class Newz extends \yii\db\ActiveRecord
             'tournament_id' => 'Категория',
             'date' => 'Дата',
             'status' => 'Статус',
-            'newzCategory' => 'Категория'
+            'newzCategory' => 'Категория',
+            'isSend' => 'Отправить пользователям'
         ];
     }
 
@@ -96,6 +97,11 @@ class Newz extends \yii\db\ActiveRecord
     {
         if ($value == 1)
             $this->scenario = self::SCENARIO_SEND;
+    }
+
+    public function getIsSend()
+    {
+        return 0;
     }
 
     public function isArchived()
