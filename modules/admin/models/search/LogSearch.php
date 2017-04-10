@@ -13,6 +13,14 @@ use yii\data\ActiveDataProvider;
 
 class LogSearch extends Log
 {
+
+    public function rules()
+    {
+        return [
+            [['level', 'log_time'], 'safe'],
+        ];
+    }
+
     public function search($params)
     {
         $query = Log::find()->indexBy('id')->where(['category' => self::CATEGORY_CONSOLE]);
@@ -40,7 +48,28 @@ class LogSearch extends Log
             'category' => $this->category,
         ]);
 
+        $query->andFilterWhere(['between', 'log_time', $this->toTimeStamp()['from'], $this->toTimeStamp()['to']]);
 
         return $dataProvider;
+    }
+
+    private function toTimeStamp()
+    {
+        $result = [];
+
+        $stamp = $this->log_time;
+
+        if ($stamp === NULL or $stamp === '') {
+            return ['from' => NULL, 'to' => NULL];
+        }
+
+        $day = (int)substr($stamp, 0, 2);
+        $month = (int)substr($stamp, 3, 2);
+        $year = (int)substr($stamp, 6, 4);
+
+        $result['from'] = mktime(0, 0 , 0, $month, $day, $year);
+        $result['to'] = mktime(23, 59 , 59, $month, $day, $year);
+
+        return $result;
     }
 }

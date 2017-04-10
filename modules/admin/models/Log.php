@@ -35,7 +35,7 @@ class Log extends \yii\db\ActiveRecord
     {
         return [
             [['level'], 'integer'],
-            [['log_time'], 'number'],
+            [['log_time'], 'integer'],
             [['prefix', 'message'], 'string'],
             [['category'], 'string', 'max' => 255],
         ];
@@ -48,8 +48,7 @@ class Log extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'level' => 'Level',
-            'category' => 'Тип',
+            'level' => 'Тип',
             'log_time' => 'Дата',
             'prefix' => 'Prefix',
             'message' => 'Содержание',

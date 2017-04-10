@@ -32,6 +32,16 @@ class LogHelper
         ];
     }
 
+    public static function getClasses() {
+
+        return [
+            Logger::LEVEL_ERROR => 'danger',
+            Logger::LEVEL_INFO => 'info',
+            Logger::LEVEL_WARNING => 'warning',
+            Logger::LEVEL_TRACE => 'success',
+        ];
+    }
+
     public static function getType($type)
     {
         return ArrayHelper::getValue(self::getTypeList(), $type);
@@ -40,5 +50,10 @@ class LogHelper
     public static function getStatus($status)
     {
         return ArrayHelper::getValue(self::getStatuses(), $status);
+    }
+
+    public static function getClass($class)
+    {
+        return ArrayHelper::getValue(self::getClasses(), $class);
     }
 }
