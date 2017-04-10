@@ -85,6 +85,8 @@ class NewzSearch extends Newz
             'status' => $this->status
         ]);
 
+        $query->andFilterWhere(['like', 'subject', $this->subject]);
+
         return $dataProvider;
     }
 }

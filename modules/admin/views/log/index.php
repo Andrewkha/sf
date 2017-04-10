@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'resizableColumns' => false,
-        //'pjax' => true,
+        'pjax' => true,
         'options' => [
             'class' => 'col-xs-12 col-md-10 col-lg-8'
         ],
