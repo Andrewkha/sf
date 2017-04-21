@@ -29,7 +29,7 @@ class NewsSendHandler
 
     public function newsSendHandle(Newz $news)
     {
-        if ($news->tournament_id === 0) {
+        if ($news->tournament_id == 0) {
             $users = $this->userQuery->siteNewsSubscribers()->all();
         } else {
             $users = $this->userQuery->tournamentNotificationsSubscribers($news->tournament_id)->all();
@@ -37,6 +37,7 @@ class NewsSendHandler
 
         if (!empty($users)) {
             $mailService = MailFactory::makeNewsSendMailerService($users, $news);
+
             if ($mailService->run() !== count($users))
                 throw new Exception("Ошибка отправки новости ". $news->id);
         }

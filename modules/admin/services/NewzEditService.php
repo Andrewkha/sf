@@ -36,6 +36,7 @@ class NewzEditService implements ServiceInterface
     public function run()
     {
         $model = $this->form;
+
         /** @var Newz $news */
         $news = $this->news;
 

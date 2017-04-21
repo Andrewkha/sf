@@ -141,7 +141,7 @@ class Newz extends \yii\db\ActiveRecord
 
     public function getNewzCategory()
     {
-        if ($this->tournament_id === 0)
+        if ((int)$this->tournament_id === 0)
             return self::SITE_NEWZ;
         else
             return $this->tournament->tournament;
