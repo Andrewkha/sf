@@ -24,6 +24,7 @@ use app\modules\admin\events\ItemEvent;
 use yii\db\ActiveRecord;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use app\modules\admin\services\ItemCreateService;
+use app\modules\user\models\User;
 
 class NewsController extends Controller
 {
@@ -78,7 +79,7 @@ class NewsController extends Controller
             /** @var Newz $news */
             $news = $this->make(Newz::class, [], $form->attributes);
             //todo!!! replace with logged on person
-            $news->user_id = 1;
+            $news->user_id = User::ADMIN_ID;
 
             if ($this->make(ItemCreateService::class, [$news])->run()) {
                 Yii::$app->session->setFlash('success', "Новость успешно добавлена");
@@ -107,7 +108,7 @@ class NewsController extends Controller
 
         if ($formData->load(Yii::$app->request->post(), $news->formName()) && $formData->validate()) {
         //todo replace with logged on user
-            $user_id = 1;
+            $user_id = User::ADMIN_ID;
 
             if ($this->make(NewzEditService::class, [$formData, $news, $user_id])->run()) {
                 Yii::$app->session->setFlash('success', 'Изменения сохранены');

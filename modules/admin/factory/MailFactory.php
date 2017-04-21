@@ -8,6 +8,7 @@
 
 namespace app\modules\admin\factory;
 
+use app\modules\admin\models\Newz;
 use app\modules\admin\services\MailService;
 use app\modules\admin\services\MailServiceMultiple;
 use app\modules\admin\models\Game;
@@ -65,6 +66,24 @@ class MailFactory
         ];
 
         return self::makeMailerServiceMultiple($from, $to, $subject, 'remindPartial', $params);
+    }
+
+    /**
+     * @param User[] $users
+     * @param Newz $news
+     * @return MailServiceMultiple
+     */
+    public static function makeNewsSendMailerService(array $users, Newz $news)
+    {
+        $to = $users;
+        $from = [Yii::$app->params['adminEmail'] => Yii::$app->params['adminTitle']];
+        $subject = $news->getNewzCategory() . ' - ' . $news->subject;
+        $params = [
+            'logo' => Yii::$app->params['logo'],
+            'body' => $news->body,
+        ];
+
+        return self::makeMailerServiceMultiple($from, $to, $subject, 'news', $params);
     }
 
     public static function makeMailerService($from, $to, $subject, $view, array $params = [])

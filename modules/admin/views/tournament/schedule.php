@@ -34,7 +34,9 @@ $this->params['breadcrumbs'][] = 'Расписание';
 <div class="row" style="margin-bottom: 15px">
     <div class="col-xs-4">
         <?php for ($i = 1; $i <= $tournament->tours; $i++) :?>
-            <?= Html::a("Тур $i","#tour$i", ['class' => 'btn btn-primary btn-sm', 'style' => 'width: 57px; margin-bottom: 3px;']);?>
+            <?php if (isset($dataProviders[$i])) :?>
+                <?= Html::a("Тур $i","#tour$i", ['class' => 'btn btn-primary btn-sm', 'style' => 'width: 57px; margin-bottom: 3px;']);?>
+            <?php endif;?>
         <?php endfor;?>
     </div>
 </div>

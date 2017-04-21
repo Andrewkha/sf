@@ -147,6 +147,8 @@ $statuses = \app\modules\admin\forms\NewzCreateEditForm::getStatuses();
                     ],
                     'vAlign' => 'middle',
                     'hAlign' => 'center',
+                    'filter' => false,
+                    'mergeHeader' => true,
                 ],
 
                 [

@@ -16,7 +16,6 @@ use yii\helpers\Url;
 /* @var $user \app\models\User */
 /* @var $firstGame int */
 /* @var $tour int */
-/* @var $message yii\swiftmailer\Message */
 
 ?>
 <div class="row">

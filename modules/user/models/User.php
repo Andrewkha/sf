@@ -7,6 +7,7 @@ use app\modules\admin\models\Tournament;
 use app\modules\admin\models\UserTournament;
 use app\modules\admin\models\TournamentWinnerForecast;
 use app\modules\admin\models\ForecastReminders;
+use app\modules\admin\models\Newz;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -36,6 +37,13 @@ use app\modules\admin\models\ForecastReminders;
  */
 class User extends \yii\db\ActiveRecord
 {
+    const ADMIN_ID = 1;
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLED = 0;
+
+    const NOTIFICATIONS_ENABLED = 1;
+    const NOTIFICATIONS_DISABLED = 0;
     /**
      * @inheritdoc
      */
