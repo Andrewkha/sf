@@ -10,6 +10,7 @@ namespace app\events;
 
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\Newz;
+use app\modules\admin\widgets\TournamentStandings;
 use app\modules\user\models\User;
 use app\modules\admin\services\ItemCreateService;
 use app\resources\ForecastStandingsInterface;
@@ -30,11 +31,18 @@ class TournamentFinishedHandler
 
     public function tournamentFinishedHandle(Tournament $tournament)
     {
+        //getting standings
+
+        $standings = TournamentStandings::widget([
+            'tournament' => $tournament,
+            'mode' => TournamentStandings::MODE_NEWZ,
+        ]);
+
         //create news first
 
         $category = $tournament->id;
         $subj = "Закончен турнир " . $tournament->tournament;
-        $body = $this->createNewsBody($tournament);
+        $body = $this->createNewsBody($tournament, $standings);
 
         /** @var Newz $news */
         $news = $this->make(Newz::class);
@@ -52,8 +60,8 @@ class TournamentFinishedHandler
         //mark old news as archived
     }
 
-    protected function createNewsBody(Tournament $tournament)
+    protected function createNewsBody(Tournament $tournament, $standings)
     {
-        return Yii::$app->controller->renderPartial('/newsTemplates/tournamentFinished', ['tournament' => $tournament]);
+        return Yii::$app->controller->renderPartial('/newsTemplates/tournamentFinished', ['tournament' => $tournament, 'standings' => $standings]);
     }
 }

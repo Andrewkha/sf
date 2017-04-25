@@ -9,6 +9,7 @@
 use kartik\helpers\Html;
 
 /* @var $tournament \app\modules\admin\models\Tournament */
+/** @var $standings string */
 ?>
 
 <?= Html::tag('p', "Закончился турнир $tournament->tournament. Пожалуйста, ознакомьтесь с его результатами. Поздравляем победителей!!!");?>
@@ -22,7 +23,4 @@ use kartik\helpers\Html;
     'mode' => \app\modules\admin\widgets\TournamentForecasters::MODE_SIMPLE,
 ]);?>
 
-<?= \app\modules\admin\widgets\TournamentStandings::widget([
-    'tournament' => $tournament,
-    'mode' => \app\modules\admin\widgets\TournamentStandings::MODE_NEWZ,
-])?>
+<?= $standings; ?>
