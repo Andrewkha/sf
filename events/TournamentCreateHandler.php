@@ -14,6 +14,7 @@ use app\modules\admin\services\ItemCreateService;
 use app\traits\ContainerAwareTrait;
 use app\modules\admin\models\Newz;
 use app\modules\user\models\User;
+use Yii;
 
 class TournamentCreateHandler
 {
@@ -23,9 +24,7 @@ class TournamentCreateHandler
     {
         $category = 0;
         $subj = "Добавлен новый турнир " . $tournament->tournament;
-        $body = "<p>Для прогноза доступен новый турнир {$tournament->tournament}, первый тур которого состоится " . date('d.m.y', $tournament->starts) ." </p>"
-                . "<p>Вы также можете попробовать угадать призеров турнира и заработать дополнительные очки! Прогноз на призеров принимается до " . date('d.m.y', $tournament->winnersForecastDue) . "</p>"
-                . "<p>Спешите принять участие! Зайдите в <strong>Профиль->Мои турниры</strong> чтобы начать делать прогнозы</p>";
+        $body = Yii::$app->controller->renderPartial('/newsTemplates/tournamentCreate', ['tournament' => $tournament]);
 
         /** @var Newz $news */
         $news = $this->make(Newz::class);

@@ -23,4 +23,17 @@ class ForecastSimpleStandings implements ForecastStandingsInterface
         return $items;
     }
 
+    public function getWinners(Tournament $tournament)
+    {
+        $standings = $this->getStandings($tournament);
+
+        return array_slice($standings, 0, 3, true);
+    }
+
+    public function getWinner(Tournament $tournament)
+    {
+        $standings = $this->getStandings($tournament);
+
+        return array_slice($standings, 0, 1, true);
+    }
 }

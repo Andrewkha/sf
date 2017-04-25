@@ -20,7 +20,12 @@ class TournamentForecasters extends Widget
 {
     use ContainerAwareTrait;
 
+    const MODE_SIMPLE = 0;
+    const MODE_EXTENDED = 1;
+
     public $tournament;
+    public $mode = self::MODE_EXTENDED;
+
     protected $gameQuery;
 
     protected $forecastStandings;
@@ -29,6 +34,7 @@ class TournamentForecasters extends Widget
     {
         $this->gameQuery = $gameQuery;
         $this->forecastStandings = $forecastStandings;
+
         parent::__construct($config);
     }
 
@@ -36,26 +42,36 @@ class TournamentForecasters extends Widget
     {
         /** @var Tournament $tournament */
         $tournament = $this->tournament;
-        $items = $this->forecastStandings->getStandings($tournament);
 
-        $games = $this->gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->indexBy('id')->all();
+        if ($this->mode === self::MODE_EXTENDED) {
+            $items = $this->forecastStandings->getStandings($tournament);
 
-        $models = new ArrayDataProvider([
-            'allModels' => $items,
-        ]);
+            $games = $this->gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->indexBy('id')->all();
 
-        $games = array_map(function ($item) {
-            return new ArrayDataProvider([
-                'allModels' => $item,
-                'sort' => [
-                    'attributes' => ['date'],
-                    'defaultOrder' => [
-                        'date' => SORT_ASC,
-                    ]
-                ]
+            $models = new ArrayDataProvider([
+                'allModels' => $items,
             ]);
-        }, ArrayHelper::index($games, 'id', 'tour'));
 
-        return $this->render('/widgets/forecastStandings', ['models' => $models, 'tournament' => $tournament, 'games' => $games]);
+            $games = array_map(function ($item) {
+                return new ArrayDataProvider([
+                    'allModels' => $item,
+                    'sort' => [
+                        'attributes' => ['date'],
+                        'defaultOrder' => [
+                            'date' => SORT_ASC,
+                        ]
+                    ]
+                ]);
+            }, ArrayHelper::index($games, 'id', 'tour'));
+
+            return $this->render('/widgets/forecastStandings', ['models' => $models, 'tournament' => $tournament, 'games' => $games]);
+        } else {
+            $items = $this->forecastStandings->getWinners($tournament);
+            $models = new ArrayDataProvider([
+                'allModels' => $items,
+            ]);
+
+            return $this->render('/widgets/forecastStandingsSimple', ['models' => $models, 'tournament' => $tournament]);
+        }
     }
 }

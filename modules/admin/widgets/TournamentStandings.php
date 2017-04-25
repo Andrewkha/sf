@@ -26,6 +26,7 @@ class TournamentStandings extends Widget
 {
     const MODE_ADMIN = 1;
     const MODE_USER = 0;
+    const MODE_NEWZ = 2;
 
     use ContainerAwareTrait;
 

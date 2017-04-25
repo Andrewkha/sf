@@ -8,6 +8,7 @@
 use kartik\grid\GridView;
 use kartik\icons\Icon;
 use app\modules\admin\widgets\TournamentStandings;
+use kartik\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $models \yii\data\ArrayDataProvider */
@@ -62,8 +63,11 @@ use app\modules\admin\widgets\TournamentStandings;
             [
                 'header' => 'Команда',
                 'format' => 'raw',
-                'value' => function($model) {
-                    return $this->render('_teamResults', ['model' => $model]);
+                'value' => function($model) use ($mode) {
+                    if ($mode === TournamentStandings::MODE_NEWZ)
+                        return Html::img($model->team->fileUrl, ['width' => '30']) . ' ' . $model->team->team;
+                    else
+                        return $this->render('_teamResults', ['model' => $model]);
                 },
                 'headerOptions' => [
                     'class' => 'kv-align-center',
