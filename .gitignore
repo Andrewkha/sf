@@ -31,3 +31,4 @@ tests/_support/_generated
 /web/images/
 config-local.zip
 /test.php
+/modules/admin/controllers/backend/TestController.php
