@@ -12,6 +12,8 @@ use app\modules\admin\services\ForecastReminderService;
 use app\modules\admin\services\TournamentEditService;
 use app\modules\admin\validator\AjaxRequestModelValidator;
 use app\modules\admin\services\ItemCreateService;
+use app\resources\dto\ForecastStandingsItem;
+use app\resources\ForecastStandingsInterface;
 use Yii;
 use app\modules\admin\models\Tournament;
 use app\modules\admin\models\search\TournamentSearch;
@@ -177,11 +179,14 @@ class TournamentController extends Controller
     {
         try {
             $tournament = $this->findModel($id);
+
+            /** @var ForecastStandingsItem[] $forecastStandings */
+            $forecastStandings = $this->make(ForecastStandingsInterface::class, [$tournament])->getStandings();
         } catch (Exception $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
             return $this->redirect(['tournament/']);
         }
-        return $this->render('details', ['tournament' => $tournament]);
+        return $this->render('details', ['tournament' => $tournament, 'forecastStanding' => $forecastStandings]);
     }
 
 

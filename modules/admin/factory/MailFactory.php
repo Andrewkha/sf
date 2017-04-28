@@ -12,6 +12,7 @@ use app\modules\admin\models\Newz;
 use app\modules\admin\services\MailService;
 use app\modules\admin\services\MailServiceMultiple;
 use app\modules\admin\models\Game;
+use app\resources\dto\ForecastStandingsItem;
 use Yii;
 use app\modules\user\models\User;
 use yii\data\ArrayDataProvider;
@@ -84,6 +85,32 @@ class MailFactory
         ];
 
         return self::makeMailerServiceMultiple($from, $to, $subject, 'news', $params);
+    }
+
+    /**
+     * @param User[] $users
+     * @param Tournament $tournament
+     * @param string $standings
+     * @param string $winners
+     * @param ForecastStandingsItem[] $allForecasters
+     * @param array $usersPositions
+     * @return MailServiceMultiple
+     */
+    public static function makeTournamentFinishedMailerService(array $users, Tournament $tournament, $standings, $winners, $allForecasters, array $usersPositions)
+    {
+        $to = $users;
+        $from = [Yii::$app->params['adminEmail'] => Yii::$app->params['adminTitle']];
+        $subject = "Закончен турнир $tournament->tournament";
+        $params = [
+            'logo' => Yii::$app->params['logo'],
+            'tournament' => $tournament,
+            'allForecasters' => $allForecasters,
+            'standings' => $standings,
+            'winners' => $winners,
+            'usersPositions' => $usersPositions,
+        ];
+
+        return self::makeMailerServiceMultiple($from, $to, $subject, 'tournamentFinished', $params);
     }
 
     public static function makeMailerService($from, $to, $subject, $view, array $params = [])

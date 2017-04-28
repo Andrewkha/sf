@@ -9,6 +9,7 @@
 namespace app\modules\admin\widgets;
 
 use app\modules\admin\models\query\GameQuery;
+use app\resources\dto\ForecastStandingsItem;
 use app\resources\ForecastStandingsInterface;
 use app\traits\ContainerAwareTrait;
 use kartik\base\Widget;
@@ -24,17 +25,16 @@ class TournamentForecasters extends Widget
     const MODE_EXTENDED = 1;
 
     public $tournament;
+
+    /** @var  ForecastStandingsItem[] */
+    public $items;
     public $mode = self::MODE_EXTENDED;
 
     protected $gameQuery;
 
-    protected $forecastStandings;
-
-    public function __construct(GameQuery $gameQuery, ForecastStandingsInterface $forecastStandings, array $config = [])
+    public function __construct(GameQuery $gameQuery, array $config = [])
     {
         $this->gameQuery = $gameQuery;
-        $this->forecastStandings = $forecastStandings;
-
         parent::__construct($config);
     }
 
@@ -42,15 +42,12 @@ class TournamentForecasters extends Widget
     {
         /** @var Tournament $tournament */
         $tournament = $this->tournament;
-
+        $models = new ArrayDataProvider([
+            'allModels' => $this->items,
+        ]);
         if ($this->mode === self::MODE_EXTENDED) {
-            $items = $this->forecastStandings->getStandings($tournament);
 
             $games = $this->gameQuery->whereTournament($tournament->id)->with(['teamHome', 'teamGuest'])->indexBy('id')->all();
-
-            $models = new ArrayDataProvider([
-                'allModels' => $items,
-            ]);
 
             $games = array_map(function ($item) {
                 return new ArrayDataProvider([
@@ -66,10 +63,6 @@ class TournamentForecasters extends Widget
 
             return $this->render('/widgets/forecastStandings', ['models' => $models, 'tournament' => $tournament, 'games' => $games]);
         } else {
-            $items = $this->forecastStandings->getWinners($tournament);
-            $models = new ArrayDataProvider([
-                'allModels' => $items,
-            ]);
 
             return $this->render('/widgets/forecastStandingsSimple', ['models' => $models, 'tournament' => $tournament]);
         }

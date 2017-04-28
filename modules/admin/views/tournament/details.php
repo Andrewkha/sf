@@ -13,6 +13,7 @@ use app\modules\admin\widgets\TournamentForecasters;
 
 /* @var $this yii\web\View */
 /* @var $tournament app\modules\admin\models\Tournament */
+/** @var $forecastStanding \app\resources\dto\ForecastStandingsItem[]*/
 
 $this->title = $tournament->tournament;
 $this->params['breadcrumbs'][] = ['label' => 'Турниры', 'url' => ['tournament/']];
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <div class = "row">
-    <?= TournamentForecasters::widget(['tournament' => $tournament]);?>
+    <?= TournamentForecasters::widget(['tournament' => $tournament, 'items' => $forecastStanding]);?>
 </div>
 <div class = "row">
     <?= \app\modules\admin\widgets\NextTour::widget(['tournament' => $tournament]);?>

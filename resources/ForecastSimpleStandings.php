@@ -9,31 +9,40 @@
 namespace app\resources;
 
 use app\modules\admin\models\Tournament;
+use app\modules\user\models\User;
 use yii\helpers\ArrayHelper;
 
 class ForecastSimpleStandings implements ForecastStandingsInterface
 {
     use ForecastStandingsGetDataTrait;
 
-    public function getStandings(Tournament $tournament)
+    private $standings;
+
+    public function __construct(Tournament $tournament)
     {
         $items = $this->getData($tournament);
         ArrayHelper::multisort($items, ['totalPoints', 'guessExactScore', 'pointsPerForecast'], [SORT_DESC, SORT_DESC, SORT_DESC], [SORT_NUMERIC, SORT_NUMERIC, SORT_NUMERIC]);
 
-        return $items;
+        $this->standings = $items;
     }
 
-    public function getWinners(Tournament $tournament)
+    public function getStandings()
     {
-        $standings = $this->getStandings($tournament);
-
-        return array_slice($standings, 0, 3, true);
+        return $this->standings;
     }
 
-    public function getWinner(Tournament $tournament)
+    public function getWinners()
     {
-        $standings = $this->getStandings($tournament);
+        return array_slice($this->standings, 0, 3, true);
+    }
 
-        return array_slice($standings, 0, 1, true);
+    public function getWinner()
+    {
+        return array_slice($this->standings, 0, 1, true);
+    }
+
+    public function getPosition(User $user)
+    {
+        return array_search($user->username, ArrayHelper::getColumn($this->standings, 'user.username'));
     }
 }

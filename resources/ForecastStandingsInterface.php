@@ -9,12 +9,15 @@
 namespace app\resources;
 
 use app\modules\admin\models\Tournament;
+use app\modules\user\models\User;
 
 interface ForecastStandingsInterface
 {
-    public function getStandings(Tournament $tournament);
+    public function getStandings();
 
-    public  function getWinners(Tournament $tournament);
+    public  function getWinners();
 
-    public function getWinner(Tournament $tournament);
+    public function getWinner();
+
+    public function getPosition(User $user);
 }

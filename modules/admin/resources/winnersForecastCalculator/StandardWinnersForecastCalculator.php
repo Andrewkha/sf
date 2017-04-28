@@ -91,7 +91,7 @@ class StandardWinnersForecastCalculator implements WinnersForecastCalculatorInte
             }
         }
 
-        if (array_unique(ArrayHelper::getColumn($result, 'eventCode')) === [self::WFE_TEAM_POSITION]) {
+        if (count($result) === 3 && array_unique(ArrayHelper::getColumn($result, 'eventCode')) === [self::WFE_TEAM_POSITION]) {
             $points = self::POINTS_ALL_3_WINNERS;
             $totalPoints += $points;
             $event = self::WFE_ALL_3_WINNERS;

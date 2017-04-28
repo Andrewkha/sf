@@ -54,8 +54,8 @@ class Bootstrap implements BootstrapInterface
         $container = Yii::$container;
 
         //Standings Interface
-        $container->setSingleton(StandingsInterface::class, SimpleStandings::class);
-        $container->setSingleton(ForecastStandingsInterface::class, ForecastSimpleStandings::class);
+        $container->set(StandingsInterface::class, SimpleStandings::class);
+        $container->set(ForecastStandingsInterface::class, ForecastSimpleStandings::class);
 
         //Query classes
 

@@ -10,17 +10,15 @@ use kartik\helpers\Html;
 
 /* @var $tournament \app\modules\admin\models\Tournament */
 /** @var $standings string */
+/** @var $winners string */
 ?>
 
 <?= Html::tag('p', "Закончился турнир $tournament->tournament. Пожалуйста, ознакомьтесь с его результатами. Поздравляем победителей!!!");?>
 
+<?= $winners; ?>
+
+<?= $standings; ?>
+
 <p>
     Подробную информацию о турнире можно посомотреть на его <?= Html::a('странице', ['/tournament/details', 'id' => $tournament->id]) ;?>
 </p>
-
-<?= \app\modules\admin\widgets\TournamentForecasters::widget([
-    'tournament' => $tournament,
-    'mode' => \app\modules\admin\widgets\TournamentForecasters::MODE_SIMPLE,
-]);?>
-
-<?= $standings; ?>
